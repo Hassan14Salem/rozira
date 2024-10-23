@@ -1,0 +1,67 @@
+{
+    "HELLO": "Hello",
+    "WELCOME": "Welcome to our application!",
+    "confirmDeleteTitle" : "Warning Message",
+    "confirmDeleteMessage":"Are you sure you want to delete this record?",
+    "save":"Save",
+    "cancel":"Cancel",
+    "add":"Add",
+    "update":"Update",
+    "delete":"Delete",
+    "ChooseImage":"Choose Images",
+    "searchPlaceholder":"Search...",
+    "tableHeader":{
+      "image":"Image",
+      "username":"Username",
+      "email":"Email",
+      "phoneNum":"Phone Number",
+      "role" :"Role",
+      "password":"Password",
+      "rePassword":"Re-type Password",
+      "displayOrder":"Display Order",
+      "nameAr":"Arabic Name",
+      "nameEn":"English Name",
+      "descriptionAr":"Arabic Description",
+      "descriptionEn":"English Description"
+
+    },
+    "Users":{
+      "header" : "Users",
+      "UpdateModal":"Update Details",
+      "CreateModal":"Create New User"
+    },
+    "sideMenu":{
+      "dashboard":"Dashboard",
+      "users":"Users",
+      "myProfile":"My Profile",
+      "permissions":"Permissions",
+      "product":"Products",
+      "about":"About",
+      "sliders":"Sliders",
+      "category":"Category",
+      "contactUs":"Contact Us",
+      "logout":"Logout"
+    },
+    "about":
+    {
+      "header":"About Our Company"
+    },
+    "product":
+    {
+      "add":"Add new product",
+      "update":"Update Product",
+      "all":"All Products",
+
+      "labels":{
+        "name":"Product Name",
+        "category":"Category",
+        "traderPrice":"trader price",
+        "traderDiscount":"trader discount",
+        "quantity":"quantity",
+        "customerPrice":"customer price",
+        "customerDiscount":"customer discount",
+        "description":"description"
+      }
+    }
+  }
+  

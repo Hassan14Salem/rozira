@@ -1,0 +1,112 @@
+<div *ngIf="showAlert" class="alert alertMessage" [ngClass]="{
+  'alert-primary': alertType === 'success',
+  'alert-danger': alertType === 'error'
+}" role="alert">
+  {{ alertMessage }}
+</div>
+
+
+<div class="container-fluid d-flex justify-content-center align-items-center vh-100 bg-light mx-0">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-6 col-md-8 col-sm-10 col-12 login-content-parent shadow bg-white ">
+        <div class="login-content">
+          <form class="rounded-bottom-2" [formGroup]="regeisterNewUser" (ngSubmit)="createNewUser(regeisterNewUser)">
+
+            <div class="roseirie-background rounded-1 text-center text-white fs-5 p-2">
+              Create a new user
+            </div>
+
+            <!-- Error Messages -->
+            <div [ngClass]="{ 'd-none': !hasError(), 'd-block': hasError() }"
+              class="alert alert-danger mt-2 EditFontSize">
+              <!-- Username Errors -->
+              <div *ngIf="regeisterNewUser.get('userName')?.errors && regeisterNewUser.get('userName')?.touched">
+                <p *ngIf="regeisterNewUser.get('userName')?.getError('required')">Username is required</p>
+                <p *ngIf="regeisterNewUser.get('userName')?.getError('minlength')">Username must be at
+                  least 2 characters</p>
+                <p *ngIf="regeisterNewUser.get('userName')?.getError('maxlength')">Username cannot exceed
+                  25 characters</p>
+              </div>
+
+
+              <!-- email Errors -->
+              <div *ngIf="regeisterNewUser.get('email')?.errors && regeisterNewUser.get('email')?.touched">
+                <p *ngIf="regeisterNewUser.get('email')?.getError('required')">Email is required.</p>
+                <p *ngIf="regeisterNewUser.get('email')?.getError('email')">Invalid email format.</p>
+              </div>
+
+
+              <!-- Password Errors -->
+              <div *ngIf="regeisterNewUser.get('password')?.errors && regeisterNewUser.get('password')?.touched">
+                <p *ngIf="regeisterNewUser.get('password')?.getError('required')">Password is required</p>
+                <p *ngIf="regeisterNewUser.get('password')?.getError('minlength')">Password must be at least 4
+                  characters</p>
+                <p *ngIf="regeisterNewUser.get('password')?.getError('maxlength')">Password cannot exceed 25 characters
+                </p>
+              </div>
+
+              <!-- Phone num Errors -->
+              <div *ngIf="regeisterNewUser.get('phoneNumber')?.errors && regeisterNewUser.get('phoneNumber')?.touched">
+                <p *ngIf="regeisterNewUser.get('phoneNumber')?.getError('required')">Phone number is required.</p>
+                <p *ngIf="regeisterNewUser.get('phoneNumber')?.getError('pattern')">Invalid phone number format.</p>
+
+              </div>
+
+              <!-- Role Errors -->
+              <div *ngIf="regeisterNewUser.get('role')?.errors && regeisterNewUser.get('role')?.touched">
+                <p *ngIf="regeisterNewUser.get('role')?.getError('required')">Role is required.</p>
+                <p *ngIf="regeisterNewUser.get('role')?.getError('pattern')">Role must be either Admin or User.</p>
+
+              </div>
+
+              <!-- Server-side Error -->
+              <div *ngIf="errormessage">
+                {{errormessage}}
+              </div>
+            </div>
+            <!-- Form Fields -->
+            <div class="form-group my-2">
+              <input formControlName="userName" type="text" class="form-control" id="usernameFormControll"
+                placeholder="Username" aria-label="Username"
+                [attr.aria-invalid]="regeisterNewUser.get('userName')?.invalid">
+            </div>
+
+            <div class="form-group my-2">
+              <input formControlName="phoneNumber" type="phone" class="form-control" id="phoneNumberFormControll"
+                placeholder="Phone Number">
+            </div>
+
+            <div class="form-group my-2">
+              <input formControlName="email" type="email" class="form-control" id="emailFormControll"
+                placeholder="Email">
+            </div>
+
+            <div class="form-group my-2">
+              <input formControlName="password" type="password" class="form-control" id="passwordFormControll"
+                placeholder="Password">
+            </div>
+
+            <div class="form-group my-2">
+              <label for="role" class="mb-2">Select the role:</label>
+              <select formControlName="role" class="form-control" id="roleFormControll">
+                <option value="Admin">Admin</option>
+                <option value="User">User</option>
+              </select>
+
+            </div>
+
+            <!-- Submit Button -->
+            <div class="text-end p-2">
+              <button type="submit" class="btn roseirie-background text-white" [disabled]="regeisterNewUser.invalid">
+                <i *ngIf="isloading" class="fa-solid fa-spinner fa-spin"></i>
+                <span *ngIf="!isloading">Create</span>
+              </button>
+            </div>
+
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

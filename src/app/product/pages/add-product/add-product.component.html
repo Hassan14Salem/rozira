@@ -1,0 +1,161 @@
+<section>
+  <div class="container">
+    <div class="content-header my-3">
+      <h2 class="text-center py-3">{{'product.add' | translate}}</h2>
+    </div>
+  </div>
+ 
+    <div class="container ">
+        <form  [formGroup]="addForm" (ngSubmit)="saveItem(addForm)">
+        <div class="row my-3 ">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="txtproductName">{{'product.labels.name' | translate}}</label><span class="red-color">*</span>
+                    <input type="text" id="txtproductName"  class="form-control"
+                      placeholder="{{'product.labels.name' | translate}}" formControlName="ProductName" 
+                />
+                  </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                  <label for="txtcategoryId">{{'product.labels.category' | translate}}</label><span class="red-color">*</span>
+                  <input type="text" id="txtcategoryId"  class="form-control"
+                    placeholder="{{'product.labels.category' | translate}}" formControlName="categoryId" 
+                     />
+                 
+                </div>
+          </div>
+
+         
+         
+        </div>
+
+
+        <div class="row my-3 ">
+          <div class="col-lg-4">
+                 <div class="form-group">
+                  <label for="txttraderPrice">{{ 'product.labels.traderPrice' | translate }}</label><span class="red-color">*</span>
+                  <input type="text" id="txtraderPrice" class="form-control"
+                    placeholder="{{ 'product.labels.traderPrice' | translate }}" formControlName="traderPrice" 
+                   />
+                </div>
+          </div>
+          <div class="col-lg-4">
+              <div class="form-group">
+                  <label for="txttraderDiscount">{{ 'product.labels.traderDiscount' | translate }}</label><span class="red-color">*</span>
+                  <input type="text" id="txttraderDiscount" class="form-control"
+                    placeholder="{{ 'product.labels.traderDiscount' | translate }}" formControlName="traderDiscount" 
+                     />
+                 
+                </div>
+               
+          </div>
+          <div class="col-lg-4">
+            <div class="form-group">
+                <label for="txtquantity">{{ 'product.labels.quantity' | translate }}</label><span class="red-color">*</span>
+                <input type="text" id="txtquantity" class="form-control"
+                  placeholder="{{ 'product.labels.quantity' | translate }}" formControlName="quantity" 
+                 />
+              
+              </div>
+        </div>
+      </div>
+
+      <div class="row my-3">
+          
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="txtcustomerPrice">{{ 'product.labels.customerPrice' | translate }}</label><span class="red-color">*</span>
+                <input type="text" id="txtcustomerPrice"  class="form-control"
+                  placeholder="{{ 'product.labels.customerPrice' | translate }}" formControlName="customerPrice" 
+               />
+       
+              </div>
+
+              
+        </div>
+
+        <div class="col-md-6">
+          <div class="form-group">
+              <label for="txtcustomerDiscount">{{ 'product.labels.customerDiscount' | translate }}</label><span class="red-color">*</span>
+              <input type="text" id="txtcustomerDiscount"class="form-control"
+                placeholder="{{ 'product.labels.customerDiscount' | translate }}" formControlName="customerDiscount" 
+                />
+          
+            </div>
+      </div>
+    </div>
+          <div class="row my-3">
+            <div class="col-md-12">
+              <div class="form-group">
+                  <label for="txtdescription">{{ 'product.labels.description' | translate }}</label><span class="red-color">*</span>
+                  <textarea type="text" id="txtdescription"  class="form-control"
+                  placeholder="{{ 'product.labels.description' | translate }}" formControlName="Description" 
+                  cols="100" rows="5"
+                  >
+
+                  </textarea>
+                  
+            
+                </div>
+          </div>
+          </div>
+
+     
+
+
+    
+
+
+
+        <div class="row mb-1">
+        
+           
+        </div>
+
+
+        <div class="row mb-1">
+          
+         
+        </div>
+
+
+        <div class="row mb-1">
+            <div class="col-md-12">
+                   
+                <div class="form-group">
+                  <p-fileUpload 
+                  formControlName="images"
+                  name="images" 
+                  accept="image/*" 
+                  [multiple]="true" 
+                   [customUpload]="true" 
+                   (onSelect)="onUpload($event)"
+                   chooseLabel="{{'ChooseImage'|translate}}">
+                 
+               </p-fileUpload>
+           
+               
+                </div>
+              </div>
+          
+        </div>
+        
+
+        <div class="row my-3">
+            <div class="form-actions">
+              <button type="button" class="btn btn-raised btn-warning mr-2" [routerLink]="['/product/products']">
+                <i class="ft-x"></i> {{'cancel' | translate}}
+              </button>
+              
+              <button type="submit" [disabled]="addForm.invalid " 
+                  [class]="!addForm.valid || !addForm.dirty ? 'btn btn-raised btn-secondary mr-1' : 'btn btn-raised btn-primary mr-1'">
+                  <i class="fas ft-save"></i> {{'save' | translate}}
+                </button>
+               
+            </div>
+        </div>
+
+      </form>
+    </div>
+</section>

@@ -1,0 +1,27 @@
+button {
+    padding: 5px;
+}
+th, td {
+    white-space: nowrap;
+}
+
+
+
+
+.handle-img-icon{
+    height: 60px;
+    width: 50px;
+
+}
+.circle
+{
+    border-radius: 50% !important;
+}
+.p-datatable .p-datatable-tbody > tr > td{
+    text-align: -webkit-auto !important;
+}
+
+.addBtn
+{
+    padding: 10px 20px !important;
+}

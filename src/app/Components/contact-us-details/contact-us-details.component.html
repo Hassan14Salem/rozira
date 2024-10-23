@@ -1,0 +1,90 @@
+<div class="container">
+    <p-toast></p-toast>
+    <div class="card">
+
+        <p-toolbar styleClass="mb-4 gap-2">
+            <ng-template pTemplate="left">
+                <h5 class="fw-bold">Manage contact methods setting</h5>
+            </ng-template>
+            <ng-template pTemplate="right">
+                <button pButton pRipple label="New" icon="pi pi-plus" class="p-button-success mr-2"
+                    (click)="openNew()"></button>
+            </ng-template>
+
+        </p-toolbar>
+
+        <div class="row justify-content-around ">
+
+            <p-table [value]="contactValus">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th>Name</th>
+                        <th>Contact Value</th>
+                        <th>Icon</th>
+                        <th>Operations</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-contact>
+                    <tr>
+                        <td>{{ contact.methodName }}</td>
+                        <td>{{ contact.contactValue }}</td>
+                        <td class="fs-5"><i [ngClass]="getIconForMethod(contact.methodName)" class="fa"></i></td>
+                        <td>
+                            <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2"
+                                (click)="editContact( contact)"></button>
+                            <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning"
+                                (click)="deleteContact( contact.id)"></button>
+                        </td>
+
+                    </tr>
+                </ng-template>
+            </p-table>
+
+        </div>
+    </div>
+    <p-dialog [(visible)]="CreateNew" [style]="{width: '450px'}" header="Create method" [modal]="true"
+        styleClass="p-fluid">
+        <div class="container-fluid my-2 border m-auto">
+            <form [formGroup]="contactForm" (ngSubmit)="onSubmit()">
+                <div class="form-group">
+                    <label for="methodName">Contact Method</label>
+                    <select formControlName="methodName" id="methodName" class="form-control">
+                        <option *ngFor="let method of contactList" [value]="method">{{ method }}</option>
+                    </select>
+                </div>
+
+                <div class="form-group mt-3">
+                    <label for="contactValue">Contact Value</label>
+                    <input formControlName="contactValue" type="text" id="contactValue" class="form-control"
+                        placeholder="Enter contact value" />
+                </div>
+
+                <button type="submit" pButton label="Submit" class="p-button-success mt-3"
+                    [disabled]="!contactForm.valid"></button>
+            </form>
+        </div>
+
+    </p-dialog>
+
+    <p-dialog [(visible)]="editExist" [style]="{width: '450px'}" header="Edit Methods Details" [modal]="true"
+        styleClass="p-fluid">
+        <form [formGroup]="editForm" (ngSubmit)="onEdiitSubmit()">
+            <div class="form-group">
+                <label for="methodName">Contact Method</label>
+                <select formControlName="methodName" id="methodName" class="form-control">
+                    <option *ngFor="let method of contactList" [value]="method">{{ method }}</option>
+                </select>
+            </div>
+
+            <div class="form-group mt-3">
+                <label for="contactValue">Contact Value</label>
+                <input formControlName="contactValue" type="text" id="contactValue" class="form-control"
+                    placeholder="Enter contact value" />
+            </div>
+
+            <button type="submit" pButton label="Submit" class="p-button-success mt-3"
+                [disabled]="!editForm.valid"></button>
+        </form>
+    </p-dialog>
+    <p-confirmDialog [style]="{width: '450px'}"></p-confirmDialog>
+</div>

@@ -1,0 +1,125 @@
+/* Sidebar Styles */
+
+
+#mobile-sidebar-wrapper 
+{
+    display: none;
+    width: 50px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    z-index: 1000;
+    transition: all 0.3s ease;
+    background-color: rgba(255, 0, 0, 0.5); 
+  }
+
+  [dir=rtl] #mobile-sidebar-wrapper {
+    position: fixed;
+    right: 0 !important;
+    left: auto !important; 
+  }
+  .sideBarBtn
+  {
+    top: 10px; left: 10px; z-index: 9999
+  }
+  [dir='rtl'] .sideBarBtn
+  {
+    position: fixed;
+    top: 10px;
+    z-index: 9999;
+    left: auto !important;
+    right: 10px !important;
+  }
+  #sidebar-wrapper.collapsed {
+    width: 0;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    margin: 0;
+  
+  }
+  [dir=rtl] .test
+  {
+    transform: rotate(180deg);
+  }
+  
+  /* Page Content */
+  #page-content-wrapper {
+    width: 100%;
+    margin-inline-start: 100px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+  }
+  
+  
+  
+  
+  
+  
+  #sidebar-wrapper.collapsed ~ #page-content-wrapper {
+    margin-inline-start: 0;
+  }
+  
+  /* Sidebar visibility on small screens */
+  @media (max-width: 992px) {
+    #sidebar-wrapper {
+        z-index: 999999;
+        background-color: rgba(255, 0, 0, 0.5);
+    }
+  
+    .d-block {
+        left: 0;
+    }
+  
+    #page-content-wrapper {
+        margin-inline-start: 0;
+    }
+  }
+  
+  /* Style for active link */
+  .active-link {
+    background-color: #09BBF0;
+    color: white;
+  }
+  
+  .active-link i {
+    color: white;
+  }
+  
+  .list-group-item {
+    transition: background-color 0.3s, color 0.3s;
+  }
+  
+  /* .list-group-item:hover {
+    background-color: #f1f1f1;
+  } */
+  
+  .roseirie-background {
+    background-color: #09BBF0;
+  }
+  
+  .handle-img-logo {
+    width: 50px;
+    height: 50px;
+  }
+  
+  
+  
+  @media (max-width: 768px) {
+    #sidebar-wrapper {
+      display: none;
+    }
+  
+    .d-block {
+      display: block !important;
+    }
+  
+    .d-none {
+      display: none !important;
+    }
+
+    #mobile-sidebar-wrapper
+    {
+        display: block !important;
+    }
+  }

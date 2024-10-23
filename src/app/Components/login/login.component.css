@@ -1,0 +1,74 @@
+.loginBackground {
+  background-size: cover;
+  /* Cover the entire area */
+  background-position: center;
+  /* Center the image */
+  background-repeat: no-repeat;
+  /* Prevent tiling */
+
+}
+
+.overlayBackground {
+  background-color: rgba(0, 0, 0, 0.5);
+  /* Optional overlay */
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+}
+
+.roseirie-background {
+  background-color: #09BBF0;
+}
+
+
+.formHolder {
+  background-image: url('../../../assets/images/logo-opacity-90.png');
+
+  background-position: center;
+  /* Center the image */
+  background-repeat: no-repeat;
+  /* Prevent tiling */
+  background-size: 45%;
+
+}
+
+
+.login-logo {
+  margin-bottom: 15px;
+} 
+
+.login-content {
+  max-width: 540px;
+  margin: 8vh auto;
+}
+
+.login-conent-parent{
+  background-color: #FFFFFF;
+  border-radius: 5px;
+}
+
+.bg-custom{
+  background: rgb(244,243,244);
+background: linear-gradient(135deg, rgba(244,243,244,1) 50%, rgba(9,187,240,1) 50%);
+}
+
+.EditFontSize{
+  font-size: 12px;
+  font-weight: bolder;
+}
+
+.alertMessage {
+  position: fixed; /* or absolute depending on your layout */
+  top: 20px; /* adjust this value to position it vertically */
+  left: 50%; /* center horizontally */
+  transform: translateX(-50%); /* adjust for centering */
+  z-index: 1000; /* make sure it's on top of other content */
+  width: auto; /* or specify a width */
+  max-width: 400px; /* optional: set a maximum width */
+  margin: 0; /* remove any margin */
+  padding: 15px; /* add padding for better appearance */
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2); /* optional: add a shadow for depth */
+}

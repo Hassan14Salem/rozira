@@ -1,0 +1,10 @@
+.flex
+{
+display: flex !important;
+justify-content: space-around !important;
+}
+
+label
+{
+    margin: 10px 0px;
+}

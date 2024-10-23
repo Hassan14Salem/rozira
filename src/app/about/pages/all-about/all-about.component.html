@@ -1,0 +1,110 @@
+<section class="w-100">
+    <div class="container p-5">
+        <h2 class="my-3 text-center">{{'about.header'| translate}}</h2>
+        <div class="row my-3">
+            <div class="col-12">
+                    <div class="form-floating">
+                        <h3>{{'tableHeader.descriptionAr'|translate}}</h3>
+                        <textarea class="form-control" [(ngModel)]="Item.descriptionAr"
+                        disabled
+                         placeholder="{{'tableHeader.descriptionAr'|translate}}" id="floatingTextarea2" style="height: 100px"></textarea>
+                      </div>
+            </div>
+        
+     
+        </div>
+
+        <div class="row my-5">
+            <div class="col-12  ">
+                <div class="form-floating">
+                    <h3>{{'tableHeader.descriptionEn'|translate}}</h3>
+                    <textarea class="form-control" [(ngModel)]="Item.descriptionEn"
+                    disabled
+                     placeholder="{{'tableHeader.descriptionEn'|translate}}" id="floatingTextarea2" style="height: 100px"></textarea>
+                  </div>
+            </div>
+        </div>
+
+        <button class="btn btn-primary" (click)="editItem(Item)">Update</button>
+      
+    </div>
+</section>
+
+
+<p-dialog 
+    [(visible)]="itemDialog" 
+    [style]="{width: '80vw'}"  
+    header="{{'Users.header.UpdateModal'|translate}}" 
+    [modal]="true" 
+    styleClass="p-fluid">
+    
+    <ng-template pTemplate="content">
+
+        <div class="container-fluid">
+            <div class="row my-5 pb-3">
+                <div class="col-md-6 mb-3">
+                    <div class="field">
+                        <label for="arabicName">{{ 'tableHeader.descriptionAr' | translate}}  </label><span class="red-color">*</span>
+                        <input 
+                            type="text" 
+                            pInputText 
+                            id="arabicName" 
+                            [(ngModel)]="Item.descriptionAr" 
+                            required 
+                            autofocus 
+                            #txtNameAr="ngModel"
+
+                        />
+                        <small class="p-error" *ngIf="submitted && !Item.descriptionAr">
+                        {{'required'| translate}}
+                        </small>
+                       
+                       
+                    </div>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <div class="field">
+                        <label for="englishName">{{'tableHeader.nameEn'|translate}} </label><span class="red-color">*</span>
+                        <input 
+                            type="text" 
+                            pInputText 
+                            id="englishName" 
+                            [(ngModel)]="Item.descriptionEn" 
+                            required 
+                            autofocus 
+                            #txtNameEn="ngModel"
+
+                        />
+                        <small class="p-error" *ngIf="submitted && !Item.descriptionEn">
+                         {{'required'| translate}}
+                        </small>
+                     
+                    </div>
+                </div>
+              
+            </div>
+        </div>
+       
+    </ng-template>
+
+    <ng-template pTemplate="footer">
+        <button 
+            pButton 
+            pRipple 
+            label="{{'cancel' | translate}}" 
+            icon="pi pi-times" 
+            class="p-button-text" 
+            (click)="hideDialog()">
+        </button>
+        <button 
+            pButton 
+            pRipple 
+            label="{{'save' | translate}}" 
+            icon="pi pi-check" 
+            class="p-button-text" 
+            (click)="save(Item)">
+        </button>
+    </ng-template>
+
+
+</p-dialog>

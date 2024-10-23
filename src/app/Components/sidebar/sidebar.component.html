@@ -1,0 +1,160 @@
+
+<div class="container-fluid p-0" dir="{{currentDirection}}">
+    <app-login *ngIf="!isLogin"></app-login>
+
+    <div *ngIf="isLogin" class="d-flex">
+        <!--nav mobile-->
+
+        <div 
+        class="bg-light border-right shadow bg-opacity-75"
+         id="mobile-sidebar-wrapper">
+
+      <!-- Menu Icon -->
+      <div class="sidebar-heading d-flex  align-items-center w-100">
+
+          <div>
+              <img src="../../assets/images/logo.png" class="handle-img-logo py-1" alt="Logo">
+          </div>
+
+          
+      </div>
+      <div class="list-group list-group-flush">
+
+          <a class="list-group-item list-group-item-action " routerLink="/dashboard"
+              routerLinkActive="active-link">
+              <i class="fa-solid fa-chart-line p-1"></i>
+          </a>
+         
+          <a class="list-group-item list-group-item-action "
+          data-bs-dismiss="offcanvas" aria-label="Close"
+          routerLink="/users" routerLinkActive="active-link">
+              <i class="fa-solid fa-users p-1"></i>
+          </a>
+
+          <a class="list-group-item list-group-item-action " routerLink="/profile" routerLinkActive="active-link">
+              <i class="fa-solid fa-user p-1"></i>
+          </a>
+          <a class="list-group-item list-group-item-action " routerLink="/permissions/all" routerLinkActive="active-link">
+              <i class="fa-solid fa-user p-1"></i>
+          </a>
+          <a class="list-group-item list-group-item-action " routerLink="/product/products" routerLinkActive="active-link">
+              <i class="fa-brands fa-product-hunt p-1"></i>
+          </a>
+
+          <a class="list-group-item list-group-item-action " routerLink="/about/all" routerLinkActive="active-link">
+              <i class="fa-brands fa-product-hunt p-1"></i>
+          </a>
+          <a class="list-group-item list-group-item-action " routerLink="/sliders/all" routerLinkActive="active-link">
+              <i class="fa-solid fa-sliders p-1"></i>
+          </a>
+          <a class="list-group-item list-group-item-action " routerLink="/category/all" routerLinkActive="active-link">
+              <i class="fa-solid fa-layer-group p-1"></i>
+          </a>
+
+
+           <a class="list-group-item list-group-item-action " routerLink="/contactUs" routerLinkActive="active-link">
+              <i class="fa-solid fa-address-book p-1"></i>
+          </a>
+
+
+
+          <a style="cursor: pointer;" class="list-group-item list-group-item-action " (click)="logout()"
+              routerLinkActive="active-link">
+              <i class="fa-solid fa-outdent p-1"></i>
+          </a>
+
+      </div>
+        </div>
+
+        
+        <!-- Sidebar -->
+        <div  
+              class="bg-light border-right shadow bg-opacity-75"
+               id="sidebar-wrapper">
+
+            <!-- Menu Icon -->
+            <div class="sidebar-heading d-flex  align-items-center w-100"
+               >
+
+                <div >
+                    <img src="../../assets/images/logo.png" class="handle-img-logo py-1" alt="Logo">
+                </div>
+
+                <div >
+                    <p class="my-auto fs-5 fw-bold">ROSAIREA</p>
+                </div>
+
+             
+            </div>
+            <div class="list-group list-group-flush">
+
+                <a class="list-group-item list-group-item-action "
+                routerLink="/dashboard"
+                    routerLinkActive="active-link">
+                    <i class="fa-solid fa-chart-line p-1"></i>
+                    <span class="ms-1">{{'sideMenu.dashboard' | translate}}</span>
+                </a>
+               
+                <a class="list-group-item list-group-item-action "
+                data-bs-dismiss="offcanvas" aria-label="Close"
+                routerLink="/users" routerLinkActive="active-link">
+                    <i class="fa-solid fa-users p-1"></i>
+                    <span class="ms-1">{{'sideMenu.users' | translate}}</span>
+                </a>
+
+                <a class="list-group-item list-group-item-action " routerLink="/profile" routerLinkActive="active-link">
+                    <i class="fa-solid fa-user p-1"></i>
+                    <span class="ms-1">{{'sideMenu.myProfile' | translate}}</span>
+                </a>
+                <a class="list-group-item list-group-item-action " routerLink="/permissions/all" routerLinkActive="active-link"
+                
+                >
+                    <i class="fa-solid fa-user p-1"></i>
+                    <span class="ms-1">{{'sideMenu.permissions' | translate}}</span>
+                </a>
+                <a class="list-group-item list-group-item-action " routerLink="/product/products" routerLinkActive="active-link">
+                    <i class="fa-brands fa-product-hunt p-1"></i>
+                    <span class="ms-1">{{'sideMenu.product' | translate}}</span>
+                </a>
+
+                <a class="list-group-item list-group-item-action "
+                
+                routerLink="/about/all" routerLinkActive="active-link">
+                    <i class="fa-brands fa-product-hunt p-1"></i>
+                    <span class="ms-1">{{'sideMenu.about' | translate}}</span>
+                </a>
+                <a class="list-group-item list-group-item-action " routerLink="/sliders/all" routerLinkActive="active-link">
+                    <i class="fa-solid fa-sliders p-1"></i>
+                    <span class="ms-1">{{'sideMenu.sliders'|translate}}</span>
+                </a>
+                <a class="list-group-item list-group-item-action " routerLink="/category/all" routerLinkActive="active-link">
+                    <i class="fa-solid fa-layer-group p-1"></i>
+                    <span class="ms-1">{{'sideMenu.category' | translate}}</span>
+                </a>
+
+
+                 <a class="list-group-item list-group-item-action " routerLink="/contactUs" routerLinkActive="active-link">
+                    <i class="fa-solid fa-address-book p-1"></i>
+                    <span class="ms-1">{{'sideMenu.contactUs' | translate}}</span>
+                </a>
+
+
+
+                <a style="cursor: pointer;" class="list-group-item list-group-item-action " (click)="logout()"
+                    routerLinkActive="active-link">
+                    <i class="fa-solid fa-outdent p-1"></i>
+                    <span class="ms-1">{{'sideMenu.logout' | translate}}</span>
+                </a>
+
+            </div>
+        </div>
+
+        <!-- Page Content -->
+        <div id="page-content-wrapper" style="min-height: 100vh;">
+        <app-offcanvas-navbar></app-offcanvas-navbar>
+
+            <router-outlet></router-outlet>
+        </div>
+    </div>
+</div>
+

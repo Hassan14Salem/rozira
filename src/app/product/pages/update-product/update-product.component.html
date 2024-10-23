@@ -1,0 +1,167 @@
+<section class="p-5">
+    <h2 class="text-center my-2">Update Product</h2>
+    <div class="container">
+        <form id="updateProduct" #updateProduct="ngForm" (ngSubmit)="saveItem(updateProduct)">
+        <div class="row my-3">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="txtproductName">{{ 'product.labels.productName' | translate }}</label><span class="red-color">*</span>
+                    <input type="text" id="txtproductName" name="productName" class="form-control"
+                      placeholder="{{ 'product.labels.productName' | translate }}" [(ngModel)]="product.productName" ngModel required
+                      #txtproductName="ngModel" />
+                    <small class="form-text danger"
+                      *ngIf="!txtproductName.valid && (txtproductName.dirty || txtproductName.touched)">{{'required'
+                        | translate}}</small>
+                  </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                  <label for="txtcategoryId">categoryId</label><span class="red-color">*</span>
+                  <select name="categoryId" class="form-control" id="" [(ngModel)]="product.category.id" (change)="getCategoryValue($event)">
+                    <option value="{{category.id}}" *ngFor="let category of categories">{{category.nameEn}}</option>
+                  </select>
+                
+             
+                </div>
+          </div>
+         
+        </div>
+
+
+        <div class="row my-3">
+            <div class="col-lg-4">
+                <div class="form-group">
+                    <label for="txttraderPrice">{{ 'product.labels.traderPrice' | translate }}</label><span class="red-color">*</span>
+                    <input type="text" id="txtraderPrice" name="traderPrice" class="form-control"
+                      placeholder="{{ 'product.labels.traderPrice' | translate }}" [(ngModel)]="product.traderPrice" ngModel required
+                      #txtraderPrice="ngModel" />
+                    <small class="form-text danger"
+                      *ngIf="!txtraderPrice.valid && (txtraderPrice.dirty || txtraderPrice.touched)">{{'required'
+                        | translate}}</small>
+                  </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="form-group">
+                    <label for="txttraderDiscount">{{ 'product.labels.traderDiscount' | translate }}</label><span class="red-color">*</span>
+                    <input type="text" id="txttraderDiscount" name="traderDiscount" class="form-control"
+                      placeholder="{{ 'product.labels.traderDiscount' | translate }}" [(ngModel)]="product.traderDiscount" ngModel required
+                      #txttraderDiscount="ngModel" />
+                    <small class="form-text danger"
+                      *ngIf="!txttraderDiscount.valid && (txttraderDiscount.dirty || txttraderDiscount.touched)">{{'required'
+                        | translate}}</small>
+                  </div>
+            </div>
+
+            <div class="col-lg-4">
+              <div class="form-group">
+                  <label for="txtquantity">quantity</label><span class="red-color">*</span>
+                  <input type="text" id="txtquantity" name="quantity" class="form-control"
+                    placeholder="{{ 'product.labels.quantity' | translate }}" [(ngModel)]="product.quantity" ngModel required
+                    #txtquantity="ngModel" />
+                  <small class="form-text danger"
+                    *ngIf="!txtquantity.valid && (txtquantity.dirty || txtquantity.touched)">{{'required'
+                      | translate}}</small>
+                </div>
+          </div>
+        </div>
+
+
+        <div class="row my-3">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="txtcustomerPrice">customerPrice</label><span class="red-color">*</span>
+                    <input type="text" id="txtcustomerPrice" name="customerPrice" class="form-control"
+                      placeholder="{{ 'product.labels.customerPrice' | translate }}" [(ngModel)]="product.customerPrice" ngModel required
+                      #txtcustomerPrice="ngModel" />
+                    <small class="form-text danger"
+                      *ngIf="!txtcustomerPrice.valid && (txtcustomerPrice.dirty || txtcustomerPrice.touched)">{{'required'
+                        | translate}}</small>
+                  </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                  <label for="txtcustomerDiscount">customerDiscount</label><span class="red-color">*</span>
+                  <input type="text" id="txtcustomerDiscount" name="customerDiscount" class="form-control"
+                    placeholder="{{ 'product.labels.customerDiscount' | translate }}" [(ngModel)]="product.customerDiscount" ngModel required
+                    #txtcustomerDiscount="ngModel" />
+                  <small class="form-text danger"
+                    *ngIf="!txtcustomerDiscount.valid && (txtcustomerDiscount.dirty || txtcustomerDiscount.touched)">{{'required'
+                      | translate}}</small>
+                </div>
+          </div>
+
+         
+        </div>
+
+        <div class="row my-3">
+          <div class="col-md-12">
+            <div class="form-group">
+                <label for="txtdescription">{{ 'product.labels.description' | translate }}</label><span class="red-color">*</span>
+                <textarea type="text" id="txtdescription" name="description" class="form-control"
+                placeholder="{{ 'product.labels.description' | translate }}" [(ngModel)]="product.description" ngModel required
+                  #txtdescription="ngModel" 
+                  cols="100" rows="5"
+                >
+                  
+                </textarea>
+                <small class="form-text danger"
+                  *ngIf="!txtdescription.valid && (txtdescription.dirty || txtdescription.touched)">{{'required'
+                    | translate}}</small>
+              </div>
+        </div>
+        </div>
+
+        <div class="row my-3">
+            <div class="col-md-12">
+                   
+                <div class="form-group">
+                  <p-fileUpload 
+                  [(ngModel)]="product.NewImages"
+                  name="NewImages" 
+                   accept="image/*" 
+                   [multiple]="true" 
+                   [customUpload]="true" 
+                   (onSelect)="onUpload($event)"
+                   chooseLabel="Choose Image">
+
+                      <!-- Custom content inside the file upload area -->
+                      <ng-template pTemplate="content">
+                       <div class="p-fileupload-content">
+                         <!-- Display the retrieved image when editing -->
+                          <ng-container *ngIf="product.images">
+                            <ng-container *ngFor="let image of product.images">
+                                  <img  
+                                  [src]="'https://roseirae.runasp.net/'+image" 
+                                  class="m-3"
+                                  alt="User Image" 
+                                  style="max-width: 100px; margin-top: 10px;" />
+                              
+                           
+                            </ng-container>
+                          </ng-container>
+                       
+                       </div>
+                     </ng-template>
+               </p-fileUpload>
+
+                </div>
+              </div>
+          
+        </div>
+        
+
+        <div class="row">
+            <div class="form-actions">
+                <button type="submit" [disabled]="!updateProduct.valid || !updateProduct.dirty" 
+                  [class]="!updateProduct.valid || !updateProduct.dirty ? 'btn btn-raised btn-secondary mr-1' : 'btn btn-raised btn-primary mr-1'">
+                  <i class="fas ft-save"></i> {{'save' | translate}}
+                </button>
+                <button type="button" class="btn btn-raised btn-warning mr-2" [routerLink]="['/product/products']">
+                  <i class="ft-x"></i> {{'cancel' | translate}}
+                </button>
+            </div>
+        </div>
+
+      </form>
+    </div>
+</section>

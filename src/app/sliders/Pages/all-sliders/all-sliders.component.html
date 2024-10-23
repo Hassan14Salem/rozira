@@ -1,0 +1,121 @@
+<section class="w-100">
+    <div class="container ">
+        <div class="row">
+            <app-reusable-table
+            [Items]="Items"
+            [Item]="Item"
+            [columns]="pageColumns"
+            [lazy]="true"
+            [totalRecords]="totalRecords"
+            [confirmDeleteDialog]="confirmDeleteDialog"
+            responsive="true"
+            (editItem)="editItem($event)"
+            (openDeleteDialog)="deleteDialogMessage($event)"
+            (deleteItem)="deleteItem($event)"
+            (openNew)="openNew()"
+            (hideDialog)="hideDialog()"
+            (openDeleteDialog)="openDeleteDialog($event)"
+            (onlazyload)="loadItems($event)"
+            >
+            
+            </app-reusable-table>
+        </div>
+      
+    </div>
+</section>
+
+
+<p-dialog 
+    [(visible)]="itemDialog" 
+    [style]="{width: '80vw'}"  
+    header="{{'Users.header.UpdateModal'|translate}}" 
+    [modal]="true" 
+    styleClass="p-fluid">
+    
+    <ng-template pTemplate="content">
+
+        <div class="container-fluid">
+            <div class="row my-5 pb-3">
+             
+                <div class="col-md-12 my-3">
+                   
+                    <div class="form-group">
+                        <label
+                        for="image" class="my-2">{{'tableHeader.image'|translate}}
+                         <span class="red-color">*</span>
+                       </label>
+                      <p-fileUpload 
+                      [(ngModel)]="Item.Image"
+                      name="Image" 
+                      id="image"
+                       accept="image/*" 
+                       [customUpload]="true" 
+                       (onSelect)="onImageSelect($event)"
+                       chooseLabel="Choose Image">
+    
+                          <!-- Custom content inside the file upload area -->
+                          <ng-template pTemplate="content">
+                           <div class="p-fileupload-content">
+                             <!-- Display the retrieved image when editing -->
+                             <img *ngIf="Item.imageUrl" 
+                                  [src]="'https://roseirae.runasp.net/'+Item.imageUrl" 
+                                  alt="User Image" 
+                                  style="max-width: 100px; margin-top: 10px;" />
+                           </div>
+                         </ng-template>
+                   </p-fileUpload>
+    
+                    </div>
+                  </div>
+           
+                <small class="p-error" *ngIf="submitted && !Item.imageUrl">
+                {{'required'| translate}}
+                </small>
+                <div class="col-md-12 mb-3">
+                    <div class="field">
+                        <label
+                         for="englishName">{{'tableHeader.displayOrder'|translate}}
+                          <span class="red-color">*</span>
+                        </label>
+                        <input 
+                            type="text" 
+                            pInputText 
+                            class="form-control"
+                            id="englishName" 
+                            [(ngModel)]="Item.displayOrder" 
+                            required 
+                            autofocus 
+                            #txtNameEn="ngModel"
+
+                        />
+                        
+                     
+                    </div>
+                </div>
+              
+            </div>
+        </div>
+       
+    </ng-template>
+
+    <ng-template pTemplate="footer">
+        <button 
+            pButton 
+            pRipple 
+            label="{{'cancel' | translate}}" 
+            icon="pi pi-times" 
+            class="p-button-text" 
+            (click)="hideDialog()">
+        </button>
+        <button 
+            pButton 
+            pRipple 
+            label="{{'save' | translate}}" 
+            icon="pi pi-check" 
+            class="p-button-text" 
+            (click)="save(Item)">
+        </button>
+    </ng-template>
+
+
+</p-dialog>

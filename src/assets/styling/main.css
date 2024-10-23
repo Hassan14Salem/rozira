@@ -1,0 +1,18 @@
+@import "primeng/resources/themes/lara-light-blue/theme.css";
+@import "primeng/resources/primeng.min.css";
+@import "primeicons/primeicons.css";
+
+.p-button.p-button-icon-only.p-button-rounded {
+    border-radius: 50% !important;
+    height: 3rem;
+}
+
+.p-datatable .p-datatable-tbody > tr > td{
+    text-align: -webkit-auto !important;
+}
+
+.p-fileupload .p-fileupload-buttonbar .p-button {
+    margin-right: 0.5rem;
+    text-wrap: nowrap;
+    margin: 10px 0px;
+}

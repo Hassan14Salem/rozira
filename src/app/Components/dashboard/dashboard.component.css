@@ -1,0 +1,7 @@
+.roseirie-background {
+    background-color: #09BBF0 !important;
+  }
+  ::ng-deep .p-panel .p-panel-header {
+    background-color: #4CAF50; /* Custom background color */
+    color: white;              /* Optional: change text color */
+  }

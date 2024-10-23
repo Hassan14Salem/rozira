@@ -1,0 +1,155 @@
+<div class="card p-3 container">
+    <p-toolbar styleClass="mb-4 gap-2">
+        <ng-template pTemplate="left">
+            <button pButton pRipple label="{{'add'|translate}}" icon="pi pi-plus" class="p-button-success mr-2 addBtn"
+             (click)="openNew.emit()">
+            </button>
+        </ng-template>
+
+    </p-toolbar>
+
+
+
+   
+
+   <div *ngIf="Items.length > 0 ;else emptyItems" >
+    <p-table 
+    #dt 
+    [value]="Items"
+    [rows]="10"  
+    [paginator]="true" 
+    [responsive]="true" 
+    [tableStyle]="{'min-width': '75rem'}"
+    [rowHover]="true"
+    [totalRecords]="totalRecords"
+    styleClass="p-datatable-gridlines p-datatable-sm"
+     dataKey="id" 
+    [showCurrentPageReport]="true"
+    responsiveLayout="scroll"
+    stateStorage="session" 
+    stateKey="statedemo-session"
+    [lazy]="true"
+    [paginator]="true"
+    (onLazyLoad)="loadItems($event)"
+
+    >
+        <ng-template pTemplate="caption">
+            <div class="d-flex align-items-center justify-content-between">
+                <h5 class="m-0 py-3">{{ title | translate}}</h5>
+                <span class="p-input-icon-left">
+                    <i class="pi pi-search"></i>
+                    <input pInputText type="text" 
+                    (input)="getSearchVal($event)"
+                     placeholder="{{'searchPlaceholder'|translate}}"  />
+                </span>
+            </div>
+        </ng-template>
+       
+        <ng-template pTemplate="header">
+            <tr >
+                <th 
+                style="min-width: 10rem;text-align: center;font-size: 14px;"
+                [pSortableColumn] ="col.field "
+                *ngFor="let col of columns"> {{ col.header | translate }}
+                    <p-sortIcon [field]="col.field"></p-sortIcon>  
+                </th>
+                <th style="min-width: 15rem;"></th>
+            </tr>
+          
+        </ng-template>
+        <ng-template pTemplate="body" let-item  >
+            <tr>
+                <td *ngFor="let col of columns" style="max-width: 10rem;text-align: center !important;">
+                    <!-- Check if column is for 'isActive' -->
+                    <ng-container *ngIf="col.field === 'isActive'; else otherColumns">
+                        <span 
+                        [ngClass]="{ 'status-active': item[col.field], 'status-inactive': !item[col.field] }">
+                            {{ item[col.field] ? 'نشط' : 'غير نشط' }}
+                        </span>
+                    </ng-container>
+                
+                    <!-- Logic for other columns -->
+                    <ng-template #otherColumns>
+                        <!-- Check if column is 'imagePath' -->
+                        <ng-container *ngIf="col.field === 'imageUrl'; else dateOrDefault">
+                            <img [src]="'https://roseirae.runasp.net'+item[col.field]" alt="{{item.name}}" style="max-width: 100px; max-height: 100px;" />
+                        </ng-container>
+                
+                        <!-- Check if column is 'birthDate' and apply 'date' pipe -->
+                        <ng-template #dateOrDefault>
+                            <ng-container *ngIf="col.field === 'categoryId'; else defaultColumn">
+                                {{ item.category.nameEn }} <!-- Use the date pipe -->
+                            </ng-container>
+
+                            <!-- Default content for other fields -->
+                            <ng-template #defaultColumn>
+                                {{ item[col.field] }}
+                            </ng-template>
+                        </ng-template>
+                    </ng-template>
+                </td>
+                
+                
+                <td style="text-align: center;">
+                    
+                    <button pButton pRipple icon="pi pi-pencil"
+                     class="p-button-rounded p-button-success mr-2" 
+                     pTooltip="{{'edit' | translate}}" tooltipPosition="top"
+                     (click)="editItem.emit(item)"></button>
+
+                    <button pButton pRipple icon="pi pi-trash"
+                     class="p-button-rounded p-button-warning mr-2"
+                     pTooltip="{{'delete' | translate}}" tooltipPosition="top"
+                     (click)="openDeleteDialog.emit(item)"></button>
+
+          
+                </td>
+
+               
+              </tr>
+        
+        </ng-template>
+
+    </p-table>
+   </div>
+    <ng-template #emptyItems>
+            <p class="alert alert-primary text-center">there is no items to show!</p>
+    </ng-template>
+  
+ 
+</div>
+
+
+
+<!--Delete Dialog-->
+<p-dialog 
+    [(visible)]="confirmDeleteDialog" 
+    [style]="{width: '450px'}"  
+    header="{{'confirmDeleteTitle' | translate}}" 
+    [modal]="true" 
+    styleClass="p-fluid">
+    
+    <ng-template pTemplate="content">
+        <p>{{'confirmDeleteMessage'|translate}}</p>
+    </ng-template>
+
+    <ng-template pTemplate="footer">
+        <button 
+            pButton 
+            pRipple 
+            label="{{'cancel' | translate}}" 
+            icon="pi pi-times" 
+            class="p-button-text" 
+            (click)="hideDialog.emit()">
+        </button>
+        <button 
+            pButton 
+            pRipple 
+            label="{{'save' | translate}}" 
+            icon="pi pi-check" 
+            class="p-button-text" 
+            (click)="deleteItem.emit(Item)">
+        </button>
+    </ng-template>
+</p-dialog>
+
