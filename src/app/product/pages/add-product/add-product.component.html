@@ -1,6 +1,6 @@
 <section>
   <div class="container">
-    <div class="content-header my-3">
+    <div class=" my-3">
       <h2 class="text-center py-3">{{'product.add' | translate}}</h2>
     </div>
   </div>
@@ -14,15 +14,25 @@
                     <input type="text" id="txtproductName"  class="form-control"
                       placeholder="{{'product.labels.name' | translate}}" formControlName="ProductName" 
                 />
+                <div *ngIf="addForm.get('ProductName')?.errors && addForm.get('ProductName')?.touched" class="text-danger">
+                  <p *ngIf="addForm.get('ProductName')?.getError('required')" class="alert alert-danger">{{'errors.required'|translate}}</p>
+                
+                
+                </div>
                   </div>
             </div>
             <div class="col-md-6">
               <div class="form-group">
-                  <label for="txtcategoryId">{{'product.labels.category' | translate}}</label><span class="red-color">*</span>
-                  <input type="text" id="txtcategoryId"  class="form-control"
-                    placeholder="{{'product.labels.category' | translate}}" formControlName="categoryId" 
-                     />
-                 
+                  <label for="txtcategoryId">Category</label><span class="red-color">*</span>
+                  <select name="categoryId" class="form-control" id="" formControlName="categoryId" >
+                    <option value="{{category.id}}" *ngFor="let category of categories">{{category.nameEn}}</option>
+                  </select>
+                  <div *ngIf="addForm.get('CategoryId')?.errors && addForm.get('CategoryId')?.touched" class="text-danger">
+                    <p *ngIf="addForm.get('CategoryId')?.getError('required')" class="alert alert-danger">{{'errors.required'|translate}}</p>
+                  
+                  
+                  </div>
+             
                 </div>
           </div>
 
@@ -38,7 +48,13 @@
                   <input type="text" id="txtraderPrice" class="form-control"
                     placeholder="{{ 'product.labels.traderPrice' | translate }}" formControlName="traderPrice" 
                    />
+                   <div *ngIf="addForm.get('traderPrice')?.errors && addForm.get('traderPrice')?.touched" class="text-danger">
+                    <p *ngIf="addForm.get('traderPrice')?.getError('required')" class="alert alert-danger">{{'errors.required'|translate}}</p>
+                  
+                  
+                  </div>
                 </div>
+                
           </div>
           <div class="col-lg-4">
               <div class="form-group">
@@ -46,7 +62,10 @@
                   <input type="text" id="txttraderDiscount" class="form-control"
                     placeholder="{{ 'product.labels.traderDiscount' | translate }}" formControlName="traderDiscount" 
                      />
-                 
+                   
+                     <div *ngIf="addForm.get('traderDiscount')?.errors && addForm.get('traderDiscount')?.touched" class="text-danger">
+                      <p class="alert alert-danger">{{'errors.discount' | translate}}</p>
+                    </div>
                 </div>
                
           </div>
@@ -56,7 +75,11 @@
                 <input type="text" id="txtquantity" class="form-control"
                   placeholder="{{ 'product.labels.quantity' | translate }}" formControlName="quantity" 
                  />
-              
+                 <div *ngIf="addForm.get('quantity')?.errors && addForm.get('quantity')?.touched" class="text-danger">
+                  <p *ngIf="addForm.get('quantity')?.getError('required')" class="alert alert-danger">{{'errors.required'|translate}}</p>
+                
+                
+                </div>
               </div>
         </div>
       </div>
@@ -69,6 +92,11 @@
                 <input type="text" id="txtcustomerPrice"  class="form-control"
                   placeholder="{{ 'product.labels.customerPrice' | translate }}" formControlName="customerPrice" 
                />
+               <div *ngIf="addForm.get('customerPrice')?.errors && addForm.get('customerPrice')?.touched" class="text-danger">
+                <p *ngIf="addForm.get('customerPrice')?.getError('required')" class="alert alert-danger">{{'errors.required'|translate}}</p>
+              
+              
+              </div>
        
               </div>
 
@@ -81,7 +109,9 @@
               <input type="text" id="txtcustomerDiscount"class="form-control"
                 placeholder="{{ 'product.labels.customerDiscount' | translate }}" formControlName="customerDiscount" 
                 />
-          
+                <div *ngIf="addForm.get('customerDiscount')?.errors && addForm.get('customerDiscount')?.touched" class="text-danger">
+                  <p class="alert alert-danger">{{'errors.discount'}}</p>
+                </div>
             </div>
       </div>
     </div>
@@ -95,7 +125,13 @@
                   >
 
                   </textarea>
+                  <div *ngIf="addForm.get('Description')?.errors && addForm.get('Description')?.touched" class="text-danger">
+                    <p *ngIf="addForm.get('Description')?.getError('required')" class="alert alert-danger">{{'errors.required'|translate}}</p>
+                    <p *ngIf="addForm.get('Description')?.getError('maxlength')" class="alert alert-danger">{{'errors.maxlength'|translate}} 2000</p>
+                    <p *ngIf="addForm.get('Description')?.getError('minlength')" class="alert alert-danger">{{'errors.minlength'|translate}} 2 </p>
                   
+                  
+                  </div>
             
                 </div>
           </div>
@@ -126,6 +162,7 @@
                 <div class="form-group">
                   <p-fileUpload 
                   formControlName="images"
+                  max-size="10000"
                   name="images" 
                   accept="image/*" 
                   [multiple]="true" 
@@ -134,11 +171,13 @@
                    chooseLabel="{{'ChooseImage'|translate}}">
                  
                </p-fileUpload>
-           
+               <div *ngIf="addForm.get('images')?.errors && addForm.get('images')?.touched" class="text-danger">
+                <p *ngIf="addForm.get('images')?.getError('required')" class="alert alert-danger">{{'errors.images'|translate}}</p>
+              </div>
                
                 </div>
-              </div>
-          
+            </div>
+         
         </div>
         
 
@@ -148,7 +187,7 @@
                 <i class="ft-x"></i> {{'cancel' | translate}}
               </button>
               
-              <button type="submit" [disabled]="addForm.invalid " 
+              <button type="submit"  [disabled]="addForm.invalid"
                   [class]="!addForm.valid || !addForm.dirty ? 'btn btn-raised btn-secondary mr-1' : 'btn btn-raised btn-primary mr-1'">
                   <i class="fas ft-save"></i> {{'save' | translate}}
                 </button>

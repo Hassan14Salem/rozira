@@ -72,3 +72,16 @@ background: linear-gradient(135deg, rgba(244,243,244,1) 50%, rgba(9,187,240,1) 5
   padding: 15px; /* add padding for better appearance */
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2); /* optional: add a shadow for depth */
 }
+
+
+@media screen and (max-width:600px) {
+  .loginMoblie
+  {
+    width: 80%  ;
+  }
+  .rounded
+  {
+    width:  100px;
+    height: 100px;
+  }
+}

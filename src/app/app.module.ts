@@ -4,7 +4,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule } from '@angular/common/http';
 import { SidebarComponent } from './Components/sidebar/sidebar.component';
 import { LoginComponent } from './Components/login/login.component';
 import { NotfoundComponent } from './Components/notfound/notfound.component';
@@ -37,6 +37,10 @@ import { RippleModule } from 'primeng/ripple';
 import { ToastrModule } from 'ngx-toastr';
 import { SharedModule } from './shared/shared.module';
 import { PermissionsModule } from './permissions/permissions.module';
+import { AuthInterceptor } from './Intserceptors/auth.interceptor';
+import { LoadingBarRouterModule } from '@ngx-loading-bar/router';
+import { LoadingBarModule } from '@ngx-loading-bar/core';
+
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -95,8 +99,17 @@ export function HttpLoaderFactory(http: HttpClient) {
         MultiSelectModule ,
         RippleModule,
         SharedModule,
+        LoadingBarRouterModule,
+        LoadingBarModule
+
   ],
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true // This allows multiple interceptors to be registered
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,0 +1,6 @@
+.progress-bar {
+    background-color: #4caf50; /* Green */
+    height: 30px; /* Height of the progress bar */
+    width: 0; /* Initial width (will be set by progressValue) */
+    transition: width 0.5s; /* Smooth transition */
+  }

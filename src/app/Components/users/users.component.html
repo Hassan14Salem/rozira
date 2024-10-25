@@ -32,7 +32,7 @@
 
 <p-dialog 
     [(visible)]="AddDialog" 
-    [style]="{width: '80vw'}"  
+    [style]="{width: '60vw'}"  
     header="{{'Users.CreateModal'|translate}}" 
     [modal]="true" 
     styleClass="p-fluid">
@@ -123,8 +123,7 @@
                     <div
                   
                     >
-                        <div 
-                        class="alert alert-danger"
+                        <div class="alert alert-danger"
                         
                         *ngIf="regeisterNewUser.get('password')?.errors && regeisterNewUser.get('password')?.touched">
                             <p *ngIf="regeisterNewUser.get('password')?.getError('required')">Password is required</p>
@@ -141,12 +140,8 @@
                       <input formControlName="rePassword" type="password" class="form-control" id="rePassword"
                         placeholder="{{'tableHeader.rePassword'|translate}}">
                     <div>
-                        <div  class="alert alert-danger"
-                        *ngIf="regeisterNewUser.get('rePassword')?.errors && regeisterNewUser.get('rePassword')?.touched">
-                            <p *ngIf="regeisterNewUser.get('rePassword')?.getError('required')">rePassword is required</p>
-                            <small *ngIf="regeisterNewUser.hasError('noMatch') && regeisterNewUser.get('rePassword')?.touched">
-                                require                Passwords do not match.</small>
-
+                        <div class="alert alert-danger" *ngIf="regeisterNewUser.hasError('mismatch') && regeisterNewUser.get('password')?.touched && (regeisterNewUser.get('password')?.dirty || regeisterNewUser.get('rePassword')?.dirty)">
+                            Passwords do not match.
                           </div>
                     </div>
                     </div>
@@ -175,7 +170,7 @@
 <!--Update || Add Dialog-->
 <p-dialog 
     [(visible)]="itemDialog" 
-    [style]="{width: '80vw'}"  
+    [style]="{width: '60vw'}"  
     header="{{'Users.UpdateModal'|translate}}" 
     [modal]="true" 
     styleClass="p-fluid">

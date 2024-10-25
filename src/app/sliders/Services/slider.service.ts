@@ -15,11 +15,14 @@ controller:string='sliders'
       'Authorization': `Bearer ${token}`,
     });
   }
+
+  
+  
   getSliders(_Name:string,_PageNumber:number,_PageSize:number)
   {
     const headers = this.getHeaders();
     //controler:string,_Name:string,_PageNumber:number,_PageSize:number
-   return this.http.get(`${this.base.baseUrl}${this.controller}?PageNumber=${_PageNumber}&PageSize=${_PageSize}`,{headers:headers})
+   return this.http.get(`${this.base.baseUrl}${this.controller}?pageIndex=${_PageNumber}&PageSize=${_PageSize}`,{headers:headers})
   }
 
   update(model:any)

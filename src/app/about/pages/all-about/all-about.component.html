@@ -5,8 +5,8 @@
             <div class="col-12">
                     <div class="form-floating">
                         <h3>{{'tableHeader.descriptionAr'|translate}}</h3>
-                        <textarea class="form-control" [(ngModel)]="Item.descriptionAr"
-                        disabled
+                        <textarea id="txtDescAr" class="form-control" [(ngModel)]="Item.descriptionAr"
+                        disabled 
                          placeholder="{{'tableHeader.descriptionAr'|translate}}" id="floatingTextarea2" style="height: 100px"></textarea>
                       </div>
             </div>
@@ -56,9 +56,11 @@
 
                         />
                         <small class="p-error" *ngIf="submitted && !Item.descriptionAr">
-                        {{'required'| translate}}
+                        {{'errors.required'| translate}}
                         </small>
-                       
+                         <small class="p-error" *ngIf="Item.descriptionAr.length > 2000">
+                            {{'errors.maxlength'| translate}} 2000
+                        </small>
                        
                     </div>
                 </div>
@@ -75,8 +77,11 @@
                             #txtNameEn="ngModel"
 
                         />
-                        <small class="p-error" *ngIf="submitted && !Item.descriptionEn">
-                         {{'required'| translate}}
+                        <small class="p-error" *ngIf="submitted && Item.descriptionEn.length < 1">
+                         {{'errors.required'| translate}}
+                        </small>
+                        <small class="p-error" *ngIf="Item.descriptionAr.length > 2000">
+                            {{'errors.maxlength'| translate}} 2000
                         </small>
                      
                     </div>

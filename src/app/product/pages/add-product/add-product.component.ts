@@ -5,6 +5,8 @@ import { Product } from '../../Models/product';
 import { ProductService } from '../../Services/product.service';
 import { ToastrService } from 'ngx-toastr';
 import { UploadEvent } from 'primeng/fileupload'; // Import UploadEvent
+import { Category } from 'src/app/category/Models/category';
+import { CategoryService } from 'src/app/category/Services/category.service';
 
 @Component({
   selector: 'app-add-product',
@@ -18,22 +20,24 @@ export class AddProductComponent implements OnInit{
   product = {} as Product
   selectedFile!: any[];
   uploadedFiles:any[] =[];
+  categories:Category[]=[]
+  discountsPattern: any = "^(100|[0-9]{1,2})(\\.[0-9]{1,2})?$"
 
   constructor(private productSerive:ProductService,
     private route:ActivatedRoute,
     private alertService:ToastrService,
-    private navigateRoute : Router
-
+    private navigateRoute : Router,
+    private category:CategoryService
   ){
     this.addForm = new FormGroup({
       ProductName: new FormControl('',Validators.required),
-      Description: new FormControl('',Validators.required),
+      Description: new FormControl('',[Validators.required,Validators.minLength(2),Validators.maxLength(2000)]),
       customerPrice: new FormControl(0,Validators.required),
       traderPrice: new FormControl(0,Validators.required),
-      customerDiscount: new FormControl(0,Validators.required),
-      traderDiscount: new FormControl(0,Validators.required),
+      customerDiscount: new FormControl(null,Validators.pattern(this.discountsPattern)),
+      traderDiscount: new FormControl(null,Validators.pattern(this.discountsPattern)),
       quantity: new FormControl(0,Validators.required),
-      images: new FormArray([],Validators.required),
+      images: new FormArray([]),
       categoryId: new FormControl('',Validators.required)
     })
   }
@@ -79,7 +83,7 @@ export class AddProductComponent implements OnInit{
     }
   }
   ngOnInit(): void {
-
+    this.getCateories()
 
   }
 
@@ -87,10 +91,8 @@ export class AddProductComponent implements OnInit{
     if (event.files && event.files.length > 0) {
       this.selectedFile = event.files[0];
       console.log(this.selectedFile);
-      
       // Mark the form as dirty
       // this.addForm.markAsDirty();
-  
       // Set the form control as valid
       this.addForm.get('images')?.setValue(this.selectedFile); // Assuming 'fileControl' is the name of the form control for the file input
       this.addForm.get('images')?.updateValueAndValidity();
@@ -105,9 +107,29 @@ export class AddProductComponent implements OnInit{
         this.uploadedFiles.push(file);
     }
     console.log(this.uploadedFiles)
-    this.updateForm.form.markAsDirty();  
+    this.addForm.markAsDirty();  
 
     }
+    get imagesArray(): FormArray {
+      return this.addForm.get('images') as FormArray;
+    }
+    
+    // onUpload(event: any): void {
+    //   for (let file of event.files) {
+    //     this.imagesArray.push(new FormControl(file)); // Add each file to the FormArray
+    //   }
+    //   this.addForm.markAsDirty();  // Mark the form as dirty after adding files
+    // }
 
 
+
+
+    getCateories()
+  {
+    this.category.gets().subscribe({
+      next:(Res)=>{
+        this.categories = Res.items
+      }
+    })
+  }
 }

@@ -62,6 +62,16 @@
         "customerDiscount":"customer discount",
         "description":"description"
       }
+    },
+    "errors":{
+      "required":"this field is required",
+      "maxlength":"maxlength is ",
+      "minlength":"minlength is ",
+      "images":"atleast one image required ",
+      "discount":"the range between 0% to 100%"
+   
+
+
     }
   }
   

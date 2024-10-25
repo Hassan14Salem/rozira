@@ -99,24 +99,22 @@ openNew()
 
 save(ev:About)
 {
-  console.log('about',ev)
   this.submitted = true;
- 
     // update
     this._aboutService.add(ev).subscribe({
       next:(Response) => {
         this.alertService.success('Updated Successfully')
         this.getItems();
        console.log(Response)
+     this.hideDialog();
+
       
       },
       error:(err) =>{
         this.alertService.error('Failded to Updated ')
-
         console.log(err)
       }
     })
-    this.hideDialog();
 
   }
 }

@@ -1,51 +1,45 @@
 <!-- As a link -->
-    <div class="container-fluid">
-        <nav class="navbar bg-body-tertiary">
-            <div class="container-fluid">
-                <div></div>
-              <div class=" text-dark user  p-2 w-25">
-                <div class="d-flex justify-content-around align-items-center  " >
-                    <li class="nav-item dropdown list">
-                        <a class="nav-link d-flex align-items-center dropdown-toggle dropdown-language" id="dropdown-flag"
-                        role="button" data-bs-toggle="dropdown" aria-expanded="false"
-                        data-toggle="dropdown" ngbDropdownToggle>
-                        <img class="langimg selected-flag" [src]="selectedLanguageFlag" alt="flag" />
-                      </a>
-                        <ul class="dropdown-menu">
-                          <li class="mb-2">
-                            <a class="langimg mx-2"  (click)="changeLanguage('en')">
-                                <img class="langimg selected-flag" src="assets/images/flags/us.png" alt="flag" />
-                            <span class="mx-2">English</span>    
-                            </a>
-                          </li>
-                          <li class="">
-                            <a  class="langimg mx-2"  (click)="changeLanguage('ar')">
-                                <img class="langimg selected-flag " src="assets/images/flags/eg.png" alt="flag" />
-                                <span class="mx-2">Arabic</span>
-                            
-                            </a>
-                          </li>
-                         
-                        </ul>
-                      </li>
-                  
-                    <div class="d-flex justify-content-center align-items-center">
-                        <div class="info">
-                            <span>Ahmed</span>
-                            <span>Salem</span>
-            
-                        </div>
-                        <img src="assets/images/User.png" class="avatar" alt="userImage">
-                    </div>
+<div class="container">
+  <div class=" text-dark user">
+    <div class="d-flex justify-content-end align-items-center   w-100" >
+        <li class="nav-item dropdown list">
+            <a class="nav-link d-flex align-items-center dropdown-toggle dropdown-language" id="dropdown-flag"
+            role="button" data-bs-toggle="dropdown" aria-expanded="false"
+            data-toggle="dropdown" ngbDropdownToggle>
+            <img class="langimg selected-flag" [src]="selectedLanguageFlag" alt="flag" />
+          </a>
+            <ul class="dropdown-menu">
+              <li class="mb-2">
+                <a class="langimg mx-2"  (click)="changeLanguage('en')">
+                    <img class="langimg selected-flag" src="assets/images/flags/us.png" alt="flag" />
+                <span class="mx-2">English</span>    
+                </a>
+              </li>
+              <li class="">
+                <a  class="langimg mx-2"  (click)="changeLanguage('ar')">
+                    <img class="langimg selected-flag " src="assets/images/flags/eg.png" alt="flag" />
+                    <span class="mx-2">Arabic</span>
+                
+                </a>
+              </li>
              
-                 <div>
-        
-                 </div>
-                </div>
-              </div>
+            </ul>
+          </li>
+      
+        <div class="d-flex justify-content-center align-items-center">
+            <div class="info px-2">
+                <span>Ahmed</span>
+                <span>Salem</span>
             </div>
-          </nav>
+            <img src="assets/images/User.png" class="avatar" alt="userImage">
+        </div>
+ 
+     <div>
+
+     </div>
     </div>
+  </div>
+</div>
   
   <!-- As a heading -->
  

@@ -1,7 +1,7 @@
 
 import { User } from '../../Interfaces/user';
 import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { MessageService, ConfirmationService } from 'primeng/api';
 import { Table, TableLazyLoadEvent } from 'primeng/table';
@@ -97,12 +97,28 @@ export class UsersComponent implements OnInit {
 
   selectedUserName: string = '';
   constructor(private _UserService: UsersService,
+    private _FormBuilder:FormBuilder ,
     private _auth:AuthService , private _roles :RolesService,
   private _alert:ToastrService) { }
+
+
+  passwordMatchValidator(group: FormGroup) {
+    const password = group.get('password')?.value;
+    const rePassword = group.get('rePassword')?.value;
+    return password === rePassword ? null : { mismatch: true };
+  }
 
   ngOnInit(): void {
     this.fetchUsers();
     this. getAllRoles();
+
+    this.regeisterNewUser = this._FormBuilder.group({
+      name: [null, Validators.required],
+      email: [null, [Validators.required, Validators.email]],
+      password: [null, [Validators.required]],
+      rePassword: [null, [Validators.required]],
+      phone: [null, [Validators.required]]
+    }, { validator: this.passwordMatchValidator });
    
   }
   getAllRoles()
@@ -125,7 +141,6 @@ export class UsersComponent implements OnInit {
       },
       error: (error) => {
         console.error('Error fetching users:', error);
-        alert('Failed to fetch users.');
       },
       complete: () => this.isLoading = false
     });
@@ -182,7 +197,6 @@ export class UsersComponent implements OnInit {
       },
       error: (error) => {
         console.error('Error fetching user:', error);
-        alert('Failed to fetch user data.');
       },
       complete: () => this.isLoading = false
     });

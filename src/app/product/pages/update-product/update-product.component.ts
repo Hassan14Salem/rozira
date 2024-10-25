@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { Product } from '../../Models/product';
 import { ProductService } from '../../Services/product.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { NgForm } from '@angular/forms';
+import { FormArray, FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
 import { CategoryService } from 'src/app/category/Services/category.service';
 import { Category } from 'src/app/category/Models/category';
 import { ToastrService } from 'ngx-toastr';
@@ -14,13 +14,17 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class UpdateProductComponent implements OnInit{
   
-  @ViewChild('updateProduct') updateForm!:NgForm
+  // @ViewChild('updateProduct') updateForm!:NgForm
+  updateProduct!:FormGroup
   product = {} as Product
   ProductId !:string
   selectedFile: any;
   categories:Category[]=[]
   uploadedFiles:any[]=[];
+  imageToDelete:any[]=[];
+
   selectedCategory: any;
+  discountsPattern:any="^(100|[0-9]{1,2})(\.[0-9]{1,2})?$";
 
   constructor(private productSerive:ProductService,
     private route:ActivatedRoute,
@@ -28,7 +32,20 @@ export class UpdateProductComponent implements OnInit{
     private navigateRoute : Router,
     private category:CategoryService
 
-  ){}
+  ){
+    this.updateProduct = new FormGroup({
+      ProductName: new FormControl('',Validators.required),
+      Description: new FormControl('',[Validators.required,Validators.minLength(2),Validators.maxLength(2000)]),
+      customerPrice: new FormControl(0,Validators.required),
+      traderPrice: new FormControl(0,Validators.required),
+      customerDiscount: new FormControl(0,Validators.pattern(this.discountsPattern)),
+      traderDiscount: new FormControl(0,Validators.pattern(this.discountsPattern)),
+      quantity: new FormControl(0,Validators.required),
+      NewImages: new FormArray([]),
+      categoryId: new FormControl('',Validators.required),
+
+    })
+  }
 
   loadProduct()
   {
@@ -36,8 +53,29 @@ export class UpdateProductComponent implements OnInit{
       next:(Response) => 
       {
         this.product = Response;
+        this.updateProduct.patchValue({
+          ProductName: this.product.productName,
+          Description: this.product.description,
+          customerPrice: this.product.customerPrice,
+          traderPrice: this.product.traderPrice,
+          customerDiscount: this.product.customerDiscount,
+          traderDiscount: this.product.traderDiscount,
+          quantity: this.product.quantity,
+          images: this.product.images,
+          categoryId: this.product.categoryId
+        })
+
+        const existingImages = this.product.images;
+  
+    if (existingImages.length > 0) {
+      for(let i=0;i<existingImages.length;i++){
+        this.imageToDelete.push(existingImages[i])
+        console.log('delete image',this.imageToDelete)
+      }
+    }
+
         console.log('product',this.product)
-        console.log('Response',Response[0])
+        console.log('images: ',this.product.images)
        this. getCateories()
 
       }
@@ -58,10 +96,9 @@ export class UpdateProductComponent implements OnInit{
     console.log('category value',ev.target.value)
   }
 
-  saveItem(editForm:NgForm)
+  saveItem(editForm:FormGroup)
   {
-    console.log('update',editForm.value)
-    console.log(editForm.valid)
+
     if(editForm.valid)
     {
       const formData = new FormData();
@@ -75,18 +112,23 @@ export class UpdateProductComponent implements OnInit{
         }
       });
 
-      formData.append('CategoryId',this.selectedCategory)
 
-      formData.forEach((key,value)=>{
-        console.log(`key:${key} =>  value:${value}`)
-      })
 
    if(this.uploadedFiles)
    {
-    for(let i =0 ; i<this.uploadedFiles.length ; i ++){
+    for(let i =0 ; i<this.uploadedFiles.length ; i++){
       formData.append('NewImages',this.uploadedFiles[i])
+
     }
    }
+
+  
+
+
+   
+   formData.forEach((key,value)=>{
+    console.log(`value:${value} =>  key:${key}`)
+  })
       
    
 
@@ -99,6 +141,7 @@ export class UpdateProductComponent implements OnInit{
           this.navigateRoute.navigate(['/product/products'])
         },
         error : (err)=>{
+          console.log(err)
           this.alertService.error('Faild to add product')
         }
       })
@@ -118,18 +161,18 @@ export class UpdateProductComponent implements OnInit{
     if (event.files && event.files.length > 0) {
       this.selectedFile = event.files[0];
       console.log(this.selectedFile);
-      this.updateForm.form.markAsDirty();  
+      this.updateProduct.markAsDirty();  
     }
   }
 
 
-
   onUpload(event:any) {
+   
     for(let file of event.files) {
         this.uploadedFiles.push(file);
     }
     console.log(this.uploadedFiles)
-    this.updateForm.form.markAsDirty();  
+    this.updateProduct.markAsDirty();  
 
     }
 }
