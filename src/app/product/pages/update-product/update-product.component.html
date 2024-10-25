@@ -7,6 +7,7 @@
  
     <div class="container ">
         <form  [formGroup]="updateProduct" (ngSubmit)="saveItem(updateProduct)">
+        
         <div class="row my-3 ">
             <div class="col-md-6">
                 <div class="form-group">
@@ -140,16 +141,6 @@
 
 
 
-        <div class="row mb-1">
-        
-           
-        </div>
-
-
-        <div class="row mb-1">
-          
-         
-        </div>
 
 
         <div class="row mb-1">
@@ -171,20 +162,75 @@
                       <ng-template pTemplate="content">
                        <div class="p-fileupload-content">
                          <!-- Display the retrieved image when editing -->
-                          <ng-container *ngIf="product.images">
-                            <ng-container *ngFor="let image of product.images">
-                                  <img  
-                                  [src]="'https://roseirae.runasp.net/'+image" 
-                                  class="m-3"
-                                  alt="User Image" 
-                                  style="max-width: 100px; margin-top: 10px;" />
-                              
+                          <ng-container *ngIf="product.images.length > 0; else noImage">
+                            <ng-container >
+                              <p-table 
+                              #dt 
+                              [value]="product.images"
+                              [rows]="10"  
+                              [paginator]="true" 
+                              [responsive]="true" 
+                              [tableStyle]="{'min-width': '75rem'}"
+                              [rowHover]="true"
+                              styleClass="p-datatable-gridlines p-datatable-sm"
+                               dataKey="id" 
+                              responsiveLayout="scroll"
+                              stateStorage="session" 
+                              stateKey="statedemo-session"
+                          
+                              >
+                               
+                                 
+                                  <ng-template pTemplate="header">
+                                      <tr >
+                                          <th 
+                                          style="min-width: 10rem;text-align: center;font-size: 14px;"
+                                          >image 
+                                          </th>
+                                          <th style="min-width: 15rem;"></th>
+                                      </tr>
+                                    
+                                  </ng-template>
+                                  <ng-template pTemplate="body" let-item  >
+                                      <tr>
+                                          <td style="max-width: 10rem;text-align: center !important;">
+                                            <img  
+                                            [src]="'https://roseirae.runasp.net/'+item" 
+                                            class="m-3"
+                                            style="max-width: 100px; max-height: 100px;"
+                                            alt="User Image" 
+                                          />
+                                          </td>
+                                          
+                                          
+                                          <td style="text-align: center;">
+                          
+                                              <button pButton pRipple icon="pi pi-trash"
+                                              type="button"
+                                               class="p-button-rounded p-button-danger mr-2"
+                                               pTooltip="{{'delete' | translate}}" tooltipPosition="top"
+                                               (click)="DeleteImages(item)"></button>
+                          
+                                    
+                                          </td>
+                          
+                                         
+                                        </tr>
+                                  
+                                  </ng-template>
+                          
+                              </p-table>
                            
                             </ng-container>
                           </ng-container>
+
+                     
                        
                        </div>
                      </ng-template>
+                     <ng-template #noImage>
+                      <p>No Image to show!</p>
+                    </ng-template>
                </p-fileUpload>
 
                <div *ngIf="updateProduct.get('images')?.errors && updateProduct.get('images')?.touched" class="text-danger">
@@ -193,6 +239,8 @@
                
                 </div>
             </div>
+
+            <input type="file" formControlName="ImagesToDelete" class="form-control d-none"/>
            
         </div>
         
@@ -204,6 +252,7 @@
               </button>
               
               <button type="submit" 
+              [disabled]="updateProduct.invalid"
                   [class]="!updateProduct.valid || !updateProduct.dirty ? 'btn btn-raised btn-secondary mr-1' : 'btn btn-raised btn-primary mr-1'">
                   <i class="fas ft-save"></i> {{'save' | translate}}
                 </button>

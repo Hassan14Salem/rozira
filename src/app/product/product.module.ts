@@ -9,6 +9,8 @@ import { AddProductComponent } from './pages/add-product/add-product.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FileUploadModule } from 'primeng/fileupload';
+import { TooltipModule } from 'primeng/tooltip';
+import { TableModule } from 'primeng/table';
 
 
 @NgModule({
@@ -24,7 +26,10 @@ import { FileUploadModule } from 'primeng/fileupload';
     TranslateModule,
     ReactiveFormsModule,
     FormsModule,
-    FileUploadModule
+    FileUploadModule,
+    TooltipModule,
+    TableModule
+
   ]
 })
 export class ProductModule { }
