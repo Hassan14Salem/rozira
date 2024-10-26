@@ -16,8 +16,10 @@ export class LoginComponent {
 
   constructor(private _AuthService: AuthService, private _Router: Router, private _PasswordService: PasswordService,
     private _PermissionService: PermissionService
-  ) { }
-  showRessetSuccessfullMeassage:boolean= false;
+  ) { 
+    
+  }
+  showRessetSuccessfullMeassage: boolean = false;
   isloading: boolean = false;
   modalVisible: boolean = false;
   errormessage: string = '';
@@ -34,14 +36,14 @@ export class LoginComponent {
     this.isloading = true;
     this._AuthService.login(data.value).subscribe({
       next: (response) => {
-        console.log('response',response)
+        console.log('response', response)
         if (response.token) {
           localStorage.setItem('RoziraToken', response.token);
           const username = this._AuthService.decodeUserToken();
           if (username) {
             this._AuthService.getUserPermissionsByUsername(username).subscribe({
-              next: (permissions) => {        
-                console.log('permission',permissions)        
+              next: (permissions) => {
+                console.log('permission', permissions)
                 this._PermissionService.setPermissions(permissions);
                 this._Router.navigate(['/dashboard']);
               },
@@ -68,7 +70,7 @@ export class LoginComponent {
       }
     });
   }
-  
+
   navigateToRecoveryPage() {
     this._Router.navigate(['/password-recovery']);
   }
@@ -101,7 +103,7 @@ export class LoginComponent {
           this.passwordStatusMessage = res.message;
           this.VerificationForm.get('email')?.setValue(this.recoveryForm.get('email')?.value);
           this.openVerifyingModal = true;
-          this.modalVisible =false;
+          this.modalVisible = false;
         },
         error: (error) => {
           this.showAlertMessage('Can\'t find this emai , try agin', 'error');
@@ -145,7 +147,7 @@ export class LoginComponent {
           console.error(error);
           this.showAlertMessage('Please enter a correct OTP, try', 'error');
           this.verificationStatusMessage = error.error.message;
-         this.otpStatusMessage = this.verificationStatusMessage;
+          this.otpStatusMessage = this.verificationStatusMessage;
         }
       });
     } else {
@@ -171,7 +173,7 @@ export class LoginComponent {
   ResettPaswordNow() {
     if (this.ResettPaswordFrom.valid) {
       this._PasswordService.resetPassword(this.ResettPaswordFrom).subscribe({
-       
+
         next: (res) => {
           console.log(res);
           this.showAlertMessage('Password changed Successfully,', 'success');
@@ -185,7 +187,7 @@ export class LoginComponent {
           console.error(error);
           this.showAlertMessage('Couldn\'t update password,', 'error');
           this.verificationStatusMessage = error.error.errorMessage;
-        
+
         }
       });
     } else {
@@ -201,9 +203,9 @@ export class LoginComponent {
   hasErrors(): boolean {
     const userNameErrors = this.loginExistUser.get('userName')?.errors;
     const passwordErrors = this.loginExistUser.get('password')?.errors;
-    return (userNameErrors && this.loginExistUser.get('userName')?.touched) || 
-           (passwordErrors && this.loginExistUser.get('password')?.touched) || 
-           !!this.errormessage; // Include server-side errors
+    return (userNameErrors && this.loginExistUser.get('userName')?.touched) ||
+      (passwordErrors && this.loginExistUser.get('password')?.touched) ||
+      !!this.errormessage; // Include server-side errors
   }
 
   alertMessage: string = '';
@@ -217,5 +219,5 @@ export class LoginComponent {
     setTimeout(() => this.showAlert = false, 5000); // Hide alert after 5 seconds
   }
 
-  
+
 }

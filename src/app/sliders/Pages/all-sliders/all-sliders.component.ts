@@ -1,16 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { SliderService } from '../../Services/slider.service';
 import { Slider } from '../../Models/slider';
 import { ToastrService } from 'ngx-toastr';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { BaseService } from 'src/app/shared/services/base.service';
+import { AuthService } from 'src/app/Services/auth.service';
 
 @Component({
   selector: 'app-all-sliders',
   templateUrl: './all-sliders.component.html',
   styleUrls: ['./all-sliders.component.css']
 })
-export class AllSlidersComponent implements OnInit{
+export class AllSlidersComponent implements OnInit , AfterViewInit{
   Items:any[]=[];
   Item = {} as Slider;
   itemDialog!:boolean;
@@ -24,6 +25,7 @@ export class AllSlidersComponent implements OnInit{
   totalRecords: number = 0;
 
 constructor(private sliderService:SliderService,private alertService:ToastrService,
+  private _AuthService :AuthService,
   private base:BaseService
 ){
   this.addSlider = new FormGroup({
@@ -32,6 +34,9 @@ constructor(private sliderService:SliderService,private alertService:ToastrServi
 
   })
 }
+  ngAfterViewInit(): void {
+    this.loadPermissions();
+  }
 pageColumns = [
   { field: 'imageUrl', header: 'tableHeader.image',filterable: true  },
   { field: 'displayOrder', header: 'tableHeader.displayOrder' ,filterable: true },
@@ -62,9 +67,36 @@ loadItems(event:any)
 
     console.log(this.Items)
   }
+
+
+
+  permissionsLoaded = false;
+  permissions: string[] = [];
+  
+  hasPermission(permission: any): boolean {
+    return this.permissions.includes(permission);
+
+  }
+  loadPermissions() {
+    const storedPermissions = localStorage.getItem('userPermissions');
+    if (storedPermissions) {
+      this.permissions = JSON.parse(storedPermissions);
+      this.permissionsLoaded = true;
+    } else {
+      this._AuthService.permissions$.subscribe((permissions) => {
+        this.permissions = permissions;
+        this.permissionsLoaded = true;
+        localStorage.setItem('userPermissions', JSON.stringify(permissions));
+      });
+    }
+  }
+
+
+
  
   ngOnInit(): void {
     this.getItems();
+    this.loadPermissions();
   }
   save(ev:any){
     console.log('ev',ev)

@@ -12,7 +12,7 @@ import { UsersService } from 'src/app/Services/users.service';
 
 
 export function matchPasswords(passwordControlName: string, rePasswordControlName: string): ValidatorFn {
-  return (formGroup: AbstractControl): ValidationErrors |null => {
+  return (formGroup: AbstractControl): ValidationErrors | null => {
     const passwordControl = formGroup.get(passwordControlName);
     const rePasswordControl = formGroup.get(rePasswordControlName);
 
@@ -23,9 +23,9 @@ export function matchPasswords(passwordControlName: string, rePasswordControlNam
       } else {
         rePasswordControl.setErrors(null); // Clear error
       }
-    } 
+    }
 
-    return null ;
+    return null;
   };
 
 }
@@ -37,8 +37,8 @@ export function matchPasswords(passwordControlName: string, rePasswordControlNam
   selector: 'app-users',
   templateUrl: './users.component.html',
   styleUrls: ['./users.component.css'],
-  providers: [MessageService,ConfirmationService],
-  encapsulation: ViewEncapsulation.None , // to customize on primeNg in the component not neccassry in main.style
+  providers: [MessageService, ConfirmationService],
+  encapsulation: ViewEncapsulation.None, // to customize on primeNg in the component not neccassry in main.style
 })
 
 
@@ -52,16 +52,17 @@ export class UsersComponent implements OnInit {
   Items: User[] = [];
   Item = {} as User;
 
+
   user = {} as User;
-  roles:any[]=[];
-  AddDialog:boolean=false;
+  roles: any[] = [];
+  AddDialog: boolean = false;
   isloading: boolean = false;
   errormessage: string = '';
   showErrorHandelling: boolean = false;
   serverError: boolean = false;
   regeisterNewUser = new FormGroup({
     userName: new FormControl(null, [Validators.required, Validators.minLength(2), Validators.maxLength(25)]),
-    email: new FormControl(null, [Validators.required, Validators.email]),  
+    email: new FormControl(null, [Validators.required, Validators.email]),
     password: new FormControl(null, [Validators.required, Validators.minLength(4), Validators.maxLength(25)]),
     rePassword: new FormControl(null, [Validators.required, Validators.minLength(4), Validators.maxLength(25)]),
     phoneNumber: new FormControl(null, [Validators.required, Validators.pattern(/^(009665|9665|\+9665|05|5)(5|0|3|6|4|9|1|8|7)([0-9]{7})$/)]),
@@ -71,17 +72,17 @@ export class UsersComponent implements OnInit {
 
   pageColumns = [
     { field: 'userName', header: 'tableHeader.username' },
-    { field: 'email', header: 'tableHeader.email'  },
-    { field: 'phoneNumber', header: 'tableHeader.phoneNum'  },
-    { field: 'role', header: 'tableHeader.role'  },
+    { field: 'email', header: 'tableHeader.email' },
+    { field: 'phoneNumber', header: 'tableHeader.phoneNum' },
+    { field: 'role', header: 'tableHeader.role' },
 
 
   ];
 
-  searchValue:string=''
-  itemDialog:boolean = false;
-  confirmDeleteDialog:boolean=false;
-  submitted:boolean = false;
+  searchValue: string = ''
+  itemDialog: boolean = false;
+  confirmDeleteDialog: boolean = false;
+  submitted: boolean = false;
   selectedUser: User = { userId: '', userName: '', email: '', phoneNumber: '', password: '', role: '' };  // Empty user data
   modalVisible: boolean = false;
   // Track modal visibility
@@ -97,9 +98,10 @@ export class UsersComponent implements OnInit {
 
   selectedUserName: string = '';
   constructor(private _UserService: UsersService,
-    private _FormBuilder:FormBuilder ,
-    private _auth:AuthService , private _roles :RolesService,
-  private _alert:ToastrService) { }
+    private _AuthService :AuthService,
+    private _FormBuilder: FormBuilder,
+    private _auth: AuthService, private _roles: RolesService,
+    private _alert: ToastrService) { }
 
 
   passwordMatchValidator(group: FormGroup) {
@@ -107,11 +109,38 @@ export class UsersComponent implements OnInit {
     const rePassword = group.get('rePassword')?.value;
     return password === rePassword ? null : { mismatch: true };
   }
+  
+
+
+  permissionsLoaded = false;
+  permissions: string[] = [];
+  
+  hasPermission(permission: any): boolean {
+    return this.permissions.includes(permission);
+
+  }
+  loadPermissions() {
+    const storedPermissions = localStorage.getItem('userPermissions');
+    if (storedPermissions) {
+      this.permissions = JSON.parse(storedPermissions);
+      this.permissionsLoaded = true;
+    } else {
+      this._AuthService.permissions$.subscribe((permissions) => {
+        this.permissions = permissions;
+        this.permissionsLoaded = true;
+        localStorage.setItem('userPermissions', JSON.stringify(permissions));
+      });
+    }
+  }
+
 
   ngOnInit(): void {
+    this.loadPermissions();
     this.fetchUsers();
-    this. getAllRoles();
-
+    this.getAllRoles();
+    this._AuthService.permissions$.subscribe((permissions) => {
+      this.permissions = permissions;
+    });
     this.regeisterNewUser = this._FormBuilder.group({
       name: [null, Validators.required],
       email: [null, [Validators.required, Validators.email]],
@@ -119,12 +148,11 @@ export class UsersComponent implements OnInit {
       rePassword: [null, [Validators.required]],
       phone: [null, [Validators.required]]
     }, { validator: this.passwordMatchValidator });
-   
+
   }
-  getAllRoles()
-  {
+  getAllRoles() {
     this._roles.getRoles().subscribe({
-      next:(Respose) => {
+      next: (Respose) => {
         console.log(Respose)
         this.roles = Respose;
       }
@@ -136,7 +164,7 @@ export class UsersComponent implements OnInit {
     this._UserService.getAllUsers().subscribe({
       next: (response) => {
         this.users = response;
-        this.Items =response;
+        this.Items = response;
         console.log(this.users);
       },
       error: (error) => {
@@ -165,15 +193,15 @@ export class UsersComponent implements OnInit {
   }
 
   deleteUser(userId: string): void {
-      this._UserService.deleteUser(userId).subscribe({
-        next: () => {
-          this.removeUserFromList(userId);
-          this._alert.success('user Deleted Successfully')
-        },
-        error: (error) => {
-          this._alert.success('Error deleting user')
-        }
-      });
+    this._UserService.deleteUser(userId).subscribe({
+      next: () => {
+        this.removeUserFromList(userId);
+        this._alert.success('user Deleted Successfully')
+      },
+      error: (error) => {
+        this._alert.success('Error deleting user')
+      }
+    });
 
   }
   Cancel() {
@@ -210,14 +238,14 @@ export class UsersComponent implements OnInit {
   }
 
   // Submit form for editing user
-  onSubmit(user:User): void {
-    console.log('user to update',user);
+  onSubmit(user: User): void {
+    console.log('user to update', user);
     if (user) {
       const formValues = this.editUserForm.value;
 
       console.log('Submitting form with values:', formValues);
 
-      this._UserService.editUser( user).subscribe({
+      this._UserService.editUser(user).subscribe({
         next: (Response) => {
           console.log(Response);
           this._alert.success('User updated successfully!')
@@ -235,7 +263,7 @@ export class UsersComponent implements OnInit {
                 // Optionally, display these errors in your UI
               }
             }
-          } 
+          }
         }
       });
     } else {
@@ -284,38 +312,31 @@ export class UsersComponent implements OnInit {
 
 
 
-  editUser(ev :any)
-  {
+  editUser(ev: any) {
     this.itemDialog = true;
-    this.user = {...ev}; 
-      console.log('user before update',this.user)
+    this.user = { ...ev };
+    console.log('user before update', this.user)
   }
-  deleteDialog(ev:any)
-  {
-    this.confirmDeleteDialog =true;
-    this.user = {...ev};
+  deleteDialog(ev: any) {
+    this.confirmDeleteDialog = true;
+    this.user = { ...ev };
   }
 
-  openNew()
-  {
-    this.AddDialog=true;
+  openNew() {
+    this.AddDialog = true;
   }
-  hideDialog()
-  {
+  hideDialog() {
     this.itemDialog = false;
     this.confirmDeleteDialog = false;
   }
 
-  save(ev:User)
-  {
-    if(ev.userId)
-    {
+  save(ev: User) {
+    if (ev.userId) {
       this.onSubmit(ev)
-    } 
+    }
   }
 
-  deleteItem(user:User)
-  {
+  deleteItem(user: User) {
     this.deleteUser(user.userId)
     this.hideDialog();
   }
@@ -327,23 +348,23 @@ export class UsersComponent implements OnInit {
     const phoneNumberErrors = this.regeisterNewUser.get('phoneNumber')?.errors;
     const roleErrors = this.regeisterNewUser.get('role')?.errors;
 
-    return (userNameErrors && this.regeisterNewUser.get('userName')?.touched) || 
-           (emailErrors && this.regeisterNewUser.get('email')?.touched) || 
-           (passwordErrors && this.regeisterNewUser.get('password')?.touched) || 
-           (phoneNumberErrors && this.regeisterNewUser.get('phoneNumber')?.touched) || 
-           (roleErrors && this.regeisterNewUser.get('role')?.touched) || 
-           !!this.errormessage; // Include server-side errors
+    return (userNameErrors && this.regeisterNewUser.get('userName')?.touched) ||
+      (emailErrors && this.regeisterNewUser.get('email')?.touched) ||
+      (passwordErrors && this.regeisterNewUser.get('password')?.touched) ||
+      (phoneNumberErrors && this.regeisterNewUser.get('phoneNumber')?.touched) ||
+      (roleErrors && this.regeisterNewUser.get('role')?.touched) ||
+      !!this.errormessage; // Include server-side errors
   }
 
 
-  loadItems(event:any) {
-    console.log('table event',event)
+  loadItems(event: any) {
+    console.log('table event', event)
   }
 
- deleteDialogMessage(ev :any){}
- editItem(ev :any){
-  this.user = {...ev}
-  this.itemDialog = true
- }
+  deleteDialogMessage(ev: any) { }
+  editItem(ev: any) {
+    this.user = { ...ev }
+    this.itemDialog = true
+  }
 
 }
