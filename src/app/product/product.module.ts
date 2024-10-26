@@ -29,7 +29,6 @@ import { TableModule } from 'primeng/table';
     FileUploadModule,
     TooltipModule,
     TableModule
-
   ]
 })
 export class ProductModule { }
