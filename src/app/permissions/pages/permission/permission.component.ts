@@ -10,6 +10,7 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ButtonModule } from 'primeng/button';
 import { Permission } from '../../Models/permission';
 import { PermissionService } from 'src/app/Services/permission.service';
+import { AuthService } from 'src/app/Services/auth.service';
 
 @Component({
   selector: 'app-permission',
@@ -29,13 +30,16 @@ export class PermissionComponent implements OnInit{
   });
 
 
-  constructor(private _permissionService: PermissionService, private _Role: RolesService, private messageService: MessageService) { }
+  constructor(private _permissionService: PermissionService, 
+    private _Role: RolesService, 
+    private messageService: MessageService ,
+  private _AuthService :AuthService) { }
 
 
   ngOnInit(): void {
 
     this.loadRoles();
-    this.loadPermissions();
+    this.loadPermissionss();
 
   }
 
@@ -51,6 +55,28 @@ export class PermissionComponent implements OnInit{
     });
 
   };
+
+  permissionsLoaded = false;
+  permissionss: string[] = [];
+  
+  hasPermission(permission: any): boolean {
+    return this.permissions.includes(permission);
+
+  }
+  loadPermissionss() {
+    const storedPermissions = localStorage.getItem('userPermissions');
+    if (storedPermissions) {
+      this.permissions = JSON.parse(storedPermissions);
+      this.permissionsLoaded = true;
+    } else {
+      this._AuthService.permissions$.subscribe((permissions) => {
+        this.permissionss = permissions;
+        this.permissionsLoaded = true;
+        localStorage.setItem('userPermissions', JSON.stringify(permissions));
+      });
+    }
+  }
+
 
   loadRoles() {
     this._Role.getRoles().subscribe({

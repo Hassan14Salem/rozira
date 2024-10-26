@@ -39,7 +39,8 @@ export class UsersService {
   getUserById(userId: string): Observable<User> {
     const token = localStorage.getItem('RoziraToken');
     const headers = new HttpHeaders({
-      'Authorization': `Bearer ${token}`
+      'Authorization': `Bearer ${token}`,
+      
     });
 
     return this._HttpClient.get<User>(`${this.apiIdUrl}/${userId}`, { headers });
