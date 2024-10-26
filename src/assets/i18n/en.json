@@ -46,6 +46,9 @@
     {
       "header":"About Our Company"
     },
+    "slider":{
+      "title":"Slider Details"
+    },
     "product":
     {
       "add":"Add new product",
@@ -68,7 +71,9 @@
       "maxlength":"maxlength is ",
       "minlength":"minlength is ",
       "images":"atleast one image required ",
-      "discount":"the range between 0% to 100%"
+      "discount":"the range between 0% to 100%",
+      "number":"Accept Only Number"
+
    
 
 

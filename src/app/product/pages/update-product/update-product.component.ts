@@ -24,7 +24,7 @@ export class UpdateProductComponent implements OnInit{
   categories:Category[]=[]
   uploadedFiles:any[]=[];
   imageToDelete:any[]=[];
-  isValid:boolean=false;
+  isImageValidation:boolean=false;
   selectedCategory: any;
   discountsPattern:any="^(100|[0-9]{1,2})(\.[0-9]{1,2})?$";
 
@@ -157,6 +157,9 @@ export class UpdateProductComponent implements OnInit{
 
 
   onUpload(event:any) {
+    this.isImageValidation = false;
+    const btn_save = document.querySelector('.btn-save') as HTMLButtonElement;
+          btn_save.disabled = false;
     const NewImages = this.updateProduct.get('NewImages') as FormArray ;
    
     for(let file of event.files) {
@@ -187,25 +190,22 @@ export class UpdateProductComponent implements OnInit{
         console.log('imageToDelete',this.imageToDelete.length)
         console.log('product.images',this.product.images.length)
 
-        this.updateProduct.markAsDirty();  
-
+        this.checkImageValidation()
     }
 
 
     checkImageValidation()
     {
 
-      if(this.imageToDelete.length === this.product.images.length )
+      if( this.product.images.length === 0 )
         {
-          alert('atleast one image required')
+          this.isImageValidation =true ;
           // this.isValid = true;
-          this.updateProduct.invalid ;
-          this.updateProduct.markAsDirty();  
-
+         const btn_save = document.querySelector('.btn-save') as HTMLButtonElement;
+          btn_save.disabled = true;
         } 
         else
         {
-          this.isValid = true;
 
         this.updateProduct.markAsDirty()
         }

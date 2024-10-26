@@ -22,6 +22,8 @@ export class AddProductComponent implements OnInit{
   uploadedFiles:any[] =[];
   categories:Category[]=[]
   discountsPattern: any = "^(100|[0-9]{1,2})(\\.[0-9]{1,2})?$"
+  pricePattern: any = "^[0-9]*$"
+
 
   constructor(private productSerive:ProductService,
     private route:ActivatedRoute,
@@ -32,12 +34,12 @@ export class AddProductComponent implements OnInit{
     this.addForm = new FormGroup({
       ProductName: new FormControl('',Validators.required),
       Description: new FormControl('',[Validators.required,Validators.minLength(2),Validators.maxLength(2000)]),
-      customerPrice: new FormControl(0,Validators.required),
-      traderPrice: new FormControl(0,Validators.required),
+        customerPrice: new FormControl(null,[Validators.required,Validators.pattern(this.pricePattern)]),
+      traderPrice: new FormControl(null,[Validators.required,Validators.pattern(this.pricePattern)]),
       customerDiscount: new FormControl(null,Validators.pattern(this.discountsPattern)),
       traderDiscount: new FormControl(null,Validators.pattern(this.discountsPattern)),
       quantity: new FormControl(0,Validators.required),
-      images: new FormArray([]),
+      images: new FormArray([],Validators.required),
       categoryId: new FormControl('',Validators.required)
     })
   }
@@ -64,8 +66,8 @@ export class AddProductComponent implements OnInit{
    {
     for(let i =0 ; i<this.uploadedFiles.length ; i ++){
       formData.append('images',this.uploadedFiles[i])
+      this.addForm.markAsDirty();
     }
-    addForm.value.images.push(this.uploadedFiles)
    }
      
       this.productSerive.add(formData).subscribe({
