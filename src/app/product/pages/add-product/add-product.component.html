@@ -7,6 +7,7 @@
  
     <div class="container ">
         <form  [formGroup]="addForm" (ngSubmit)="saveItem(addForm)">
+        
         <div class="row my-3 ">
             <div class="col-md-6">
                 <div class="form-group">
@@ -50,6 +51,7 @@
                    />
                    <div *ngIf="addForm.get('traderPrice')?.errors && addForm.get('traderPrice')?.touched" class="text-danger">
                     <p *ngIf="addForm.get('traderPrice')?.getError('required')" class="alert alert-danger">{{'errors.required'|translate}}</p>
+                   <p *ngIf="addForm.get('traderPrice')?.getError('pattern')" class="alert alert-danger">{{'errors.number'|translate}}</p>
                   
                   
                   </div>
@@ -58,7 +60,7 @@
           </div>
           <div class="col-lg-4">
               <div class="form-group">
-                  <label for="txttraderDiscount">{{ 'product.labels.traderDiscount' | translate }}</label><span class="red-color">*</span>
+                  <label for="txttraderDiscount">{{ 'product.labels.traderDiscount' | translate }}</label>
                   <input type="text" id="txttraderDiscount" class="form-control"
                     placeholder="{{ 'product.labels.traderDiscount' | translate }}" formControlName="traderDiscount" 
                      />
@@ -89,11 +91,12 @@
         <div class="col-md-6">
             <div class="form-group">
                 <label for="txtcustomerPrice">{{ 'product.labels.customerPrice' | translate }}</label><span class="red-color">*</span>
-                <input type="text" id="txtcustomerPrice"  class="form-control"
+                <input type="text" accept="number" id="txtcustomerPrice"  class="form-control"
                   placeholder="{{ 'product.labels.customerPrice' | translate }}" formControlName="customerPrice" 
                />
                <div *ngIf="addForm.get('customerPrice')?.errors && addForm.get('customerPrice')?.touched" class="text-danger">
                 <p *ngIf="addForm.get('customerPrice')?.getError('required')" class="alert alert-danger">{{'errors.required'|translate}}</p>
+                <p *ngIf="addForm.get('customerPrice')?.getError('pattern')" class="alert alert-danger">{{'errors.number'|translate}}</p>
               
               
               </div>
@@ -105,12 +108,12 @@
 
         <div class="col-md-6">
           <div class="form-group">
-              <label for="txtcustomerDiscount">{{ 'product.labels.customerDiscount' | translate }}</label><span class="red-color">*</span>
+              <label for="txtcustomerDiscount">{{ 'product.labels.customerDiscount' | translate }}</label>
               <input type="text" id="txtcustomerDiscount"class="form-control"
                 placeholder="{{ 'product.labels.customerDiscount' | translate }}" formControlName="customerDiscount" 
                 />
                 <div *ngIf="addForm.get('customerDiscount')?.errors && addForm.get('customerDiscount')?.touched" class="text-danger">
-                  <p class="alert alert-danger">{{'errors.discount'}}</p>
+                  <p *ngIf="addForm.get('customerDiscount')?.getError('pattern')" class="alert alert-danger">{{'errors.discount' | translate}}</p>
                 </div>
             </div>
       </div>

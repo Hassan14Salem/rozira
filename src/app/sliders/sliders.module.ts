@@ -10,6 +10,8 @@ import { TranslateModule } from '@ngx-translate/core';
 import { FileUploadModule } from 'primeng/fileupload';
 import { DialogModule } from 'primeng/dialog';
 import { SharedModule } from '../shared/shared.module';
+import { TableModule } from 'primeng/table';
+import { TooltipModule } from 'primeng/tooltip';
 
 
 @NgModule({
@@ -27,7 +29,10 @@ import { SharedModule } from '../shared/shared.module';
     ReactiveFormsModule,
     FormsModule,
     FileUploadModule,
-    DialogModule
+    DialogModule,
+    TableModule,
+    TranslateModule,
+    TooltipModule
   ]
 })
 export class SlidersModule { }

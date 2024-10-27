@@ -16,13 +16,15 @@ export class UpdateProductComponent implements OnInit{
   
   // @ViewChild('updateProduct') updateForm!:NgForm
   updateProduct!:FormGroup
+   formData = new FormData();
+
   product = {} as Product
   ProductId !:string
   selectedFile: any;
   categories:Category[]=[]
   uploadedFiles:any[]=[];
   imageToDelete:any[]=[];
-
+  isImageValidation:boolean=false;
   selectedCategory: any;
   discountsPattern:any="^(100|[0-9]{1,2})(\.[0-9]{1,2})?$";
 
@@ -30,7 +32,7 @@ export class UpdateProductComponent implements OnInit{
     private route:ActivatedRoute,
     private alertService:ToastrService,
     private navigateRoute : Router,
-    private category:CategoryService
+    private category:CategoryService,
 
   ){
     this.updateProduct = new FormGroup({
@@ -42,6 +44,7 @@ export class UpdateProductComponent implements OnInit{
       traderDiscount: new FormControl(0,Validators.pattern(this.discountsPattern)),
       quantity: new FormControl(0,Validators.required),
       NewImages: new FormArray([]),
+
       categoryId: new FormControl('',Validators.required),
 
     })
@@ -62,22 +65,11 @@ export class UpdateProductComponent implements OnInit{
           traderDiscount: this.product.traderDiscount,
           quantity: this.product.quantity,
           images: this.product.images,
-          categoryId: this.product.categoryId
+          categoryId: this.product.category.id
         })
 
-        const existingImages = this.product.images;
-  
-    if (existingImages.length > 0) {
-      for(let i=0;i<existingImages.length;i++){
-        this.imageToDelete.push(existingImages[i])
-        console.log('delete image',this.imageToDelete)
-      }
-    }
-
-        console.log('product',this.product)
-        console.log('images: ',this.product.images)
+        console.log('this.product',this.product)
        this. getCateories()
-
       }
     })
   }
@@ -93,7 +85,6 @@ export class UpdateProductComponent implements OnInit{
 
   getCategoryValue(ev:any){
     this.selectedCategory = ev.target.value;
-    console.log('category value',ev.target.value)
   }
 
   saveItem(editForm:FormGroup)
@@ -101,39 +92,38 @@ export class UpdateProductComponent implements OnInit{
 
     if(editForm.valid)
     {
-      const formData = new FormData();
       // Append coach ID to FormData
-      formData.append('id', this.ProductId.toString());
+      this.formData.append('id', this.ProductId.toString());
       // Iterate over form controls and append them to FormData
       Object.keys(editForm.controls).forEach(key => {
         const value = editForm.controls[key].value;
         if (value !== null && value !== undefined) {
-          formData.append(key, value);
+          this.formData.append(key, value);
         }
       });
 
 
 
-   if(this.uploadedFiles)
-   {
-    for(let i =0 ; i<this.uploadedFiles.length ; i++){
-      formData.append('NewImages',this.uploadedFiles[i])
+  //  if(this.uploadedFiles)
+  //  {
+  //   for(let i =0 ; i<this.uploadedFiles.length ; i++){
+  //     formData.append('NewImages',this.uploadedFiles[i])
 
-    }
-   }
+  //   }
+
+  //  }
 
   
 
 
    
-   formData.forEach((key,value)=>{
+  this.formData.forEach((key,value)=>{
     console.log(`value:${value} =>  key:${key}`)
   })
       
    
 
-
-      this.productSerive.update(formData).subscribe({
+      this.productSerive.update(this.formData).subscribe({
         next : (Response) => 
         {
           if(Response === 'Product updated successfully')
@@ -167,12 +157,59 @@ export class UpdateProductComponent implements OnInit{
 
 
   onUpload(event:any) {
+    this.isImageValidation = false;
+    const btn_save = document.querySelector('.btn-save') as HTMLButtonElement;
+          btn_save.disabled = false;
+    const NewImages = this.updateProduct.get('NewImages') as FormArray ;
    
     for(let file of event.files) {
-        this.uploadedFiles.push(file);
+      // NewImages.push(new FormControl(file));
+        // this.uploadedFiles.push(file);
+        this.formData.append('NewImages',file)
     }
-    console.log(this.uploadedFiles)
+    console.log('NewImages', NewImages.value)
     this.updateProduct.markAsDirty();  
+
+    }
+
+
+    DeleteImages(image:any){
+      const index = this.product.images.indexOf(image);
+  
+      // If the image exists in the array, remove it
+      if (index > -1) {
+        this.product.images.splice(index, 1);
+      }
+      // if (!imagesToDelete.controls.some(ctrl => ctrl.value === image)) {
+      //   imagesToDelete.push(new FormControl(image));
+      //   // this.formData.append('ImagesToDelete',image)
+      // }
+      
+        this.formData.append('ImagesToDelete',image)
+        this.imageToDelete.push(image)
+        console.log('imageToDelete',this.imageToDelete.length)
+        console.log('product.images',this.product.images.length)
+
+        this.checkImageValidation()
+    }
+
+
+    checkImageValidation()
+    {
+
+      if( this.product.images.length === 0 )
+        {
+          this.isImageValidation =true ;
+          // this.isValid = true;
+         const btn_save = document.querySelector('.btn-save') as HTMLButtonElement;
+          btn_save.disabled = true;
+        } 
+        else
+        {
+
+        this.updateProduct.markAsDirty()
+        }
+   
 
     }
 }

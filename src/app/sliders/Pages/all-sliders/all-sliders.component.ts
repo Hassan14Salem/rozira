@@ -19,7 +19,7 @@ export class AllSlidersComponent implements OnInit , AfterViewInit{
   submitted!:boolean
   selectedFile:any;
   addSlider!:FormGroup
-
+  title:string ='slider.title'
   pageNumber:number = 1;
   pageSize:number   =  10;
   totalRecords: number = 0;
@@ -30,7 +30,7 @@ constructor(private sliderService:SliderService,private alertService:ToastrServi
 ){
   this.addSlider = new FormGroup({
     Image: new FormControl(null,Validators.required),
-    DisplayOrder: new FormControl(null,Validators.required)
+    DisplayOrder: new FormControl(null)
 
   })
 }

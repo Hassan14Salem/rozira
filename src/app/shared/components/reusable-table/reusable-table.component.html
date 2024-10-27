@@ -83,14 +83,14 @@
 
                             <!-- Default content for other fields -->
                             <ng-template #defaultColumn>
-                                {{ item[col.field] }}
+                                {{ item[col.field] === -1 ? 'No order' : item[col.field]  }}
                             </ng-template>
                         </ng-template>
                     </ng-template>
                 </td>
                 
                 
-                <td style="text-align: center;">
+                <td style="text-align: end !important;">
                     
                     <button pButton pRipple icon="pi pi-pencil"
                      class="p-button-rounded p-button-success mr-2" 
