@@ -40,6 +40,8 @@ export class PermissionComponent implements OnInit{
 
     this.loadRoles();
     this.loadPermissionss();
+    this.loadPermissions();
+
 
   }
 
