@@ -1,7 +1,11 @@
 <div class="card p-3 container">
-    <p-toolbar styleClass="mb-4 gap-2">
+    <p-toolbar styleClass="mb-4 gap-2" 
+    *ngIf="canAdd"
+    
+    >
         <ng-template pTemplate="left">
-            <button pButton pRipple label="{{'add'|translate}}" icon="pi pi-plus" class="p-button-success mr-2 addBtn"
+            <button pButton pRipple label="{{'add'|translate}}"
+            icon="pi pi-plus" class="p-button-success mr-2 addBtn"
              (click)="openNew.emit()">
             </button>
         </ng-template>
@@ -71,10 +75,18 @@
                     <!-- Logic for other columns -->
                     <ng-template #otherColumns>
                         <!-- Check if column is 'imagePath' -->
-                        <ng-container *ngIf="col.field === 'imageUrl'; else dateOrDefault">
+                        <ng-container *ngIf="col.field === 'imageUrl'; else images">
                             <img [src]="'https://roseirae.runasp.net'+item[col.field]" alt="{{item.name}}" style="max-width: 100px; max-height: 100px;" />
                         </ng-container>
-                
+                    <ng-template #images>
+                        <ng-container *ngIf="col.field === 'images'; else dateOrDefault">
+                            <a  (click)="viewImage(item)">
+
+                                <img [src]="'https://roseirae.runasp.net'+item[col.field]" alt="{{item.name}}" style="max-width: 100px; max-height: 100px;" />
+                            </a>
+                        </ng-container>
+                    </ng-template>
+                    
                         <!-- Check if column is 'birthDate' and apply 'date' pipe -->
                         <ng-template #dateOrDefault>
                             <ng-container *ngIf="col.field === 'categoryId'; else defaultColumn">
@@ -92,12 +104,15 @@
                 
                 <td style="text-align: end !important;">
                     
-                    <button pButton pRipple icon="pi pi-pencil"
-                     class="p-button-rounded p-button-success mr-2" 
+                    <button
+                    *ngIf="canEdit"
+                    pButton pRipple icon="pi pi-pencil"
+                     class="p-button-rounded p-button-success me-3" 
                      pTooltip="{{'edit' | translate}}" tooltipPosition="top"
                      (click)="editItem.emit(item)"></button>
 
                     <button pButton pRipple icon="pi pi-trash"
+                    *ngIf="canDelete"
                      class="p-button-rounded p-button-warning mr-2"
                      pTooltip="{{'delete' | translate}}" tooltipPosition="top"
                      (click)="openDeleteDialog.emit(item)"></button>
@@ -150,6 +165,32 @@
             class="p-button-text" 
             (click)="deleteItem.emit(Item)">
         </button>
+    </ng-template>
+</p-dialog>
+
+
+<!--viewimage Dialog-->
+<p-dialog 
+    [(visible)]="viewImageDialog" 
+    [style]="{width: '450px'}"  
+    header="{{'product-Image' | translate}}" 
+    [modal]="true" 
+    styleClass="p-fluid">
+    
+    <ng-template pTemplate="content">
+        <img [src]="'https://roseirae.runasp.net/'+imageUrl" class="w-100"  alt="image of product"/>
+    </ng-template>
+
+    <ng-template pTemplate="footer">
+        <button 
+            pButton 
+            pRipple 
+            label="{{'close' | translate}}" 
+            icon="pi pi-times" 
+            class="p-button-text" 
+            >
+        </button>
+  
     </ng-template>
 </p-dialog>
 

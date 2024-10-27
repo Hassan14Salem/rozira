@@ -60,13 +60,19 @@ export class PermissionComponent implements OnInit{
 
   permissionsLoaded = false;
   permissionss: string[] = [];
-  
+
+
+
+
+  // check permission if found with user
   hasPermission(permission: any): boolean {
     return this.permissions.includes(permission);
-
   }
+
+  // get all permissions by user
   loadPermissionss() {
     const storedPermissions = localStorage.getItem('userPermissions');
+
     if (storedPermissions) {
       this.permissions = JSON.parse(storedPermissions);
       this.permissionsLoaded = true;
@@ -99,7 +105,6 @@ export class PermissionComponent implements OnInit{
     this._Role.getPermissionsByRole(role.id).subscribe({
       next: (Response: { [category: string]: string[] }) => {
         console.log('The response of on select the role', Response);
-
         this.setPermissionsForSelectedRole(Response);
       },
       error: (myError) => {

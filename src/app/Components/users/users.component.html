@@ -4,10 +4,21 @@
 <section class="w-100" >
     <div class="container ">
         <div class="row">
-            <app-reusable-table [Items]="Items" [Item]="Item" [columns]="pageColumns"
-                [confirmDeleteDialog]="confirmDeleteDialog" responsive="true" [lazy]="true"
-                [totalRecords]="Items.length" (editItem)="editItem($event)"
-                (openDeleteDialog)="deleteDialogMessage($event)" (deleteItem)="deleteItem($event)" (openNew)="openNew()"
+            <app-reusable-table 
+                [Items]="Items"
+                [Item]="Item"
+                [canAdd]="hasPermission('CreateUser')"
+                [canEdit]="hasPermission('EditUser')"
+                [canDelete]="hasPermission('DeleteUser')"
+                [columns]="pageColumns"
+                [confirmDeleteDialog]="confirmDeleteDialog" 
+                responsive="true"
+                [lazy]="true"
+                [totalRecords]="Items.length" 
+                (editItem)="editItem($event)"
+                (openDeleteDialog)="deleteDialogMessage($event)" 
+                (deleteItem)="deleteItem($event)" 
+                (openNew)="openNew()"
                 (hideDialog)="hideDialog()">
 
             </app-reusable-table>
@@ -19,7 +30,7 @@
 
 <!--Create New -->
 
-<p-dialog *ngIf="hasPermission('CreateUser')" [(visible)]="AddDialog"  [style]="{width: '60vw'}" header="{{'Users.CreateModal'|translate}}" [modal]="true"
+<p-dialog  [(visible)]="AddDialog"  [style]="{width: '60vw'}" header="{{'Users.CreateModal'|translate}}" [modal]="true"
     styleClass="p-fluid">
 
     <ng-template pTemplate="content">
@@ -138,7 +149,6 @@
                             </div>
                             <!-- Submit Button -->
                             <div class="text-end p-2">
-
                                 <button type="submit" class="btn btn-primary text-white"
                                     [disabled]="regeisterNewUser.invalid">
                                     <span>Create</span>
@@ -157,7 +167,7 @@
 
 </p-dialog>
 <!--Update || Add Dialog-->
-<p-dialog *ngIf="hasPermission('EditUser')" [(visible)]="itemDialog" [style]="{width: '60vw'}" header="{{'Users.UpdateModal'|translate}}" [modal]="true"
+<p-dialog  [(visible)]="itemDialog" [style]="{width: '60vw'}" header="{{'Users.UpdateModal'|translate}}" [modal]="true"
     styleClass="p-fluid">
 
     <ng-template pTemplate="content">
@@ -229,7 +239,7 @@
 
 
 <!--Delete Dialog-->
-<p-dialog *ngIf="hasPermission('DeleteUser')"  [(visible)]="confirmDeleteDialog" [style]="{width: '450px'}" header="{{'confirmDeleteTitle' | translate}}"
+<p-dialog  [(visible)]="confirmDeleteDialog" [style]="{width: '450px'}" header="{{'confirmDeleteTitle' | translate}}"
     [modal]="true" styleClass="p-fluid">
 
     <ng-template pTemplate="content">

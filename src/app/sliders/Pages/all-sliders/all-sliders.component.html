@@ -4,6 +4,9 @@
             <app-reusable-table
             [Items]="Items"
             [Item]="Item"
+            [canAdd]="hasPermission('CreateSlider')"
+            [canEdit]="hasPermission('EditSlider')"
+            [canDelete]="hasPermission('DeleteSlider')"
             [columns]="pageColumns"
             [lazy]="true"
             [totalRecords]="totalRecords"

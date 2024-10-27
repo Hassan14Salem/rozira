@@ -47,11 +47,11 @@ export function matchPasswords(passwordControlName: string, rePasswordControlNam
 
 export class UsersComponent implements OnInit {
   @ViewChild('dt') dataTable!: Table; // Reference to the DataTable
-
+  permissionsLoaded = false;
+  permissions: string[] = [];
   users: User[] = [];
   Items: User[] = [];
   Item = {} as User;
-
 
   user = {} as User;
   roles: any[] = [];
@@ -112,43 +112,28 @@ export class UsersComponent implements OnInit {
   
 
 
-  permissionsLoaded = false;
-  permissions: string[] = [];
   
-  hasPermission(permission: any): boolean {
-    return this.permissions.includes(permission);
 
-  }
-  loadPermissions() {
-    const storedPermissions = localStorage.getItem('userPermissions');
-    if (storedPermissions) {
-      this.permissions = JSON.parse(storedPermissions);
-      this.permissionsLoaded = true;
-    } else {
-      this._AuthService.permissions$.subscribe((permissions) => {
-        this.permissions = permissions;
-        this.permissionsLoaded = true;
-        localStorage.setItem('userPermissions', JSON.stringify(permissions));
-      });
-    }
-  }
+  
+  // get all permissions by user
+
 
 
   ngOnInit(): void {
     this.loadPermissions();
     this.fetchUsers();
     this.getAllRoles();
-    this._AuthService.permissions$.subscribe((permissions) => {
-      this.permissions = permissions;
-    });
-    this.regeisterNewUser = this._FormBuilder.group({
-      name: [null, Validators.required],
-      email: [null, [Validators.required, Validators.email]],
-      password: [null, [Validators.required]],
-      rePassword: [null, [Validators.required]],
-      phone: [null, [Validators.required]]
-    }, { validator: this.passwordMatchValidator });
+ 
+   
 
+
+
+
+
+
+
+
+    
   }
   getAllRoles() {
     this._roles.getRoles().subscribe({
@@ -341,20 +326,7 @@ export class UsersComponent implements OnInit {
     this.hideDialog();
   }
 
-  hasError(): boolean {
-    const userNameErrors = this.regeisterNewUser.get('userName')?.errors;
-    const emailErrors = this.regeisterNewUser.get('email')?.errors;
-    const passwordErrors = this.regeisterNewUser.get('password')?.errors;
-    const phoneNumberErrors = this.regeisterNewUser.get('phoneNumber')?.errors;
-    const roleErrors = this.regeisterNewUser.get('role')?.errors;
 
-    return (userNameErrors && this.regeisterNewUser.get('userName')?.touched) ||
-      (emailErrors && this.regeisterNewUser.get('email')?.touched) ||
-      (passwordErrors && this.regeisterNewUser.get('password')?.touched) ||
-      (phoneNumberErrors && this.regeisterNewUser.get('phoneNumber')?.touched) ||
-      (roleErrors && this.regeisterNewUser.get('role')?.touched) ||
-      !!this.errormessage; // Include server-side errors
-  }
 
 
   loadItems(event: any) {
@@ -366,5 +338,28 @@ export class UsersComponent implements OnInit {
     this.user = { ...ev }
     this.itemDialog = true
   }
+
+
+  hasPermission(permission: string): boolean {
+    return this.permissions.includes(permission);
+  }
+
+  
+  // get all permissions by user
+  loadPermissions() {
+    const storedPermissions = localStorage.getItem('userPermissions');
+
+    if (storedPermissions) {
+      this.permissions = JSON.parse(storedPermissions);
+      this.permissionsLoaded = true;
+    } else {
+      this._AuthService.permissions$.subscribe((permissions) => {
+        this.permissions = permissions;
+        this.permissionsLoaded = true;
+        localStorage.setItem('userPermissions', JSON.stringify(permissions));
+      });
+    }
+  }
+
 
 }

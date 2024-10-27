@@ -11,6 +11,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FileUploadModule } from 'primeng/fileupload';
 import { TooltipModule } from 'primeng/tooltip';
 import { TableModule } from 'primeng/table';
+import { DialogModule } from 'primeng/dialog';
 
 
 @NgModule({
@@ -28,7 +29,10 @@ import { TableModule } from 'primeng/table';
     FormsModule,
     FileUploadModule,
     TooltipModule,
-    TableModule
+    TableModule,
+    DialogModule,
+
+    
   ]
 })
 export class ProductModule { }

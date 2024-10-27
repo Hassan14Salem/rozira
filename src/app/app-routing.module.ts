@@ -30,7 +30,6 @@ const routes: Routes = [
   {path:'about',loadChildren:() => import('./about/about.module').then(a => a.AboutModule)},
   {path:'sliders',loadChildren:() => import('./sliders/sliders.module').then(s => s.SlidersModule)},
   // {path:'permissions',loadChildren:() => import('./permissions/permissions.module').then(s => s.PermissionsModule)},
-
   {path:'permissions/all',component:PermissionComponent},
   {path:'**',component:NotfoundComponent},
 ];

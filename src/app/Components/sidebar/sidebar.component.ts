@@ -2,6 +2,8 @@ import { AfterContentInit, AfterViewInit, Component, ElementRef, OnInit, Rendere
 import { AuthService } from '../../Services/auth.service';
 import { PermissionService } from 'src/app/Services/permission.service';
 import { LanguageService } from 'src/app/Services/language.service';
+import { NavigationEnd, Router } from '@angular/router';
+import { filter } from 'rxjs';
 
 @Component({
   selector: 'app-sidebar',
@@ -9,6 +11,8 @@ import { LanguageService } from 'src/app/Services/language.service';
   styleUrls: ['./sidebar.component.css']
 })
 export class SidebarComponent implements AfterViewInit, OnInit {
+  isNotFound = false;
+
   navItems = [
     { label: 'sideMenu.dashboard', icon: 'fa-solid fa-chart-line', route: '/dashboard', permission: 'SendOtp' },
     { label: 'sideMenu.users', icon: 'fa-solid fa-users', route: '/users', permission: 'ViewUsers' },
@@ -42,10 +46,10 @@ export class SidebarComponent implements AfterViewInit, OnInit {
   constructor(private _AuthService: AuthService, private permissionService: PermissionService,
     private _directionLanguageService: LanguageService,
     private renderer: Renderer2,
-    private elRef: ElementRef
+    private elRef: ElementRef,
+    private router: Router
 
   ) {
-    this.loadPermissions();
     _AuthService.userProfile.subscribe({
       next: () => {
         if (_AuthService.userProfile.getValue() !== null) {
@@ -56,6 +60,9 @@ export class SidebarComponent implements AfterViewInit, OnInit {
         }
       }
     });
+
+
+   
   }
   logout() {
     this._AuthService.logout();
@@ -73,10 +80,11 @@ export class SidebarComponent implements AfterViewInit, OnInit {
 
   permissionsLoaded = false;
   permissions: string[] = [];
+
   hasPermission(permission: any): boolean {
     return this.permissions.includes(permission);
-
   }
+  
   loadPermissions() {
     const storedPermissions = localStorage.getItem('userPermissions');
     if (storedPermissions) {

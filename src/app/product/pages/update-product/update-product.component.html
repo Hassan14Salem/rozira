@@ -204,12 +204,18 @@
                                           
                                           
                                           <td style="text-align: end !important; padding-inline-end: 30px; overflow-x: hidden !important;">
-                          
+                                            <button pButton pRipple icon="pi pi-eye"
+                                            type="button"
+                                             class="p-button-rounded p-button-primary mr-2"
+                                             pTooltip="{{'product.view' | translate}}" tooltipPosition="top"
+                                             (click)="viewImage(item)">
+                                            </button>
                                               <button pButton pRipple icon="pi pi-trash"
                                               type="button"
                                                class="p-button-rounded p-button-danger mr-2"
                                                pTooltip="{{'delete' | translate}}" tooltipPosition="top"
-                                               (click)="DeleteImages(item)"></button>
+                                               (click)="DeleteImages(item)">
+                                              </button>
                           
                                     
                                           </td>
@@ -264,3 +270,30 @@
       </form>
     </div>
 </section>
+
+
+
+<!--viewimage Dialog-->
+<p-dialog 
+    [(visible)]="viewImageDialog" 
+    [style]="{width: '450px'}"  
+    header="{{'product-Image' | translate}}" 
+    [modal]="true" 
+    styleClass="p-fluid">
+    
+    <ng-template pTemplate="content">
+        <img [src]="'https://roseirae.runasp.net/'+imageUrl" class="w-100"  alt="image of product"/>
+    </ng-template>
+
+    <ng-template pTemplate="footer">
+        <button 
+            pButton 
+            pRipple 
+            label="{{'close' | translate}}" 
+            icon="pi pi-times" 
+            class="p-button-text" 
+            (click)="hideDialog()">
+        </button>
+  
+    </ng-template>
+</p-dialog>

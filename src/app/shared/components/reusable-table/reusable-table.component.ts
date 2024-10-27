@@ -11,11 +11,14 @@ export class ReusableTableComponent {
   @ViewChild('dt') dt!: Table; // Use ! to indicate it's definitely assigned
 
   //Input
-
   @Input() Items: any[] = []; // All Items In Table
   @Input() Item: any; // Item In table BY ID
   @Input() columns: any[] = []; // table columns NAMES
   @Input() filters: any[] = []; // table columns NAMES
+  @Input() canAdd: boolean = false; // permisions
+  @Input() canEdit: boolean = false; // permisions
+  @Input() canDelete: boolean = false; // permisions
+  @Input() view: any // table columns NAMES
   @Input() title: string = ''; //table title
   @Input() statuses: any[] = []; // isActive 
   @Input() globalFilterFields: string[] = []; // Filters
@@ -27,7 +30,6 @@ export class ReusableTableComponent {
 
 
   // Output
-
   @Output() openNew = new EventEmitter<void>(); // handle Api for add New item Dialog || go to the new page for add
   @Output() editItem = new EventEmitter<any>(); // handle Api for Edit item Dialog || go to the new page for update
   @Output() deleteItem = new EventEmitter<any>(); // handle Api for delete item
@@ -41,11 +43,10 @@ export class ReusableTableComponent {
 
 
 
+
   
 
-  constructor(
-    
-  ) { }
+  constructor() { }
 
   getSearchVal(ev:any)
   {
@@ -64,6 +65,21 @@ console.log(ev.target.value)
   {
     this.onlazyload.emit(event)
   }
-  
+
+
+  imageUrl:string=''
+  viewImageDialog:boolean=false;
+
+  // getImage(event:any){
+  //   this.viewImageDialog=true;
+  //   console.log(event.images[0])
+  // }
+  viewImage(item:any)
+    {
+      this.viewImageDialog = true
+      this.imageUrl = item.images[0];
+    }
+
+    
   
 }
