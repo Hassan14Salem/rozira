@@ -58,7 +58,7 @@
       "add":"إضافة منتج جديد",
       "update":"تعديل المنتج",
       "all":"جميع المنتجات",
-
+      "view" :"رؤية الصورة",
       "labels":{
         "name":"اسم المنتج",
         "category":"الفئة",
@@ -67,7 +67,9 @@
         "quantity":"الكمية",
         "customerPrice":"سعر العميل",
         "customerDiscount":"خصم العميل",
-        "description":"الوصف"
+        "description":"الوصف",
+        "product-Image":"صورة المنتج"
+
       }
     },
     "errors":{

@@ -42,6 +42,9 @@ export class ContactUsDetailsComponent {
   contactList: any[] = ['facebook', 'whatsapp', 'instagram', 'phone', 'email', 'snapchat', 'location'];
   CreateNew: boolean = false;
   editExist: boolean = false;
+  permissionsLoaded = false;
+  permissionss: string[] = [];
+
   constructor(private messageService: MessageService,
     private confirmationService: ConfirmationService,
     private _contactService: ContatusServiceService,
@@ -62,12 +65,27 @@ export class ContactUsDetailsComponent {
     return this.permissions.includes(permission);
   }
 
+  
+  // get all permissions by user
+  loadPermissions() {
+    const storedPermissions = localStorage.getItem('userPermissions');
+
+    if (storedPermissions) {
+      this.permissions = JSON.parse(storedPermissions);
+      this.permissionsLoaded = true;
+    } else {
+      this._AuthService.permissions$.subscribe((permissions) => {
+        this.permissionss = permissions;
+        this.permissionsLoaded = true;
+        localStorage.setItem('userPermissions', JSON.stringify(permissions));
+      });
+    }
+  }
+
 
   ngOnInit(): void {
     this.loadContactUs();
-    this._AuthService.permissions$.subscribe((permissions) => {
-      this.permissions = permissions;
-    });
+    this.loadPermissions();
   }
   onSubmit(): void {
     const formData = this.contactForm.value;

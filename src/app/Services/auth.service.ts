@@ -10,6 +10,7 @@ import { tap } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class AuthService {
+  ///auth servies
   userProfile = new BehaviorSubject<any>(null);
   private permissionsSubject = new BehaviorSubject<string[]>([]);
   permissions$ = this.permissionsSubject.asObservable();

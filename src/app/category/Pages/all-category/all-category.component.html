@@ -4,6 +4,9 @@
             <app-reusable-table
             [Items]="Items"
             [Item]="Item"
+            [canAdd]="hasPermission('AddCategory')"
+            [canEdit]="hasPermission('UpdateCategory')"
+            [canDelete]="hasPermission('DeleteCategory')"
             [columns]="pageColumns"
             [lazy]="true"
             [totalRecords]="totalRecords"

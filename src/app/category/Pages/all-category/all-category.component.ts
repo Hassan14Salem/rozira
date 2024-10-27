@@ -6,6 +6,7 @@ import { ProductService } from 'src/app/product/Services/product.service';
 import { CategoryService } from '../../Services/category.service';
 import { Category } from '../../Models/category';
 import { BaseService } from 'src/app/shared/services/base.service';
+import { AuthService } from 'src/app/Services/auth.service';
 
 @Component({
   selector: 'app-all-category',
@@ -14,7 +15,8 @@ import { BaseService } from 'src/app/shared/services/base.service';
   encapsulation : ViewEncapsulation.None
 })
 export class AllCategoryComponent implements OnInit{
-  
+  permissionsLoaded = false;
+  permissions: string[] = [];
   itemDialog:boolean = false;
   submitted:boolean = false;
   Items:Category[]=[]
@@ -37,6 +39,8 @@ export class AllCategoryComponent implements OnInit{
     private base:BaseService,
     private alertService:ToastrService,
     private categorySerive:CategoryService,
+    private _AuthService:AuthService,
+
   private NavigateRoute:Router){}
 
 
@@ -73,6 +77,7 @@ export class AllCategoryComponent implements OnInit{
 
 ngOnInit(): void {
   this.getItems()
+  this.loadPermissions();
 }
 
 
@@ -179,4 +184,29 @@ loadItems(event:any)
     
     this.getItems()
   }
+
+
+
+  
+  hasPermission(permission: string): boolean {
+    return this.permissions.includes(permission);
+  }
+
+  
+  // get all permissions by user
+  loadPermissions() {
+    const storedPermissions = localStorage.getItem('userPermissions');
+
+    if (storedPermissions) {
+      this.permissions = JSON.parse(storedPermissions);
+      this.permissionsLoaded = true;
+    } else {
+      this._AuthService.permissions$.subscribe((permissions) => {
+        this.permissions = permissions;
+        this.permissionsLoaded = true;
+        localStorage.setItem('userPermissions', JSON.stringify(permissions));
+      });
+    }
+  }
+
 }

@@ -17,7 +17,8 @@ export class UpdateProductComponent implements OnInit{
   // @ViewChild('updateProduct') updateForm!:NgForm
   updateProduct!:FormGroup
    formData = new FormData();
-
+   imageUrl:string=''
+   viewImageDialog:boolean=false;
   product = {} as Product
   ProductId !:string
   selectedFile: any;
@@ -211,5 +212,17 @@ export class UpdateProductComponent implements OnInit{
         }
    
 
+    }
+
+
+    viewImage(item:string)
+    {
+      this.viewImageDialog = true
+      this.imageUrl = item;
+    }
+
+    hideDialog()
+    {
+      this.viewImageDialog = false
     }
 }

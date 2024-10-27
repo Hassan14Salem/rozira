@@ -11,9 +11,11 @@ import { AuthService } from 'src/app/Services/auth.service';
   templateUrl: './all-sliders.component.html',
   styleUrls: ['./all-sliders.component.css']
 })
-export class AllSlidersComponent implements OnInit , AfterViewInit{
+export class AllSlidersComponent implements OnInit {
   Items:any[]=[];
   Item = {} as Slider;
+  permissionsLoaded = false;
+  permissions: string[] = [];
   itemDialog!:boolean;
   confirmDeleteDialog!:boolean
   submitted!:boolean
@@ -34,9 +36,7 @@ constructor(private sliderService:SliderService,private alertService:ToastrServi
 
   })
 }
-  ngAfterViewInit(): void {
-    this.loadPermissions();
-  }
+
 pageColumns = [
   { field: 'imageUrl', header: 'tableHeader.image',filterable: true  },
   { field: 'displayOrder', header: 'tableHeader.displayOrder' ,filterable: true },
@@ -70,26 +70,8 @@ loadItems(event:any)
 
 
 
-  permissionsLoaded = false;
-  permissions: string[] = [];
   
-  hasPermission(permission: any): boolean {
-    return this.permissions.includes(permission);
-
-  }
-  loadPermissions() {
-    const storedPermissions = localStorage.getItem('userPermissions');
-    if (storedPermissions) {
-      this.permissions = JSON.parse(storedPermissions);
-      this.permissionsLoaded = true;
-    } else {
-      this._AuthService.permissions$.subscribe((permissions) => {
-        this.permissions = permissions;
-        this.permissionsLoaded = true;
-        localStorage.setItem('userPermissions', JSON.stringify(permissions));
-      });
-    }
-  }
+ 
 
 
 
@@ -218,5 +200,29 @@ loadItems(event:any)
 
     this.hideDialog();
   }
+
+
+  
+  hasPermission(permission: string): boolean {
+    return this.permissions.includes(permission);
+  }
+
+  
+  // get all permissions by user
+  loadPermissions() {
+    const storedPermissions = localStorage.getItem('userPermissions');
+
+    if (storedPermissions) {
+      this.permissions = JSON.parse(storedPermissions);
+      this.permissionsLoaded = true;
+    } else {
+      this._AuthService.permissions$.subscribe((permissions) => {
+        this.permissions = permissions;
+        this.permissionsLoaded = true;
+        localStorage.setItem('userPermissions', JSON.stringify(permissions));
+      });
+    }
+  }
+
   
 }

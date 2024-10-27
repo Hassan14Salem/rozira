@@ -4,6 +4,9 @@
                 <app-reusable-table
                 [Items]="products"
                 [Item]="product"
+                [canAdd]="hasPermission('CreateProduct')"
+                [canEdit]="hasPermission('UpdateProduct')"
+                [canDelete]="hasPermission('DeleteProduct')"
                 [columns]="pageColumns"
                 [totalRecords]="totalRecords"
                 [confirmDeleteDialog]="confirmDeleteDialog"

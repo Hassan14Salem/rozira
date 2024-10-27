@@ -6,6 +6,7 @@ import { Product } from '../../Models/product';
 import { ToastrService } from 'ngx-toastr';
 import { BaseService } from 'src/app/shared/services/base.service';
 import { TableLazyLoadEvent } from 'primeng/table';
+import { AuthService } from 'src/app/Services/auth.service';
 
 @Component({
   selector: 'app-all-product',
@@ -13,7 +14,8 @@ import { TableLazyLoadEvent } from 'primeng/table';
   styleUrls: ['./all-product.component.css']
 })
 export class AllProductComponent implements OnInit {
-  
+  permissionsLoaded = false;
+  permissions: string[] = [];
   //reusable
 
   pageColumns = [
@@ -27,6 +29,11 @@ export class AllProductComponent implements OnInit {
     { field: 'priceAfterTraderDiscount', header: 'After Discount',filterable: true  },
     { field: 'quantity', header: 'quantity',filterable: true  },
     { field: 'description', header: 'description',filterable: true  },
+    { field: 'images', header: 'images',filterable: true  },
+
+    
+
+    
 
   ];
   globalFilterFields:string[]= ['nameAr']
@@ -38,6 +45,7 @@ export class AllProductComponent implements OnInit {
     private alertService:ToastrService,
     private base:BaseService,
     private categorySerive:CategoryService,
+     private _AuthService:AuthService,
   private NavigateRoute:Router){}
   products:any[]=[]
   product ={} as Product 
@@ -81,7 +89,8 @@ export class AllProductComponent implements OnInit {
   })
  }
 ngOnInit(): void {
-  this.getProducts()
+  this.getProducts();
+  this.loadPermissions()
 }
 
 
@@ -144,7 +153,26 @@ loadItems(event:any)
   }
 
 
+  hasPermission(permission: string): boolean {
+    return this.permissions.includes(permission);
+  }
 
+  
+  // get all permissions by user
+  loadPermissions() {
+    const storedPermissions = localStorage.getItem('userPermissions');
+
+    if (storedPermissions) {
+      this.permissions = JSON.parse(storedPermissions);
+      this.permissionsLoaded = true;
+    } else {
+      this._AuthService.permissions$.subscribe((permissions) => {
+        this.permissions = permissions;
+        this.permissionsLoaded = true;
+        localStorage.setItem('userPermissions', JSON.stringify(permissions));
+      });
+    }
+  }
 
 
 

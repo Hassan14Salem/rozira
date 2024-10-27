@@ -54,7 +54,7 @@
       "add":"Add new product",
       "update":"Update Product",
       "all":"All Products",
-
+      "view":"View Image",
       "labels":{
         "name":"Product Name",
         "category":"Category",
@@ -63,7 +63,8 @@
         "quantity":"quantity",
         "customerPrice":"customer price",
         "customerDiscount":"customer discount",
-        "description":"description"
+        "description":"description",
+        "product-Image":"Product Image"
       }
     },
     "errors":{
