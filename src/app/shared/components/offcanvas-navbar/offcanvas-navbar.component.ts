@@ -7,8 +7,8 @@ import { LanguageService } from 'src/app/Services/language.service';
   styleUrls: ['./offcanvas-navbar.component.css']
 })
 export class OffcanvasNavbarComponent implements OnInit {
-  selectedLanguageText:string = "";
-  selectedLanguageFlag:string ="";
+  selectedLanguageText:string = "English";
+  selectedLanguageFlag:string ="assets/images/flags/us.png";
 
   constructor(private _directionLanguageService:LanguageService){}
 
