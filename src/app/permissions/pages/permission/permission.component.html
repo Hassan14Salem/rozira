@@ -2,7 +2,7 @@
     <p-toast />
     <div class="row">
       <!-- Role Creation Form and Role List -->
-      <div class="bg-light px-3 rounded shadow-sm">
+      <div class="bg-light px-3 rounded shadow-sm" *ngIf="hasPermission('CreateRole')">
         <!-- Role Creation Form -->
         <div class="row mb-1">
           <div class="col-12 col-md-6 mb-2">
@@ -23,7 +23,7 @@
           </div>
   
           <!-- Role Section -->
-          <div class="col-12 col-md-6 mt-3 mt-md-0">
+          <div class="col-12 col-md-6 mt-3 mt-md-0" *ngIf="hasPermission('ViewPermissions')">
             <h5 class="mb-3 text-secondary">Select role and view its permissions</h5>
             <p-dropdown [options]="roles" optionLabel="name" placeholder="Select a Role" [(ngModel)]="selectedRole"
               (onChange)="onSelectRole($event.value)" class="p-fluid">
@@ -37,7 +37,7 @@
   
       <!-- Permissions Management Section -->
   
-      <div class="row">
+      <div class="row" *ngIf="hasPermission('ViewPermissions')">
         <div *ngIf="permissionsByCategory && selectedRole">
           <h4 class="text-secondary mb-4"> {{ selectedRole.name }}'s Premissions </h4>
   
@@ -56,8 +56,8 @@
   
           <!-- Save Permissions Button -->
           <div class="text-end mt-4">
-            <button class="btn btn-success px-4" (click)="savePermissions()">Save Permissions</button>
-            <button class="btn btn-danger px-4" (click)="deletePermission()">Delete </button>
+            <button *ngIf="hasPermission('EditRoles')" class="btn btn-success px-4" (click)="savePermissions()">Save Permissions</button>
+            <button *ngIf="hasPermission('DeleteRoles')" class="btn btn-danger px-4" (click)="deletePermission()">Delete </button>
   
           </div>
         </div>
