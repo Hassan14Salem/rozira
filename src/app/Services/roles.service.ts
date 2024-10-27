@@ -16,6 +16,7 @@ export class RolesService {
     const token = localStorage.getItem('RoziraToken');
     return new HttpHeaders({
       'Authorization': token ? `Bearer ${token}` : '',
+      'Content-Type': 'application/json'
     });
   }
 

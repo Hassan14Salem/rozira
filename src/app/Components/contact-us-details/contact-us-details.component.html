@@ -2,7 +2,7 @@
     <p-toast></p-toast>
     <div class="card">
 
-        <p-toolbar styleClass="mb-4 gap-2">
+        <p-toolbar styleClass="mb-4 gap-2" *ngIf="hasPermission('CreateContactus')" >
             <ng-template pTemplate="left">
                 <h5 class="fw-bold">Manage contact methods setting</h5>
             </ng-template>
@@ -13,7 +13,7 @@
 
         </p-toolbar>
 
-        <div class="row justify-content-around ">
+        <div class="row justify-content-around "  *ngIf="hasPermission('GetContactus')">
 
             <p-table [value]="contactValus">
                 <ng-template pTemplate="header">
@@ -31,15 +31,15 @@
                         <td class="fs-5"><i [ngClass]="getIconForMethod(contact.methodName)" class="fa"></i></td>
                         <td>
                             <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2"
-                                (click)="editContact( contact)"></button>
+                                (click)="editContact( contact)"  *ngIf="hasPermission('EditContactus')" ></button>
                             <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning"
-                                (click)="deleteContact( contact.id)"></button>
+                                (click)="deleteContact( contact.id)" *ngIf="hasPermission('DeleteContactus')" ></button>
                         </td>
 
                     </tr>
                 </ng-template>
             </p-table>
-
+           
         </div>
     </div>
     <p-dialog [(visible)]="CreateNew" [style]="{width: '450px'}" header="Create method" [modal]="true"

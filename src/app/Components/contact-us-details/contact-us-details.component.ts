@@ -13,6 +13,7 @@ import { TableModule } from 'primeng/table';
 import { ToolbarModule } from 'primeng/toolbar';
 import { DialogModule } from 'primeng/dialog';
 import { ContatusServiceService } from 'src/app/Services/contatus-service.service';
+import { AuthService } from 'src/app/Services/auth.service';
 
 @Component({
   selector: 'app-contact-us-details',
@@ -36,15 +37,16 @@ import { ContatusServiceService } from 'src/app/Services/contatus-service.servic
   providers: [MessageService, ConfirmationService]
 })
 export class ContactUsDetailsComponent {
-  
+  permissions: string[] = [];
   contactValus: any[] = [];
   contactList: any[] = ['facebook', 'whatsapp', 'instagram', 'phone', 'email', 'snapchat', 'location'];
   CreateNew: boolean = false;
   editExist: boolean = false;
-  constructor( private messageService: MessageService,
-     private confirmationService: ConfirmationService,
-     private _contactService:ContatusServiceService
-    ) {
+  constructor(private messageService: MessageService,
+    private confirmationService: ConfirmationService,
+    private _contactService: ContatusServiceService,
+    private _AuthService: AuthService
+  ) {
 
   }
   contactForm = new FormGroup({
@@ -56,9 +58,16 @@ export class ContactUsDetailsComponent {
   });
 
 
+  hasPermission(permission: string): boolean {
+    return this.permissions.includes(permission);
+  }
+
 
   ngOnInit(): void {
     this.loadContactUs();
+    this._AuthService.permissions$.subscribe((permissions) => {
+      this.permissions = permissions;
+    });
   }
   onSubmit(): void {
     const formData = this.contactForm.value;
@@ -139,7 +148,7 @@ export class ContactUsDetailsComponent {
     console.log('from on edit')
     console.log(this.theSelectedId);
     if (this.editForm.valid) {
-      this._contactService.editMethod(this.theSelectedId , formData).subscribe({
+      this._contactService.editMethod(this.theSelectedId, formData).subscribe({
         next: (response) => {
           console.log(response);
           this.editExist = false;
