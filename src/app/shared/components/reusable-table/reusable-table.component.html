@@ -23,6 +23,7 @@
     [rows]="10"  
     [paginator]="true" 
     [responsive]="true" 
+    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
     [tableStyle]="{'min-width': '75rem'}"
     [rowHover]="true"
     [totalRecords]="totalRecords"
@@ -32,9 +33,6 @@
     responsiveLayout="scroll"
     stateStorage="session" 
     stateKey="statedemo-session"
-    [lazy]="true"
-    [paginator]="true"
-    (onLazyLoad)="loadItems($event)"
 
     >
         <ng-template pTemplate="caption">
@@ -82,7 +80,7 @@
                         <ng-container *ngIf="col.field === 'images'; else dateOrDefault">
                             <a  (click)="viewImage(item)">
 
-                                <img [src]="'https://roseirae.runasp.net'+item[col.field]" alt="{{item.name}}" style="max-width: 100px; max-height: 100px;" />
+                                <img [src]="'https://roseirae.runasp.net'+item[col.field][0]" alt="{{item.name}}" style="max-width: 100px; max-height: 100px;" />
                             </a>
                         </ng-container>
                     </ng-template>
@@ -108,7 +106,7 @@
                     *ngIf="canEdit"
                     pButton pRipple icon="pi pi-pencil"
                      class="p-button-rounded p-button-success me-3" 
-                     pTooltip="{{'edit' | translate}}" tooltipPosition="top"
+                     pTooltip="{{'Update' | translate}}" tooltipPosition="top"
                      (click)="editItem.emit(item)"></button>
 
                     <button pButton pRipple icon="pi pi-trash"

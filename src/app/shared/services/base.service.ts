@@ -19,7 +19,6 @@ baseUrl:string='https://roseirae.runasp.net/api/';
   getAllTest(controler:string,_Name:string,_PageNumber:number,_PageSize:number) :Observable<any>
   {
     const headers = this.getHeaders();
-    console.log('headers', headers)
    return this.http.get<any>(`${this.baseUrl}${controler}?Name=${_Name}&PageNumber=${_PageNumber}&PageSize=${_PageSize}`, {headers:headers})
   }
   
@@ -28,7 +27,6 @@ baseUrl:string='https://roseirae.runasp.net/api/';
   {
     //https://roseirae.runasp.net/api/Product?Name=aa&PageNumber=1&PageSize=10
     const headers = this.getHeaders();
-    console.log('headers', headers)
    return this.http.get<any>(this.baseUrl+controler, {headers:headers})
   }
   

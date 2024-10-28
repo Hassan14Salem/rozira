@@ -6,8 +6,8 @@
      "save":"حفظ",
     "cancel":"إالغاء",
     "add":"اضافة",
-    "update":"تعديل",
-    "delete":"إضافة",
+    "Update":"تعديل",
+    "delete":"حذف",
     "ChooseImage":"إاختر الصور",
     "searchPlaceholder":"بحث...",
     "tableHeader":{
@@ -68,7 +68,9 @@
         "customerPrice":"سعر العميل",
         "customerDiscount":"خصم العميل",
         "description":"الوصف",
-        "product-Image":"صورة المنتج"
+        "product-Image":"صورة المنتج",
+        "priceAfterTraderDiscount":"السعر بعد خصم التاجر",
+        "priceAfterCustomerDiscount":"السعر بعد خصم العميل"
 
       }
     },

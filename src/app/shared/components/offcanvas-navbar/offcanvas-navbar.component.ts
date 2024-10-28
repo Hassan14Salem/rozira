@@ -9,8 +9,11 @@ import { LanguageService } from 'src/app/Services/language.service';
 export class OffcanvasNavbarComponent implements OnInit {
   selectedLanguageText:string = "English";
   selectedLanguageFlag:string ="assets/images/flags/us.png";
+  userName :any 
 
-  constructor(private _directionLanguageService:LanguageService){}
+  constructor(private _directionLanguageService:LanguageService){
+   
+  }
 
 @Input() isopen:boolean = false;
 
@@ -39,7 +42,15 @@ export class OffcanvasNavbarComponent implements OnInit {
         language = localStorage.getItem('lang')
       console.log('language from nav',language)
       this.changeLanguage(language)
-  
+     
        }
+
+
+       if('RoziraUsernameAcount' in localStorage)
+        {
+          this.userName = localStorage.getItem('RoziraUsernameAcount')
+        }
+  
+          console.log(this.userName,'username') 
     }
 }

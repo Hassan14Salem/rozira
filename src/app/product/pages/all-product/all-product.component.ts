@@ -19,23 +19,19 @@ export class AllProductComponent implements OnInit {
   //reusable
 
   pageColumns = [
-    { field: 'categoryId', header: 'category',filterable: true },
-    { field: 'productName', header: 'product Name',filterable: true  },
-    { field: 'customerPrice', header: 'cust. Price' ,filterable: true },
-    { field: 'customerDiscount', header: 'cust. Discount',filterable: true },
-    { field: 'priceAfterCustomerDiscount', header: 'After Discount',filterable: true  },
-    { field: 'traderPrice', header: 'trader Price',filterable: true  },
-    { field: 'traderDiscount', header: 'trader Discount',filterable: true  },
-    { field: 'priceAfterTraderDiscount', header: 'After Discount',filterable: true  },
-    { field: 'quantity', header: 'quantity',filterable: true  },
-    { field: 'description', header: 'description',filterable: true  },
-    { field: 'images', header: 'images',filterable: true  },
-
-    
-
-    
-
+    { field: 'categoryId', header: 'product.labels.category',filterable: true },
+    { field: 'productName', header: 'product.labels.name',filterable: true  },
+    { field: 'customerPrice', header: 'product.labels.customerPrice' ,filterable: true },
+    { field: 'customerDiscount', header: 'product.labels.customerDiscount',filterable: true },
+    { field: 'priceAfterCustomerDiscount', header: 'product.labels.priceAfterCustomerDiscount',filterable: true  },
+    { field: 'traderPrice', header: 'product.labels.traderPrice',filterable: true  },
+    { field: 'traderDiscount', header: 'product.labels.traderDiscount',filterable: true  },
+    { field: 'priceAfterTraderDiscount', header: 'product.labels.priceAfterTraderDiscount',filterable: true  },
+    { field: 'quantity', header: 'product.labels.quantity',filterable: true  },
+    { field: 'description', header: 'product.labels.description',filterable: true  },
+    { field: 'images', header: 'product.labels.product-Image',filterable: true  },
   ];
+
   globalFilterFields:string[]= ['nameAr']
   confirmDeleteDialog!:boolean
   totalRecords!:number;
@@ -61,6 +57,7 @@ export class AllProductComponent implements OnInit {
       next:(Response) => {
         this.products = Response.items
         this.totalRecords = Response.totalCount
+        console.log('this.totalRecords',this.totalRecords)
         this.getCategories();
       }
     })
@@ -90,7 +87,8 @@ export class AllProductComponent implements OnInit {
  }
 ngOnInit(): void {
   this.getProducts();
-  this.loadPermissions()
+  this.loadPermissions();
+
 }
 
 
@@ -148,6 +146,7 @@ loadItems(event:any)
     const _pageNumber = event.first! / event.rows! + 1;
     const _pageSize = event.rows;
     this.pageNumber = _pageNumber;
+    console.log('page number',this.pageNumber)
     this.pageSize   =   _pageSize
     this.getProducts()
   }

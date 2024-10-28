@@ -64,7 +64,10 @@
         "customerPrice":"customer price",
         "customerDiscount":"customer discount",
         "description":"description",
-        "product-Image":"Product Image"
+        "product-Image":"Product Image",
+        "priceAfterTraderDiscount":"price After Trader Discount",
+        "priceAfterCustomerDiscount":"price After customer Discount"
+
       }
     },
     "errors":{

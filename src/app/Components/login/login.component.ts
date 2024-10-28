@@ -31,7 +31,6 @@ export class LoginComponent {
 
 
 
-
   loginUser(data: FormGroup) {
     this.isloading = true;
     this._AuthService.login(data.value).subscribe({
@@ -40,6 +39,8 @@ export class LoginComponent {
         if (response.token) {
           localStorage.setItem('RoziraToken', response.token);
           const username = this._AuthService.decodeUserToken();
+          localStorage.setItem('RoziraUsernameAcount', username? username:'');
+
           if (username) {
             this._AuthService.getUserPermissionsByUsername(username).subscribe({
               next: (permissions) => {
@@ -62,7 +63,7 @@ export class LoginComponent {
       },
       error: (myError) => {
         console.log(myError);
-        this.errormessage = myError.message;
+        this.errormessage = 'invalid username or password';
         this.isloading = false;
       },
       complete: () => {
