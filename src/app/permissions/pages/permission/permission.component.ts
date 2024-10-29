@@ -190,6 +190,23 @@ export class PermissionComponent implements OnInit{
     });
   }
 
+  // Check if all permissions in the category are selected
+isAllSelected(categoryPermissions: any[]): boolean {
+  return categoryPermissions.every(permission => permission.isGranted);
+}
+
+// Toggle selection for the entire category based on "Select All" checkbox
+toggleCategorySelection(categoryPermissions: any[], event: Event): void {
+  const checked = (event.target as HTMLInputElement).checked;
+  categoryPermissions.forEach(permission => permission.isGranted = checked);
+}
+
+// Update the "Select All" checkbox when individual permissions are changed
+checkCategorySelection(categoryPermissions: any[]): void {
+  // Optional: Add any custom logic if needed when individual permissions change
+}
+
+
   showSucssesMessage() {
     this.messageService.add({ severity: 'success', summary: 'Role', detail: 'Added Successfully' });
   }

@@ -14,7 +14,7 @@
                     placeholder="Role name">
                 </div>
                 <div class="col-12 col-md-3 mb-2 text-md-end">
-                  <button type="submit" class="btn btn-danger text-white px-4" [disabled]="createRoleForm.invalid">
+                  <button type="submit" class="btn btn-success text-white px-4" [disabled]="createRoleForm.invalid">
                     Create
                   </button>
                 </div>
@@ -41,24 +41,39 @@
         <div *ngIf="permissionsByCategory && selectedRole">
           <h4 class="text-secondary mb-4"> {{ selectedRole.name }}'s Premissions </h4>
   
-          <div class="row">
-            <div *ngFor="let category of (permissionsByCategory | keyvalue); let i = index" class="col-md-3 mb-2">
-              <h5 class="text-primary pb-2 border-bottom">{{ category.key }}</h5> <!-- Category Name -->
-              <ul class="list-group list-group-flush">
-                <li *ngFor="let permission of category.value" class="list-group-item d-flex align-items-center">
-                  <!-- Patch permission.isGranted value to the checkbox -->
-                  <input type="checkbox" class="form-check-input me-3" [(ngModel)]="permission.isGranted">
-                  <span class="text-muted">{{ permission.name }}</span>
-                </li>
-              </ul>
-            </div>
-          </div>
+      <div class="row">
+  <div *ngFor="let category of (permissionsByCategory | keyvalue); let i = index" class="col-md-3 mb-2">
+    <!-- Category Name with "Select All" Checkbox -->
+    <div class="d-flex align-items-center gap-2 border-bottom pb-2">
+      <input
+        type="checkbox"
+        class="form-check-input mx-1"
+        (change)="toggleCategorySelection(category.value, $event)"
+        [checked]="isAllSelected(category.value)"
+      />
+      <h5 class="text-primary mb-0 mx-1">{{ category.key }}</h5>
+    </div>
+
+    <ul class="list-group list-group-flush">
+      <li *ngFor="let permission of category.value" class="list-group-item d-flex align-items-center">
+        <input
+          type="checkbox"
+          class="form-check-input me-3"
+          [(ngModel)]="permission.isGranted"
+          (change)="checkCategorySelection(category.value)"
+        />
+        <span class="text-muted">{{ permission.name }}</span>
+      </li>
+    </ul>
+  </div>
+</div>
+
   
           <!-- Save Permissions Button -->
-          <div class="text-end mt-4">
-            <button *ngIf="hasPermission('EditRoles')" class="btn btn-success px-4" (click)="savePermissions()">Save Permissions</button>
-            <button *ngIf="hasPermission('DeleteRoles')" class="btn btn-danger px-4" (click)="deletePermission()">Delete </button>
-  
+          <div class="text-end mt-4 mb-5">
+            <button *ngIf="hasPermission('EditRoles')" class="btn btn-success px-4 m-2" (click)="savePermissions()">Save Permissions</button>
+            <button *ngIf="hasPermission('DeleteRoles')" class="btn btn-danger px-4 m-2" (click)="deletePermission()">Delete </button>
+
           </div>
         </div>
       </div>
