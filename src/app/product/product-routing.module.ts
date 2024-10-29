@@ -5,9 +5,9 @@ import { UpdateProductComponent } from './pages/update-product/update-product.co
 import { AddProductComponent } from './pages/add-product/add-product.component';
 
 const routes: Routes = [
-  {path:'products',component:AllProductComponent},
-  {path:'update/:id',component:UpdateProductComponent},
-  {path:'add',component:AddProductComponent},
+  {path:'products',component:AllProductComponent,title:'All Products'},
+  {path:'update/:id',component:UpdateProductComponent,title:'Update Product'},
+  {path:'add',component:AddProductComponent,title:'Add Products'},
 
 
 ];

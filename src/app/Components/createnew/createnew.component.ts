@@ -34,16 +34,13 @@ export class CreatenewComponent {
 
     this._AuthService.register(data.value).subscribe({
       next: (response) => {
-        console.log(response);
         this.showAlertMessage('User created succsessfully,', 'success');
         
         setTimeout(() => this._Router.navigate(['/users']), 1500);
         // here We can Put A popUp For The Wrrong message
       },
       error: (myError) => {
-        console.log(myError.error.message);
         this.serverError = true;
-        console.log(this.serverError);
         this.errormessage = myError.error.message;
         this.isloading = false;
 
@@ -55,7 +52,6 @@ export class CreatenewComponent {
       },
 
     });
-    console.log(data.value);
   }
 
 

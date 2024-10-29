@@ -40,7 +40,6 @@ export class AllAboutComponent implements OnInit {
     this._aboutService.gets().subscribe({
       next: (Response) => {
         this.Item = Response
-        console.log('response', this.Items)
       }
     })
   }
@@ -74,7 +73,6 @@ export class AllAboutComponent implements OnInit {
 
 
   editItem(ev: any) {
-    console.log(ev)
     this.Item = { ...ev }
     this.itemDialog = true
   }
@@ -87,14 +85,11 @@ export class AllAboutComponent implements OnInit {
   deleteItem(ev: any) {
     this._aboutService.delete(ev.id).subscribe({
       next: (Response) => {
-        console.log(Response)
         if (Response.status === 200) {
           this.alertService.success('Product Deleted Successfully');
           this.getItems();
         }
-        console.log(Response)
       }, error: (err) => {
-        console.log(err)
         this.alertService.error(err.error.error.message)
       }
     })
@@ -122,14 +117,12 @@ export class AllAboutComponent implements OnInit {
       next: (Response) => {
         this.alertService.success('Updated Successfully')
         this.getItems();
-        console.log(Response)
         this.hideDialog();
 
 
       },
       error: (err) => {
         this.alertService.error('Failded to Updated ')
-        console.log(err)
       }
     })
 

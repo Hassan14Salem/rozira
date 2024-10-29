@@ -51,7 +51,7 @@ export class ReusableTableComponent {
   getSearchVal(ev:any)
   {
     this.getName.emit(ev)
-console.log(ev.target.value)
+    console.log(ev.target.value)
   }
   
   // get filteredData() {

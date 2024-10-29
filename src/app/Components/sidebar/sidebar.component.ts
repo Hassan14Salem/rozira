@@ -103,11 +103,9 @@ export class SidebarComponent implements AfterViewInit, OnInit {
     this.loadPermissions();
     this.isSidebarOpen = true;
     this._directionLanguageService.currentLang$.subscribe(lang => {
-      console.log('Language changed to:', lang);
     });
 
     this._directionLanguageService.currentDir$.subscribe(dir => {
-      console.log('Direction changed to:', dir);
       this.currentDirection = dir
 
       this.toggleDirection(dir)

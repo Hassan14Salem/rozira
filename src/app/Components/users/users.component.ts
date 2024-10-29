@@ -138,7 +138,6 @@ export class UsersComponent implements OnInit {
   getAllRoles() {
     this._roles.getRoles().subscribe({
       next: (Respose) => {
-        console.log(Respose)
         this.roles = Respose;
       }
     })
@@ -150,7 +149,6 @@ export class UsersComponent implements OnInit {
       next: (response) => {
         this.users = response;
         this.Items = response;
-        console.log(this.users);
       },
       error: (error) => {
         console.error('Error fetching users:', error);
@@ -169,7 +167,6 @@ export class UsersComponent implements OnInit {
     this.userId = userIdfromFront;
     this.userName = userUsername;
     this.OpenDelModal = true;
-    console.log(this.userName);
   }
 
   Confirm() {
@@ -203,12 +200,10 @@ export class UsersComponent implements OnInit {
 
   // Submit form for editing user
   onSubmit(user: User): void {
-    console.log('user to update', user);
     if (user) {
       const formValues = this.editUserForm.value;
       this._UserService.editUser(user).subscribe({
         next: (Response) => {
-          console.log(Response);
           this._alert.success('User updated successfully!')
           this.hideDialog();
           this.fetchUsers();
@@ -238,15 +233,12 @@ export class UsersComponent implements OnInit {
     this.serverError = false;
     this._auth.register(data.value).subscribe({
       next: (response) => {
-        console.log(response);
         this._alert.success('User Created Successfully');
         this.fetchUsers();
         this.AddDialog = false;
       },
       error: (myError) => {
-        console.log(myError.error.message);
         this.serverError = true;
-        console.log(this.serverError);
         this.errormessage = myError.error.message;
         this.isloading = false;
         this._alert.error('failed to Create User Successfully');
@@ -254,7 +246,6 @@ export class UsersComponent implements OnInit {
       }
 
     });
-    console.log(data.value);
   }
   alertMessage: string = '';
 
@@ -275,7 +266,6 @@ export class UsersComponent implements OnInit {
   editUser(ev: any) {
     this.itemDialog = true;
     this.user = { ...ev };
-    console.log('user before update', this.user)
   }
 
 

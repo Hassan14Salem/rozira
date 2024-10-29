@@ -34,7 +34,7 @@ export class AllProductComponent implements OnInit {
 
   globalFilterFields:string[]= ['nameAr']
   confirmDeleteDialog!:boolean
-  totalRecords!:number;
+  totalLength:number=0;
   title :string = 'product.all'
   name:any='';
   constructor(private _productService:ProductService,
@@ -47,17 +47,16 @@ export class AllProductComponent implements OnInit {
   product ={} as Product 
   categories:any[]=[]
     pageNumber:number = 1;
-    pageSize!:number;
+    pageSize:number = 10;
 
 
   getProducts()
   {
-    console.log('name from the get products',this.name)
-    this.base.getAllTest('Product',this.name,this.pageNumber,10).subscribe({
+    this.base.getAllTest('Product',this.name,this.pageNumber,this.pageSize).subscribe({
       next:(Response) => {
         this.products = Response.items
-        this.totalRecords = Response.totalCount
-        console.log('this.totalRecords',this.totalRecords)
+        this.totalLength = Response.totalCount
+        console.log('this.totalRecords',this.products)
         this.getCategories();
       }
     })
@@ -88,6 +87,8 @@ export class AllProductComponent implements OnInit {
 ngOnInit(): void {
   this.getProducts();
   this.loadPermissions();
+   
+
 
 }
 
@@ -148,6 +149,8 @@ loadItems(event:any)
     this.pageNumber = _pageNumber;
     console.log('page number',this.pageNumber)
     this.pageSize   =   _pageSize
+    console.log('page pageSize',this.pageSize)
+
     this.getProducts()
   }
 

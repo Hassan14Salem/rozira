@@ -13,13 +13,13 @@
                 [columns]="pageColumns"
                 [confirmDeleteDialog]="confirmDeleteDialog" 
                 responsive="true"
-                [lazy]="true"
                 [totalRecords]="Items.length" 
                 (editItem)="editItem($event)"
                 (openDeleteDialog)="deleteDialogMessage($event)" 
                 (deleteItem)="deleteItem($event)" 
                 (openNew)="openNew()"
-                (hideDialog)="hideDialog()">
+                (hideDialog)="hideDialog()"
+                >
 
             </app-reusable-table>
         </div>

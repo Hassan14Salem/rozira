@@ -17,7 +17,7 @@ import { PermissionComponent } from './permissions/pages/permission/permission.c
 const routes: Routes = [
   {path:'', redirectTo:'dashboard',pathMatch:'full' , title:'Dashboard'},
   {path:'login',canActivate:[preventURLBackGuard],component:LoginComponent,title:'Login'},
-  {path:'dashboard',canActivate:[authGuard],component:DashboardComponent, title:'Home'},
+  {path:'dashboard',canActivate:[authGuard],component:DashboardComponent, title:'dashboard'},
   {path:'newMerchent',canActivate:[authGuard],component:CreatenewComponent,title:'Create new user'},
   {path:'users',canActivate:[authGuard],component:UsersComponent,title:'All Users'},
   {path:'profile',canActivate:[authGuard],component:UserprofileComponent,title:'Profile'},
@@ -30,7 +30,7 @@ const routes: Routes = [
   {path:'about',loadChildren:() => import('./about/about.module').then(a => a.AboutModule)},
   {path:'sliders',loadChildren:() => import('./sliders/sliders.module').then(s => s.SlidersModule)},
   // {path:'permissions',loadChildren:() => import('./permissions/permissions.module').then(s => s.PermissionsModule)},
-  {path:'permissions/all',component:PermissionComponent},
+  {path:'permissions/all',component:PermissionComponent,title:'Permissions'},
   {path:'**',component:NotfoundComponent},
 ];
 

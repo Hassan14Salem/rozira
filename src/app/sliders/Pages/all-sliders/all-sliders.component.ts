@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
 import { SliderService } from '../../Services/slider.service';
 import { Slider } from '../../Models/slider';
 import { ToastrService } from 'ngx-toastr';
@@ -11,7 +11,7 @@ import { AuthService } from 'src/app/Services/auth.service';
   templateUrl: './all-sliders.component.html',
   styleUrls: ['./all-sliders.component.css']
 })
-export class AllSlidersComponent implements OnInit {
+export class AllSlidersComponent implements OnInit  {
   Items:any[]=[];
   Item = {} as Slider;
   permissionsLoaded = false;
@@ -60,12 +60,7 @@ loadItems(event:any)
     const _pageSize = event.rows;
     this.pageNumber = _pageNumber;
     this.pageSize   =   _pageSize
-    console.log('ev from sliders',event)
-    console.log('pageNumber',this.pageNumber ,'size', this.pageSize)
     this.getItems()
-
-
-    console.log(this.Items)
   }
 
 
@@ -77,8 +72,10 @@ loadItems(event:any)
 
  
   ngOnInit(): void {
+    this.pageNumber = 1
     this.getItems();
     this.loadPermissions();
+
   }
   save(ev:any){
     console.log('ev',ev)
@@ -108,6 +105,7 @@ loadItems(event:any)
             console.log(res)
             this.getItems();
             this.alertService.success(res);
+            this.getItems();
           }
         
         },
@@ -224,5 +222,5 @@ loadItems(event:any)
     }
   }
 
-  
+ 
 }
