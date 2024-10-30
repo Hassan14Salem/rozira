@@ -45,12 +45,13 @@ export class AuthService {
 
         this.decodeUserToken();
         this.fetchPermissions();
+  
       })
     );
   }
 
   getUserPermissionsByUsername(username: string): Observable<string[]> {
-    return this._HttpClient.get<string[]>(`${this.apiUrlPermission}/${username}`, { headers: this.getHeaders() });
+    return this._HttpClient.get<any[]>(`${this.apiUrlPermission}/${username}`, { headers: this.getHeaders() });
   }
   
   decodeUserToken(): string | null {

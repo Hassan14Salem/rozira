@@ -47,21 +47,9 @@
                                 <div class="form-group my-2 col-lg-6">
                                     <label for="usernameFormControll"> {{'tableHeader.username'|translate}}</label>
 
-                                    <input formControlName="userName" type="text" class="form-control"
-                                        id="usernameFormControll" placeholder="Username" aria-label="Username"
-                                        [attr.aria-invalid]="regeisterNewUser.get('userName')?.invalid">
-                                    <div>
-                                        <div class="alert alert-danger"
-                                            *ngIf="regeisterNewUser.get('userName')?.errors && regeisterNewUser.get('userName')?.touched">
-                                            <p *ngIf="regeisterNewUser.get('userName')?.getError('required')">Username
-                                                is required</p>
-                                            <p *ngIf="regeisterNewUser.get('userName')?.getError('minlength')">Username
-                                                must be atleast 2 characters</p>
-                                            <p *ngIf="regeisterNewUser.get('userName')?.getError('maxlength')">Username
-                                                cannot exceed
-                                                25 characters</p>
-                                        </div>
-                                    </div>
+                                 <div class="">
+                                    
+                                 </div>
 
                                 </div>
 
