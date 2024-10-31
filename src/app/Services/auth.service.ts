@@ -42,10 +42,13 @@ export class AuthService {
       tap((response: any) => {
         localStorage.setItem('RoziraToken', response.token);
         console.log(this.permissionsSubject , 'From Log in ');
-
+        
         this.decodeUserToken();
         this.fetchPermissions();
-  
+        setTimeout(() => {
+          window.location.reload();
+            
+          }, 500);
       })
     );
   }
