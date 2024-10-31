@@ -153,7 +153,6 @@ export class UsersComponent implements OnInit{
         this.Items = response;
       },
       error: (error) => {
-        console.error('Error fetching users:', error);
       },
       complete: () => this.isLoading = false
     });
@@ -217,7 +216,6 @@ export class UsersComponent implements OnInit{
             const validationErrors = error.error.errors;
             for (const key in validationErrors) {
               if (validationErrors.hasOwnProperty(key)) {
-                console.error(`${key}: ${validationErrors[key].join(', ')}`);
                 // Optionally, display these errors in your UI
               }
             }
@@ -225,7 +223,6 @@ export class UsersComponent implements OnInit{
         }
       });
     } else {
-      console.error('Form is invalid');
       this.editUserForm.markAllAsTouched(); // Trigger form validation messages
     }
   }

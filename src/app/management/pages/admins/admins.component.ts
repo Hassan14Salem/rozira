@@ -157,7 +157,6 @@ export class AdminsComponent implements OnInit{
         this.Items = response;
       },
       error: (error) => {
-        console.error('Error fetching users:', error);
       },
       complete: () => this.isLoading = false
     });
@@ -221,7 +220,6 @@ export class AdminsComponent implements OnInit{
             const validationErrors = error.error.errors;
             for (const key in validationErrors) {
               if (validationErrors.hasOwnProperty(key)) {
-                console.error(`${key}: ${validationErrors[key].join(', ')}`);
                 // Optionally, display these errors in your UI
               }
             }
@@ -229,7 +227,6 @@ export class AdminsComponent implements OnInit{
         }
       });
     } else {
-      console.error('Form is invalid');
       this.editUserForm.markAllAsTouched(); // Trigger form validation messages
     }
   }
@@ -303,7 +300,6 @@ export class AdminsComponent implements OnInit{
   loadItems(event:any)
   {
     const _pageNumber = event.first! / event.rows! + 1;
-    console.log(this.PageNumber,'page number from event')
 
     const _pageSize = event.rows;
     this.PageNumber = _pageNumber;
@@ -316,7 +312,6 @@ export class AdminsComponent implements OnInit{
   getNameValue(value: any) {
     this.userNamePagination = value.target.value;
     
-    console.log('username',this.userNamePagination,'phoneNum',this.phoneNum,' this.email', this.email)
     if(this.userNamePagination != '') {
       this.getAdmins();
 

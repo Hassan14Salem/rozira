@@ -75,7 +75,6 @@ export class UserprofileComponent implements OnInit {
     this.loadPermissions();
     this.getUserName();
     this.getAllRoles();
-    console.log(this.permissions)
   }
 
   hasPermission(permission: any): boolean {
@@ -84,7 +83,6 @@ export class UserprofileComponent implements OnInit {
   getAllRoles() {
     this._roles.getRoles().subscribe({
       next: (Respose) => {
-        console.log(Respose)
         this.roles = Respose;
       }
     })
@@ -106,17 +104,12 @@ export class UserprofileComponent implements OnInit {
   getUserName() {
     const stordName = localStorage.getItem('RoziraToken');
     if (stordName) {
-      console.log(stordName)
       this.username = this._AuthService.decodeUserToken();
-      console.log(this.username)
       this._UserService.getUserByUsername(this.username).subscribe({
         next: (response: User) => {
-          console.log(response);
           this.userinfo = response;
-          console.log('userID', this.userinfo.userId)
         },
         error: (myError) => {
-          console.log(myError)
         },
       });
     }
@@ -128,7 +121,6 @@ export class UserprofileComponent implements OnInit {
   }
   editUserName(data: FormGroup) {
 
-    console.log('user to update', data);
     if (data) {
       const formValues = {
         ...this.editUserForm.value,
@@ -138,28 +130,23 @@ export class UserprofileComponent implements OnInit {
         email: this.userinfo.email
       };
 
-      console.log('Submitting form with values:', formValues,);
 
       this._UserService.editUser(formValues).subscribe({
         next: (Response) => {
           this._messageService.add({ severity: 'success', summary: 'Username', detail: 'Updated Successfully' });
-          console.log(Response);
           this.editUserNameV = false;
           this.editUserForm.reset();
           setTimeout(() => {
             this._AuthService.logout();
           }, 3000);
-          console.log('User updated successfully!')
         },
         error: (error) => {
           this._alert.error('Faild to Update User')
-          console.log(error)
           if (error.status === 400 && error.error.errors) {
             // Extract and display validation errors from the response
             const validationErrors = error.error.errors;
             for (const key in validationErrors) {
               if (validationErrors.hasOwnProperty(key)) {
-                console.error(`${key}: ${validationErrors[key].join(', ')}`);
                 // Optionally, display these errors in your UI
               }
             }
@@ -167,7 +154,6 @@ export class UserprofileComponent implements OnInit {
         }
       });
     } else {
-      console.error('Form is invalid');
       this.editUserForm.markAllAsTouched(); // Trigger form validation messages
     }
   }
@@ -187,28 +173,23 @@ export class UserprofileComponent implements OnInit {
         userName: this.username
       };
 
-      console.log('Submitting form with values:', formValues);
 
       this._UserService.editUser(formValues).subscribe({
         next: (Response) => {
           this._messageService.add({ severity: 'success', summary: 'Email', detail: 'Updated Successfully' });
-          console.log(Response);
           this.editEmailV = false;
           this.editEmailForm.reset();
           setTimeout(() => {
             this._AuthService.logout();
           }, 3000);
-          console.log('User updated successfully!')
         },
         error: (error) => {
           this._alert.error('Faild to Update User')
-          console.log(error)
           if (error.status === 400 && error.error.errors) {
             // Extract and display validation errors from the response
             const validationErrors = error.error.errors;
             for (const key in validationErrors) {
               if (validationErrors.hasOwnProperty(key)) {
-                console.error(`${key}: ${validationErrors[key].join(', ')}`);
                 // Optionally, display these errors in your UI
               }
             }
@@ -216,7 +197,6 @@ export class UserprofileComponent implements OnInit {
         }
       });
     } else {
-      console.error('Form is invalid');
       this.editUserForm.markAllAsTouched(); // Trigger form validation messages
     }
   }
@@ -239,28 +219,23 @@ export class UserprofileComponent implements OnInit {
         userName: this.username
       };
 
-      console.log('Submitting form with values:', formValues);
 
       this._UserService.editUser(formValues).subscribe({
         next: (Response) => {
           this._messageService.add({ severity: 'success', summary: 'Phone number', detail: 'Updated Successfully' });
-          console.log(Response);
           this.editPhonenumberV = false;
           this.editPhneNumForm.reset();
           setTimeout(() => {
             this._AuthService.logout();
           }, 3000);
-          console.log('User updated successfully!')
         },
         error: (error) => {
           this._alert.error('Faild to Update User')
-          console.log(error)
           if (error.status === 400 && error.error.errors) {
             // Extract and display validation errors from the response
             const validationErrors = error.error.errors;
             for (const key in validationErrors) {
               if (validationErrors.hasOwnProperty(key)) {
-                console.error(`${key}: ${validationErrors[key].join(', ')}`);
                 // Optionally, display these errors in your UI
               }
             }
@@ -268,7 +243,6 @@ export class UserprofileComponent implements OnInit {
         }
       });
     } else {
-      console.error('Form is invalid');
       this.editUserForm.markAllAsTouched(); // Trigger form validation messages
     }
   }
@@ -290,12 +264,10 @@ export class UserprofileComponent implements OnInit {
         userName: this.username
       };
 
-      console.log('Submitting form with values:', formValues);
 
       this._UserService.editUser(formValues).subscribe({
         next: (Response) => {
           this._messageService.add({ severity: 'success', summary: 'Role', detail: 'Updated Successfully' });
-          console.log(Response);
           this.editRoleV = false;
           this.editRoleForm.reset();
           setTimeout(() => {
@@ -305,13 +277,11 @@ export class UserprofileComponent implements OnInit {
         },
         error: (error) => {
           this._alert.error('Faild to Update User')
-          console.log(error)
           if (error.status === 400 && error.error.errors) {
             // Extract and display validation errors from the response
             const validationErrors = error.error.errors;
             for (const key in validationErrors) {
               if (validationErrors.hasOwnProperty(key)) {
-                console.error(`${key}: ${validationErrors[key].join(', ')}`);
                 // Optionally, display these errors in your UI
               }
             }
@@ -319,7 +289,6 @@ export class UserprofileComponent implements OnInit {
         }
       });
     } else {
-      console.error('Form is invalid');
       this.editRoleForm.markAllAsTouched(); // Trigger form validation messages
     }
   }
@@ -330,7 +299,6 @@ export class UserprofileComponent implements OnInit {
   }
 
   changePassword(data: FormGroup) {
-    console.log(data.value)
    }
 
 

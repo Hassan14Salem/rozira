@@ -39,16 +39,13 @@ export class LoginComponent {
           localStorage.setItem('RoziraToken', response.token);
             const username = this._AuthService.decodeUserToken();
           if (username) {
-            console.log('From Front ' , username)
             this._AuthService.getUserPermissionsByUsername(username).subscribe({
               next: (permissions) => {
                 localStorage.setItem('userPermissions' , JSON.stringify(permissions));
-                console.log('permission', permissions)
                 this._PermissionService.setPermissions(permissions);
                 this._Router.navigate(['/dashboard']);
               },
               error: (err) => {
-                console.error('Failed to fetch user permissions:', err);
               }
             });
           } else {
@@ -108,7 +105,6 @@ export class LoginComponent {
         error: (error) => {
           this.showAlertMessage('Can\'t find this emai , try agin', 'error');
           this.recoveryForm.reset();
-          console.error(error);
           this.passwordStatusMessage = error.error.message;
         }
       });
@@ -179,7 +175,6 @@ export class LoginComponent {
 
         },
         error: (error) => {
-          console.error(error);
           this.showAlertMessage('Couldn\'t update password,', 'error');
           this.verificationStatusMessage = error.error.errorMessage;
 

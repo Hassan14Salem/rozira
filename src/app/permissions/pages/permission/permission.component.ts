@@ -90,7 +90,6 @@ export class PermissionComponent implements OnInit{
         this.roles = response;
       },
       error: (myError) => {
-        console.error('Error fetching roles', myError);
       },
     });
   }
