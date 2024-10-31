@@ -86,12 +86,14 @@ export class LoginComponent {
   openPasswordRecoveryModal() {
     this.modalVisible = true;
   }
-
+  
   closeModal(): void {
     this.modalVisible = false;
 
   }
-
+  navigateToForgrttPassword(){
+    this._Router.navigate(['/forgettPassword']);
+  }
 
   passwordStatusMessage: string = '';
 

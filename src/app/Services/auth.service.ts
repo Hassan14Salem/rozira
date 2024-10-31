@@ -44,7 +44,10 @@ export class AuthService {
 
         this.decodeUserToken();
         this.fetchPermissions();
-  
+        setTimeout(() => {
+          window.location.reload();
+            
+          }, 500);
       })
     );
   }

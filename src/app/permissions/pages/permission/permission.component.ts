@@ -177,6 +177,21 @@ export class PermissionComponent implements OnInit{
     });
   }
 
+  isAllPermissionsSelected(): boolean {
+    return Object.values(this.permissionsByCategory).every((permissions: any[]) =>
+      permissions.every(permission => permission.isGranted)
+    );
+  }
+  
+  // Toggle selection for all permissions across all categories
+  toggleAllPermissions(event: Event): void {
+    const checked = (event.target as HTMLInputElement).checked;
+    Object.values(this.permissionsByCategory).forEach((permissions: any[]) => {
+      permissions.forEach(permission => permission.isGranted = checked);
+    });
+  }
+
+
   // Check if all permissions in the category are selected
 isAllSelected(categoryPermissions: any[]): boolean {
   return categoryPermissions.every(permission => permission.isGranted);
@@ -198,7 +213,7 @@ checkCategorySelection(categoryPermissions: any[]): void {
     this.messageService.add({ severity: 'success', summary: 'Role', detail: 'Added Successfully' });
   }
   showUpdatedMessage() {
-    this.messageService.add({ severity: 'warn', summary: 'Role', detail: 'Updated Successfully' });
+    this.messageService.add({ severity: 'success', summary: 'Role', detail: 'Updated Successfully' });
   }
 
   showDeletedMessage() {

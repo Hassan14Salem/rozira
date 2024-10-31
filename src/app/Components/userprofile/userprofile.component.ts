@@ -1,36 +1,73 @@
 import { Component, OnInit, NgModule } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { Route } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { User } from 'src/app/Interfaces/user';
 import { AuthService } from 'src/app/Services/auth.service';
 import { RolesService } from 'src/app/Services/roles.service';
 import { UsersService } from 'src/app/Services/users.service';
-
+import { ToastModule } from 'primeng/toast';
+import { MessageService } from 'primeng/api';
 @Component({
   selector: 'app-userprofile',
   templateUrl: './userprofile.component.html',
-  styleUrls: ['./userprofile.component.css']
+  styleUrls: ['./userprofile.component.css'],
+  providers: [MessageService],
 })
 export class UserprofileComponent implements OnInit {
   username: any;
+  userID: any;
   permissionsLoaded = false;
   permissions: string[] = [];
   roles: any[] = [];
+
+
   editUserForm = new FormGroup({
     userName: new FormControl('', [Validators.required, Validators.minLength(6), Validators.maxLength(25)]),
+  });
+  editEmailForm = new FormGroup({
     email: new FormControl('', [Validators.required, Validators.email]),
+  });
+  editPhneNumForm = new FormGroup({
+
     phoneNumber: new FormControl('', [Validators.required, Validators.pattern(/^(009665|9665|\+9665|05|5)(5|0|3|6|4|9|1|8|7)([0-9]{7})$/)]),
+  });
+
+  editRoleForm = new FormGroup({
     role: new FormControl('', [Validators.required, Validators.pattern(/(Admin|User)/)])
   });
+
+
+  passwordMatchValidator: ValidatorFn = (control: AbstractControl): { [key: string]: boolean } | null => {
+    const formGroup = control as FormGroup;
+    const newPassword = formGroup.get('newPassword')?.value;
+    const confirmPassword = formGroup.get('confirmPassword')?.value;
+
+    return newPassword === confirmPassword ? null : { mismatch: true };
+  };
+
+  changePasswordForm = new FormGroup(
+    {
+      email: new FormControl('', [Validators.required, Validators.email]),
+      oldPassword: new FormControl('', [Validators.required, Validators.minLength(4), Validators.maxLength(25)]),
+      newPassword: new FormControl('', [Validators.required, Validators.minLength(4), Validators.maxLength(25)]),
+      confirmPassword: new FormControl('', [Validators.required, Validators.minLength(4), Validators.maxLength(25)]),
+    },
+    { validators: this.passwordMatchValidator } // Bind context if validator is a method
+  );
   userinfo!: User;
 
   editUserNameV: boolean = false;
+  editPhonenumberV: boolean = false;
+  editRoleV: boolean = false;
+  editEmailV: boolean = false;
+
+  changePasswordV: boolean = false;
   constructor(private _UserService: UsersService,
     private _AuthService: AuthService,
-    private _FormBuilder: FormBuilder,
     private _roles: RolesService,
-    private _alert: ToastrService
+    private _alert: ToastrService,
+    private _messageService: MessageService
   ) { }
 
   contactValus: any[] = [];
@@ -76,6 +113,7 @@ export class UserprofileComponent implements OnInit {
         next: (response: User) => {
           console.log(response);
           this.userinfo = response;
+          console.log('userID', this.userinfo.userId)
         },
         error: (myError) => {
           console.log(myError)
@@ -83,6 +121,7 @@ export class UserprofileComponent implements OnInit {
       });
     }
   }
+
   openUserForm() {
     this.editUserNameV = true;
     this.editUserForm.patchValue(this.userinfo);
@@ -91,14 +130,26 @@ export class UserprofileComponent implements OnInit {
 
     console.log('user to update', data);
     if (data) {
-      const formValues = this.editUserForm.value;
+      const formValues = {
+        ...this.editUserForm.value,
+        userId: this.userinfo.userId,
+        role: this.userinfo.role,
+        phoneNumber: this.userinfo.phoneNumber,
+        email: this.userinfo.email
+      };
 
-      console.log('Submitting form with values:', formValues);
+      console.log('Submitting form with values:', formValues,);
 
       this._UserService.editUser(formValues).subscribe({
         next: (Response) => {
+          this._messageService.add({ severity: 'success', summary: 'Username', detail: 'Updated Successfully' });
           console.log(Response);
-          this._alert.success('User updated successfully!')
+          this.editUserNameV = false;
+          this.editUserForm.reset();
+          setTimeout(() => {
+            this._AuthService.logout();
+          }, 3000);
+          console.log('User updated successfully!')
         },
         error: (error) => {
           this._alert.error('Faild to Update User')
@@ -120,16 +171,171 @@ export class UserprofileComponent implements OnInit {
       this.editUserForm.markAllAsTouched(); // Trigger form validation messages
     }
   }
-  editEmail(data: FormGroup) {
 
+
+  openEmailForm() {
+    this.editEmailV = true;
+    this.editEmailForm.patchValue(this.userinfo);
   }
+  editEmail(data: FormGroup) {
+    if (data) {
+      const formValues = {
+        ...this.editEmailForm.value,
+        userId: this.userinfo.userId,
+        role: this.userinfo.role,
+        phoneNumber: this.userinfo.phoneNumber,
+        userName: this.username
+      };
+
+      console.log('Submitting form with values:', formValues);
+
+      this._UserService.editUser(formValues).subscribe({
+        next: (Response) => {
+          this._messageService.add({ severity: 'success', summary: 'Email', detail: 'Updated Successfully' });
+          console.log(Response);
+          this.editEmailV = false;
+          this.editEmailForm.reset();
+          setTimeout(() => {
+            this._AuthService.logout();
+          }, 3000);
+          console.log('User updated successfully!')
+        },
+        error: (error) => {
+          this._alert.error('Faild to Update User')
+          console.log(error)
+          if (error.status === 400 && error.error.errors) {
+            // Extract and display validation errors from the response
+            const validationErrors = error.error.errors;
+            for (const key in validationErrors) {
+              if (validationErrors.hasOwnProperty(key)) {
+                console.error(`${key}: ${validationErrors[key].join(', ')}`);
+                // Optionally, display these errors in your UI
+              }
+            }
+          }
+        }
+      });
+    } else {
+      console.error('Form is invalid');
+      this.editUserForm.markAllAsTouched(); // Trigger form validation messages
+    }
+  }
+
+
+
+  openPhoneForm() {
+    this.editPhonenumberV = true;
+    this.editPhneNumForm.patchValue(this.userinfo);
+  }
+
   editPhone(data: FormGroup) {
 
+    if (data) {
+      const formValues = {
+        ...this.editPhneNumForm.value,
+        userId: this.userinfo.userId,
+        role: this.userinfo.role,
+        email: this.userinfo.email,
+        userName: this.username
+      };
+
+      console.log('Submitting form with values:', formValues);
+
+      this._UserService.editUser(formValues).subscribe({
+        next: (Response) => {
+          this._messageService.add({ severity: 'success', summary: 'Phone number', detail: 'Updated Successfully' });
+          console.log(Response);
+          this.editPhonenumberV = false;
+          this.editPhneNumForm.reset();
+          setTimeout(() => {
+            this._AuthService.logout();
+          }, 3000);
+          console.log('User updated successfully!')
+        },
+        error: (error) => {
+          this._alert.error('Faild to Update User')
+          console.log(error)
+          if (error.status === 400 && error.error.errors) {
+            // Extract and display validation errors from the response
+            const validationErrors = error.error.errors;
+            for (const key in validationErrors) {
+              if (validationErrors.hasOwnProperty(key)) {
+                console.error(`${key}: ${validationErrors[key].join(', ')}`);
+                // Optionally, display these errors in your UI
+              }
+            }
+          }
+        }
+      });
+    } else {
+      console.error('Form is invalid');
+      this.editUserForm.markAllAsTouched(); // Trigger form validation messages
+    }
   }
+
+
+  openRoleForm() {
+    this.editRoleV = true;
+    this.editRoleForm.patchValue(this.userinfo);
+  }
+
+
   editRole(data: FormGroup) {
+    if (data) {
+      const formValues = {
+        ...this.editRoleForm.value,
+        userId: this.userinfo.userId,
+        phoneNumber: this.userinfo.phoneNumber,
+        email: this.userinfo.email,
+        userName: this.username
+      };
 
+      console.log('Submitting form with values:', formValues);
+
+      this._UserService.editUser(formValues).subscribe({
+        next: (Response) => {
+          this._messageService.add({ severity: 'success', summary: 'Role', detail: 'Updated Successfully' });
+          console.log(Response);
+          this.editRoleV = false;
+          this.editRoleForm.reset();
+          setTimeout(() => {
+            this._AuthService.logout();
+          }, 3000);
+
+        },
+        error: (error) => {
+          this._alert.error('Faild to Update User')
+          console.log(error)
+          if (error.status === 400 && error.error.errors) {
+            // Extract and display validation errors from the response
+            const validationErrors = error.error.errors;
+            for (const key in validationErrors) {
+              if (validationErrors.hasOwnProperty(key)) {
+                console.error(`${key}: ${validationErrors[key].join(', ')}`);
+                // Optionally, display these errors in your UI
+              }
+            }
+          }
+        }
+      });
+    } else {
+      console.error('Form is invalid');
+      this.editRoleForm.markAllAsTouched(); // Trigger form validation messages
+    }
   }
 
 
-  changepassword() { }
+  openChangePasswordForm() {
+    this.changePasswordV = true;
+  }
+
+  changePassword(data: FormGroup) {
+    console.log(data.value)
+   }
+
+
+
+
+
+
 }

@@ -94,7 +94,7 @@ export class ContactUsDetailsComponent {
         next: (response) => {
           this.CreateNew = false;
           this.loadContactUs();
-          this.showSuccess();
+          this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Aded succssesfully' });
           this.contactForm.reset();
         },
         error: (myError) => {
@@ -183,7 +183,7 @@ export class ContactUsDetailsComponent {
         this._contactService.deleteMethod(contact).subscribe({
           next: (response) => {
             this.loadContactUs();
-            this.showSuccess();
+            this.messageService.add({ severity: 'error', summary: 'Success', detail: 'Deleted succssesfully' });
           },
           error: (myError) => {
           },
@@ -198,7 +198,7 @@ export class ContactUsDetailsComponent {
   }
 
   showSuccess() {
-    this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Message Sent' });
+    this.messageService.add({ severity: 'success', summary: 'Success', detail: 'added succssesfully' });
   }
 
   showError() {

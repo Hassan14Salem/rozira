@@ -1,4 +1,6 @@
+<p-toast />
 <div class="container">
+
   <div class="card">
 
 
@@ -9,8 +11,8 @@
           <h5 class="fw-bold">{{userinfo.userName}} Profile</h5>
         </ng-template>
         <ng-template pTemplate="right">
-          <button pButton pRipple label="Change password" icon="pi pi-user-edit" class="p-button-success mr-2"
-            (click)="changepassword()"></button>
+          <button pButton pRipple label="Change password" icon="pi pi-user-edit" class="p-button-success mr-2 rounded"
+            (click)="openChangePasswordForm()"></button>
         </ng-template>
       </p-toolbar>
       <p-toolbar styleClass="mb-4 gap-2" *ngIf="hasPermission('CreateContactus')">
@@ -35,19 +37,25 @@
                   <span>Edit</span>
                 </button>
               </td>
-              <td><button type="submit" class="btn btn-primary text-white">
+              <td><button type="submit" class="btn btn-primary text-white" (click)=" openEmailForm()">
                   <span>Edit</span>
                 </button>
               </td>
-              <td><button type="submit" class="btn btn-primary text-white">
+              <td><button type="submit" class="btn btn-primary text-white" (click)=" openPhoneForm()">
                   <span>Edit</span>
                 </button>
               </td>
-              <td><button type="submit" class="btn btn-primary text-white">
+              <td><button type="submit" class="btn btn-primary text-white" (click)=" openRoleForm()">
                   <span>Edit</span>
                 </button>
               </td>
 
+            </tr>
+            <tr>
+              <td colspan="4" class="text-danger">
+                Be carefull once you change any of your data you will need to login again
+
+              </td>
             </tr>
           </tbody>
         </table>
@@ -66,8 +74,8 @@
 <p-dialog [(visible)]="editUserNameV" [style]="{width: '50%'}" header="Edit {{userinfo.userName}}" [modal]="true"
   styleClass="p-fluid">
   <form [formGroup]="editUserForm" (ngSubmit)="editUserName(editUserForm)">
-    <div>
-      <div class="form-group my-2 col-lg-6">
+    <div class="row flex justify-content-between align-items-center">
+      <div class="form-group my-2 col-lg-8">
         <input formControlName="userName" type="text" class="form-control" id="usernameFormControll"
           placeholder="Username" aria-label="Username" [attr.aria-invalid]="editUserForm.get('userName')?.invalid">
         <div class="alert alert-danger"
@@ -81,64 +89,165 @@
             25 characters</p>
         </div>
       </div>
-
-      <div class="form-group my-2 col-lg-6">
-        <label for="phoneNumberFormControll"> {{'tableHeader.phoneNum'|translate}}</label>
-
-        <input formControlName="phoneNumber" type="phone" class="form-control" id="phoneNumberFormControll"
-          placeholder="Phone Number" readonly >
-
-        <div>
-
-          <div class="alert alert-danger"
-            *ngIf="editUserForm.get('phoneNumber')?.errors && editUserForm.get('phoneNumber')?.touched">
-            <p *ngIf="editUserForm.get('phoneNumber')?.getError('required')">Phone
-              number is required.</p>
-            <p *ngIf="editUserForm.get('phoneNumber')?.getError('pattern')">Invalid
-              phone number format.</p>
-
-          </div>
-        </div>
-      </div>
-      <div class="form-group my-2 col-lg-6">
-        <label for="emailFormControll"> {{'tableHeader.email'|translate}}</label>
-        <input formControlName="email" type="email" class="form-control" id="emailFormControll" placeholder="Email" readonly>
-
-        <div>
-          <div class="alert alert-danger"
-            *ngIf="editUserForm.get('email')?.errors && editUserForm.get('email')?.touched">
-            <p *ngIf="editUserForm.get('email')?.getError('required')">Email is
-              required.</p>
-            <p *ngIf="editUserForm.get('email')?.getError('email')">Invalid email
-              format.</p>
-          </div>
-        </div>
-      </div>
-      <div class="form-group  col-lg-6">
-        <label for="role" class="mb-2">{{'tableHeader.role'|translate}}</label>
-        <select formControlName="role" class="form-control" id="roleFormControll" readonly>
-          <option *ngFor="let role of roles" value="{{role.name}}">{{role.name}}</option>
-        </select>
-        <div>
-          <div class="alert alert-danger" *ngIf="editUserForm.get('role')?.errors && editUserForm.get('role')?.touched">
-            <p *ngIf="editUserForm.get('role')?.getError('required')">Role is
-              required.</p>
-            <p *ngIf="editUserForm.get('role')?.getError('pattern')">Role must be
-              either Admin or User.</p>
-
-          </div>
-        </div>
-      </div>
-
-      <div class="text-end p-2">
+      <div class="text-end p-2 col-lg-4">
         <button type="submit" class="btn btn-primary text-white" [disabled]="editUserForm.invalid">
           <span>Update username</span>
         </button>
       </div>
     </div>
   </form>
+</p-dialog>
+
+<p-dialog [(visible)]="editPhonenumberV" [style]="{width: '50%'}" header="Edit {{userinfo.phoneNumber}}" [modal]="true"
+  styleClass="p-fluid">
+  <form [formGroup]="editPhneNumForm" (ngSubmit)="editPhone(editPhneNumForm)">
+    <div class="row flex justify-content-between align-items-center">
+      <div class="form-group my-2 col-lg-6">
+
+
+        <input formControlName="phoneNumber" type="phone" class="form-control" id="phoneNumber"
+          placeholder="Phone Number">
+
+        <div class="alert alert-danger"
+          *ngIf="editPhneNumForm.get('phoneNumber')?.errors && editPhneNumForm.get('phoneNumber')?.touched">
+          <p *ngIf="editPhneNumForm.get('phoneNumber')?.getError('required')">Phone
+            number is required.</p>
+          <p *ngIf="editPhneNumForm.get('phoneNumber')?.getError('pattern')">Invalid
+            phone number format.</p>
+
+        </div>
+
+      </div>
+      <div class="text-end p-2 col-lg-4">
+        <button type="submit" class="btn btn-primary text-white" [disabled]="editPhneNumForm.invalid">
+          <span>Update Phone number</span>
+        </button>
+      </div>
+    </div>
+  </form>
+</p-dialog>
+
+<p-dialog [(visible)]="editEmailV" [style]="{width: '50%'}" header="Edit {{userinfo.email}}" [modal]="true"
+  styleClass="p-fluid">
+  <form [formGroup]="editEmailForm" (ngSubmit)="editEmail(editEmailForm)">
+    <div class="row flex justify-content-between align-items-center">
+      <div class="form-group my-2 col-lg-8">
+        <input formControlName="email" type="email" class="form-control" id="emailFormControll" placeholder="Email">
+
+        <div>
+          <div class="alert alert-danger"
+            *ngIf="editEmailForm.get('email')?.errors && editEmailForm.get('email')?.touched">
+            <p *ngIf="editEmailForm.get('email')?.getError('required')">Email is
+              required.</p>
+            <p *ngIf="editEmailForm.get('email')?.getError('email')">Invalid email
+              format.</p>
+          </div>
+        </div>
+      </div>
+      <div class="text-end p-2 col-lg-4">
+        <button type="submit" class="btn btn-primary text-white" [disabled]="editEmailForm.invalid">
+          <span>Update Email</span>
+        </button>
+      </div>
+    </div>
+  </form>
+</p-dialog>
+
+
+<p-dialog [(visible)]="editRoleV" [style]="{width: '50%'}" header="Edit {{userinfo.role}}" [modal]="true"
+  styleClass="p-fluid">
+  <form [formGroup]="editRoleForm" (ngSubmit)="editRole(editRoleForm)">
+    <div class="row flex justify-content-between align-items-center">
+      <div class="form-group my-2 col-lg-8">
+        <select formControlName="role" class="form-control" id="roleFormControll">
+          <option *ngFor="let role of roles" value="{{role.name}}">{{role.name}}</option>
+        </select>
+        <div>
+          <div class="alert alert-danger" *ngIf="editRoleForm.get('role')?.errors && editRoleForm.get('role')?.touched">
+            <p *ngIf="editRoleForm.get('role')?.getError('required')">Role is
+              required.</p>
+            <p *ngIf="editRoleForm.get('role')?.getError('pattern')">Role must be
+              either Admin or User.</p>
+
+          </div>
+        </div>
+      </div>
+      <div class="text-end p-2 col-lg-4">
+        <button type="submit" class="btn btn-primary text-white" [disabled]="editRoleForm.invalid">
+          <span>Update Role</span>
+        </button>
+      </div>
+    </div>
+  </form>
+</p-dialog>
+
+<p-dialog [(visible)]="changePasswordV" [style]="{width: '50%'}" header="Change password" [modal]="true"
+  styleClass="p-fluid">
+  <form [formGroup]="changePasswordForm" (ngSubmit)="changePassword(changePasswordForm)">
+    <div class="row flex justify-content-between align-items-center">
+      <div class="form-group my-2 col-lg-8">
+        <div class="form-group my-2">
+
+          <input formControlName="email" type="email" class="form-control" id="emailFormControll" placeholder="Email">
+
+          <div class="alert alert-danger"
+            *ngIf="changePasswordForm.get('email')?.errors && changePasswordForm.get('email')?.touched">
+            <p *ngIf="changePasswordForm.get('email')?.getError('required')">Email is
+              required.</p>
+            <p *ngIf="changePasswordForm.get('email')?.getError('email')">Invalid email
+              format.</p>
+          </div>
+
+        </div>
 
 
 
+        <div class="form-group my-2">
+          <input formControlName="oldPassword" type="password" class="form-control" id="oldpasswordFormControll"
+            placeholder="Old Password">
+          <div *ngIf="changePasswordForm.get('oldPassword')?.errors && changePasswordForm.get('oldPassword')?.touched">
+            <p *ngIf="changePasswordForm.get('oldPassword')?.getError('required')">Password is required</p>
+            <p *ngIf="changePasswordForm.get('oldPassword')?.getError('minlength')">Password must be at least 4
+              characters</p>
+            <p *ngIf="changePasswordForm.get('oldPassword')?.getError('maxlength')">Password cannot exceed 25 characters
+            </p>
+          </div>
+        </div>
+        <div class="form-group my-2">
+          <input formControlName="newPassword" type="password" class="form-control" id="newpasswordFormControll"
+            placeholder="New Password">
+          <div *ngIf="changePasswordForm.get('newPassword')?.errors && changePasswordForm.get('newPassword')?.touched">
+            <p *ngIf="changePasswordForm.get('newPassword')?.getError('required')">Password is required</p>
+            <p *ngIf="changePasswordForm.get('newPassword')?.getError('minlength')">Password must be at least 4
+              characters</p>
+            <p *ngIf="changePasswordForm.get('newPassword')?.getError('maxlength')">Password cannot exceed 25 characters
+            </p>
+          </div>
 
+        </div>
+        <div class="form-group my-2">
+          <input formControlName="confirmPassword" type="password" class="form-control" id="confirmpasswordFormControll"
+            placeholder="Confirm New Password">
+          <div
+            *ngIf="changePasswordForm.get('confirmPassword')?.errors && changePasswordForm.get('confirmPassword')?.touched">
+            <p *ngIf="changePasswordForm.get('confirmPassword')?.getError('required')">Password is required</p>
+            <p *ngIf="changePasswordForm.get('confirmPassword')?.getError('minlength')">Password must be at least 4
+              characters</p>
+            <p *ngIf="changePasswordForm.get('confirmPassword')?.getError('maxlength')">Password cannot exceed 25
+              characters
+            </p>
+          </div>
+        </div>
+        <div *ngIf="changePasswordForm.hasError('mismatch') && changePasswordForm.get('confirmPassword')?.touched">
+          <p class="alert alert-danger">Passwords do not match.</p>
+        </div>
+
+      </div>
+      <div class="  col-lg-4">
+        <button type="submit" class="btn btn-primary text-white" [disabled]="changePasswordForm.invalid">
+          <span>Change Password</span>
+        </button>
+      </div>
+    </div>
+  </form>
 </p-dialog>
