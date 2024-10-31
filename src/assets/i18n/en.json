@@ -7,6 +7,8 @@
     "cancel":"Cancel",
     "add":"Add",
     "update":"Update",
+    "detials":"Details",
+
     "delete":"Delete",
     "ChooseImage":"Choose Images",
     "searchPlaceholder":"Search...",
@@ -33,6 +35,8 @@
     "sideMenu":{
       "dashboard":"Dashboard",
       "users":"Users",
+      "newUser":"Create new user",
+
       "myProfile":"My Profile",
       "permissions":"Permissions",
       "product":"Products",
@@ -53,6 +57,8 @@
     {
       "add":"Add new product",
       "update":"Update Product",
+      "details":"Details of Product",
+
       "all":"All Products",
       "view":"View Image",
       "labels":{

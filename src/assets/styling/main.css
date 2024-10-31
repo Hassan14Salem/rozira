@@ -15,7 +15,14 @@
     margin-right: 0.5rem;
     text-wrap: nowrap;
     margin: 10px 0px;
+    
 }
+
+.p-element .ng-star-inserted .p-disabled
+{
+    display: none !important;
+}
+
 
 
 /* width */

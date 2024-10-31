@@ -1,14 +1,13 @@
-
-import { User } from '../../Interfaces/user';
 import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
-import { AbstractControl, FormBuilder, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
+import { FormGroup, FormControl, Validators, FormBuilder, AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
-import { MessageService, ConfirmationService } from 'primeng/api';
-import { Table, TableLazyLoadEvent } from 'primeng/table';
+import { Table } from 'primeng/table';
+import { User } from 'src/app/Interfaces/user';
 import { AuthService } from 'src/app/Services/auth.service';
 import { RolesService } from 'src/app/Services/roles.service';
 import { UsersService } from 'src/app/Services/users.service';
-
+import { ManagementService } from '../services/management.service';
+import { MessageService, ConfirmationService } from 'primeng/api';
 
 
 export function matchPasswords(passwordControlName: string, rePasswordControlName: string): ValidatorFn {
@@ -32,21 +31,15 @@ export function matchPasswords(passwordControlName: string, rePasswordControlNam
 
 
 
-
 @Component({
-  selector: 'app-users',
-  templateUrl: './users.component.html',
-  styleUrls: ['./users.component.css'],
+  selector: 'app-admins',
+  templateUrl: './admins.component.html',
+  styleUrls: ['./admins.component.css'],
   providers: [MessageService, ConfirmationService],
-  encapsulation: ViewEncapsulation.None, // to customize on primeNg in the component not neccassry in main.style
+  encapsulation: ViewEncapsulation.None, 
 })
+export class AdminsComponent implements OnInit{
 
-
-
-
-
-export class UsersComponent implements OnInit {
-  
   @ViewChild('dt') dataTable!: Table; // Reference to the DataTable
   permissionsLoaded = false;
   permissions: string[] = [];
@@ -86,6 +79,27 @@ export class UsersComponent implements OnInit {
   submitted: boolean = false;
   selectedUser: User = { userId: '', userName: '', email: '', phoneNumber: '', password: '', role: '' };  // Empty user data
   modalVisible: boolean = false;
+
+  // start of pagination 
+  admins:User[]=[];
+  userNamePagination:string ='';
+  phoneNum:string='';
+  email:string ='';
+  PageNumber:number =1;
+  pageSize:number = 10;
+
+  getAdmins()
+  {
+    this.managementService.getAdmins(this.userNamePagination,this.phoneNum,this.email,this.PageNumber,this.pageSize).subscribe({
+      next:(Response) =>{
+        this.admins = Response.items
+      }
+    })
+  }
+
+  // end of pagination 
+
+
   // Track modal visibility
   isLoading: boolean = false;  // Track loading state for user actions (optional)
 
@@ -101,6 +115,7 @@ export class UsersComponent implements OnInit {
   constructor(private _UserService: UsersService,
     private _AuthService :AuthService,
     private _FormBuilder: FormBuilder,
+    private managementService:ManagementService,
     private _auth: AuthService, private _roles: RolesService,
     private _alert: ToastrService) { }
 
@@ -124,17 +139,7 @@ export class UsersComponent implements OnInit {
     this.loadPermissions();
     this.fetchUsers();
     this.getAllRoles();
- 
-   
-
-
-
-
-
-
-
-
-    
+    this.getAdmins()
   }
   getAllRoles() {
     this._roles.getRoles().subscribe({
@@ -295,8 +300,31 @@ export class UsersComponent implements OnInit {
 
 
 
+  loadItems(event:any)
+  {
+    const _pageNumber = event.first! / event.rows! + 1;
+    console.log(this.PageNumber,'page number from event')
 
-  loadItems(event: any) {
+    const _pageSize = event.rows;
+    this.PageNumber = _pageNumber;
+    this.pageSize   =   _pageSize
+
+    this.getAdmins()
+  }
+ 
+
+  getNameValue(value: any) {
+    this.userNamePagination = value.target.value;
+    
+    console.log('username',this.userNamePagination,'phoneNum',this.phoneNum,' this.email', this.email)
+    if(this.userNamePagination != '') {
+      this.getAdmins();
+
+    } else
+    {
+      this.getAdmins();
+
+    }
   }
 
   deleteDialogMessage(ev: any) {
@@ -330,6 +358,5 @@ export class UsersComponent implements OnInit {
       });
     }
   }
-
 
 }

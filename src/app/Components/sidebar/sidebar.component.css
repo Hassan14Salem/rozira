@@ -146,6 +146,10 @@
   box-shadow: 1000000 10000px 10px #fff !important; /* Subtle shadow */
   color: #fff;
 }
+.pages
+{
+  margin-top: 50px;
+}
 
 a
 {
@@ -176,7 +180,7 @@ a
 }
 
 
-@media screen and (max-width:768px) {
+@media screen and (max-width:991px) {
   #sidebar-wrapper
   {
     display: none !important;
@@ -198,7 +202,7 @@ a
 }
 
 
-@media (max-width: 768px) {
+/* @media (max-width: 900px) {
   #sidebar-wrapper {
     display: none;
   }
@@ -215,4 +219,4 @@ a
   {
       display: block !important;
   }
-}
+} */

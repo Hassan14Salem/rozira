@@ -40,6 +40,7 @@ import { PermissionsModule } from './permissions/permissions.module';
 import { AuthInterceptor } from './Intserceptors/auth.interceptor';
 import { LoadingBarRouterModule } from '@ngx-loading-bar/router';
 import { LoadingBarModule } from '@ngx-loading-bar/core';
+import { RouterModule , Routes  } from '@angular/router';
 
 
 export function HttpLoaderFactory(http: HttpClient) {
@@ -68,6 +69,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     DashboardComponent,
     ContactUsDetailsComponent,
     FormsModule,
+    RouterModule,
     ToastrModule.forRoot({ 
       timeOut: 3000,
       positionClass: 'toast-top-right',

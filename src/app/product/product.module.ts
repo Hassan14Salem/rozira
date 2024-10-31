@@ -12,13 +12,16 @@ import { FileUploadModule } from 'primeng/fileupload';
 import { TooltipModule } from 'primeng/tooltip';
 import { TableModule } from 'primeng/table';
 import { DialogModule } from 'primeng/dialog';
+import { ProductDetailsComponent } from './pages/product-details/product-details.component';
+import { CarouselModule } from 'ngx-owl-carousel-o';
 
 
 @NgModule({
   declarations: [
     AllProductComponent,
     UpdateProductComponent,
-    AddProductComponent
+    AddProductComponent,
+    ProductDetailsComponent,
   ],
   imports: [
     CommonModule,
@@ -31,7 +34,7 @@ import { DialogModule } from 'primeng/dialog';
     TooltipModule,
     TableModule,
     DialogModule,
-
+    CarouselModule 
     
   ]
 })

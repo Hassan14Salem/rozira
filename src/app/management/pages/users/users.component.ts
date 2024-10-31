@@ -1,15 +1,13 @@
-
-import { User } from '../../Interfaces/user';
 import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
-import { AbstractControl, FormBuilder, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
+import { ValidatorFn, AbstractControl, ValidationErrors, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { MessageService, ConfirmationService } from 'primeng/api';
-import { Table, TableLazyLoadEvent } from 'primeng/table';
+import { Table } from 'primeng/table';
+import { User } from 'src/app/Interfaces/user';
 import { AuthService } from 'src/app/Services/auth.service';
 import { RolesService } from 'src/app/Services/roles.service';
 import { UsersService } from 'src/app/Services/users.service';
-
-
+import { ManagementService } from '../services/management.service';
 
 export function matchPasswords(passwordControlName: string, rePasswordControlName: string): ValidatorFn {
   return (formGroup: AbstractControl): ValidationErrors | null => {
@@ -29,24 +27,15 @@ export function matchPasswords(passwordControlName: string, rePasswordControlNam
   };
 
 }
-
-
-
-
 @Component({
   selector: 'app-users',
   templateUrl: './users.component.html',
   styleUrls: ['./users.component.css'],
   providers: [MessageService, ConfirmationService],
-  encapsulation: ViewEncapsulation.None, // to customize on primeNg in the component not neccassry in main.style
+  encapsulation: ViewEncapsulation.None, 
 })
+export class UsersComponent implements OnInit{
 
-
-
-
-
-export class UsersComponent implements OnInit {
-  
   @ViewChild('dt') dataTable!: Table; // Reference to the DataTable
   permissionsLoaded = false;
   permissions: string[] = [];
@@ -86,6 +75,27 @@ export class UsersComponent implements OnInit {
   submitted: boolean = false;
   selectedUser: User = { userId: '', userName: '', email: '', phoneNumber: '', password: '', role: '' };  // Empty user data
   modalVisible: boolean = false;
+
+  // start of pagination 
+  
+  userNamePagination:string ='';
+  phoneNum:string='';
+  email:string ='';
+  PageNumber:number =1;
+  pageSize:number = 10;
+
+  getUsers()
+  {
+    this.managementService.getUsers(this.userNamePagination,this.phoneNum,this.email,this.PageNumber,this.pageSize).subscribe({
+      next:(Response) =>{
+        this.users = Response.items
+      }
+    })
+  }
+
+  // end of pagination 
+
+
   // Track modal visibility
   isLoading: boolean = false;  // Track loading state for user actions (optional)
 
@@ -101,6 +111,7 @@ export class UsersComponent implements OnInit {
   constructor(private _UserService: UsersService,
     private _AuthService :AuthService,
     private _FormBuilder: FormBuilder,
+    private managementService:ManagementService,
     private _auth: AuthService, private _roles: RolesService,
     private _alert: ToastrService) { }
 
@@ -122,19 +133,9 @@ export class UsersComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadPermissions();
-    this.fetchUsers();
+    // this.fetchUsers();
     this.getAllRoles();
- 
-   
-
-
-
-
-
-
-
-
-    
+    this.getUsers()
   }
   getAllRoles() {
     this._roles.getRoles().subscribe({
@@ -330,6 +331,5 @@ export class UsersComponent implements OnInit {
       });
     }
   }
-
 
 }

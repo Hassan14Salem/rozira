@@ -1,4 +1,4 @@
-<div class="card p-3 container">
+<div class="card p-2 container  ">
     <p-toolbar styleClass="mb-4 gap-2" 
     *ngIf="canAdd"
     
@@ -52,11 +52,13 @@
         <ng-template pTemplate="header">
             <tr >
                 <th 
-                style="min-width: 10rem;text-align: center;font-size: 14px;"
-                [pSortableColumn] ="col.field "
-                *ngFor="let col of columns"> {{ col.header | translate }}
-                    <p-sortIcon [field]="col.field"></p-sortIcon>  
-                </th>
+    style="min-width: 10rem; text-align: center; font-size: 14px;"
+    *ngFor="let col of columns">
+    {{ col.header | translate }}
+    <ng-container *ngIf="col.field !== 'images' && col.field !== 'imageUrl'">
+        <p-sortIcon [field]="col.field"></p-sortIcon>
+    </ng-container>
+</th>
                 <th style="min-width: 15rem;"></th>
             </tr>
           
@@ -76,13 +78,15 @@
                     <ng-template #otherColumns>
                         <!-- Check if column is 'imagePath' -->
                         <ng-container *ngIf="col.field === 'imageUrl'; else images">
-                            <img [src]="'https://roseirae.runasp.net'+item[col.field]" alt="{{item.name}}" style="max-width: 100px; max-height: 100px;" />
+                            <a  (click)="viewSliderImage(item)">
+                            <img [src]="'https://roseirae.runasp.net'+item[col.field]"  class="w-100 h-100" alt="{{item.name}}" style="max-width: 100px; max-height: 100px;" />
+                            </a>
                         </ng-container>
                     <ng-template #images>
                         <ng-container *ngIf="col.field === 'images'; else dateOrDefault">
                             <a  (click)="viewImage(item)">
 
-                                <img [src]="'https://roseirae.runasp.net'+item[col.field][0]" alt="{{item.name}}" style="max-width: 100px; max-height: 100px;" />
+                                <img [src]="'https://roseirae.runasp.net'+item[col.field][0]" class="w-100" alt="{{item.name}}" style="max-width: 100px; max-height: 100px;" />
                             </a>
                         </ng-container>
                     </ng-template>
@@ -103,7 +107,14 @@
                 
                 
                 <td style="text-align: end !important;">
-                    
+                    <button
+                    *ngIf="canViewDetails"
+                    pButton pRipple icon="pi pi-eye"
+                     class="p-button-rounded p-button-primary me-3" 
+                     pTooltip="{{'detials' | translate}}" tooltipPosition="top"
+                     (click)="viewItem.emit(item)"></button>
+
+
                     <button
                     *ngIf="canEdit"
                     pButton pRipple icon="pi pi-pencil"
@@ -173,7 +184,6 @@
 <p-dialog 
     [(visible)]="viewImageDialog" 
     [style]="{width: '450px'}"  
-    header="{{'product-Image' | translate}}" 
     [modal]="true" 
     styleClass="p-fluid">
     
@@ -185,6 +195,7 @@
         <button 
             pButton 
             pRipple 
+            (click)="hideImageDialog()"
             label="{{'close' | translate}}" 
             icon="pi pi-times" 
             class="p-button-text" 

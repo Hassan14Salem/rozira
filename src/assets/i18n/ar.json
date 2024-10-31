@@ -7,6 +7,7 @@
     "cancel":"إالغاء",
     "add":"اضافة",
     "Update":"تعديل",
+    "detials":"التفاصيل",
     "delete":"حذف",
     "ChooseImage":"إاختر الصور",
     "searchPlaceholder":"بحث...",
@@ -31,6 +32,7 @@
     "sideMenu":{
       "dashboard":"لوحة التحكم",
       "users":"الأعضاء",
+      "newUser":"إضافة عضو جديد",
       "permissions":"الصلاحيات",
       "product":"المنتجات",
       "about":"نبذة عن",
@@ -57,6 +59,8 @@
     {
       "add":"إضافة منتج جديد",
       "update":"تعديل المنتج",
+      "details":"تفاصيل",
+
       "all":"جميع المنتجات",
       "view" :"رؤية الصورة",
       "labels":{

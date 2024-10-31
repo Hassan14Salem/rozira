@@ -15,7 +15,8 @@ export class SidebarComponent implements AfterViewInit, OnInit {
 
   navItems = [
     { label: 'sideMenu.dashboard', icon: 'fa-solid fa-chart-line', route: '/dashboard', permission: 'SendOtp' },
-    { label: 'sideMenu.users', icon: 'fa-solid fa-users', route: '/users', permission: 'ViewUsers' },
+    { label: 'sideMenu.newUser', icon: 'fa-solid fa-users', route: '/users', permission: 'CreateUser' },
+    { label: 'sideMenu.users', icon: 'fa-solid fa-users', route: '/management/main', permission: 'GetUsers' },
     { label: 'sideMenu.myProfile', icon: 'fa-solid fa-user', route: '/profile', permission: 'GetContactusById' },
     { label: 'sideMenu.permissions', icon: 'fa-solid fa-question', route: '/permissions/all', permission: 'ViewRoles' },
     { label: 'sideMenu.product', icon: 'fa-brands fa-product-hunt', route: '/product/products', permission: 'GetProducts' },

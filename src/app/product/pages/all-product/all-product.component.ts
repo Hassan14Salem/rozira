@@ -17,7 +17,7 @@ export class AllProductComponent implements OnInit {
   permissionsLoaded = false;
   permissions: string[] = [];
   //reusable
-
+  imageTitle:string='Product Image'
   pageColumns = [
     { field: 'categoryId', header: 'product.labels.category',filterable: true },
     { field: 'productName', header: 'product.labels.name',filterable: true  },
@@ -56,7 +56,6 @@ export class AllProductComponent implements OnInit {
       next:(Response) => {
         this.products = Response.items
         this.totalLength = Response.totalCount
-        console.log('this.totalRecords',this.products)
         this.getCategories();
       }
     })
@@ -97,6 +96,10 @@ editItem(ev:any)
 {
   this.NavigateRoute.navigate(['/product/update',ev.id])
 }
+viewItemDetails(ev:any)
+{
+  this.NavigateRoute.navigate(['/product/details',ev.id])
+}
 
 deleteDialogMessage(_item:Product)
 {
@@ -108,14 +111,12 @@ deleteItem(ev:any)
 {
   this._productService.delete(ev.id).subscribe({
     next : (Response) =>{
-      console.log(Response)
       if(Response === 'Product deleted successfully')
       {
         this.alertService.success('Product Deleted Successfully');
         this.getProducts();
       }
      }, error :(err) =>{
-      console.log(err)
       this.alertService.error(err.error.error.message)
      }
   } )
@@ -143,13 +144,10 @@ openNew()
 
 loadItems(event:any)
   {
-    console.log('product table event',event)
     const _pageNumber = event.first! / event.rows! + 1;
     const _pageSize = event.rows;
     this.pageNumber = _pageNumber;
-    console.log('page number',this.pageNumber)
     this.pageSize   =   _pageSize
-    console.log('page pageSize',this.pageSize)
 
     this.getProducts()
   }

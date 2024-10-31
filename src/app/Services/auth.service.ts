@@ -41,7 +41,6 @@ export class AuthService {
     return this._HttpClient.post('https://roseirae.runasp.net/api/Users/login', data).pipe(
       tap((response: any) => {
         localStorage.setItem('RoziraToken', response.token);
-        console.log(this.permissionsSubject , 'From Log in ');
 
         this.decodeUserToken();
         this.fetchPermissions();
@@ -85,7 +84,6 @@ export class AuthService {
     this.userProfile.next(null);
     this.permissionsSubject.next([]);
     this._Router.navigate(['/login']);
-    console.log(this.permissionsSubject , 'From Log Out ');
 
   }
 }

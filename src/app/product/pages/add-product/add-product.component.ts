@@ -97,7 +97,6 @@ export class AddProductComponent implements OnInit {
   onImageSelect(event: any) {
     if (event.files && event.files.length > 0) {
       this.selectedFile = event.files[0];
-      console.log(this.selectedFile);
       // Mark the form as dirty
       // this.addForm.markAsDirty();
       // Set the form control as valid
@@ -109,7 +108,6 @@ export class AddProductComponent implements OnInit {
     for (let file of event.files) {
       this.uploadedFiles.push(file);
     }
-    console.log(this.uploadedFiles)
     this.addForm.markAsDirty();
   }
   get imagesArray(): FormArray {

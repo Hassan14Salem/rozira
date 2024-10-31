@@ -1,19 +1,20 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { FormGroup, FormControl, Validators, FormArray } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
+import { Category } from 'src/app/category/Models/category';
+import { CategoryService } from 'src/app/category/Services/category.service';
 import { Product } from '../../Models/product';
 import { ProductService } from '../../Services/product.service';
-import { ActivatedRoute, Router } from '@angular/router';
-import { FormArray, FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
-import { CategoryService } from 'src/app/category/Services/category.service';
-import { Category } from 'src/app/category/Models/category';
-import { ToastrService } from 'ngx-toastr';
+import { OwlOptions } from 'ngx-owl-carousel-o';
 
 @Component({
-  selector: 'app-update-product',
-  templateUrl: './update-product.component.html',
-  styleUrls: ['./update-product.component.css']
+  selector: 'app-product-details',
+  templateUrl: './product-details.component.html',
+  styleUrls: ['./product-details.component.css']
 })
-export class UpdateProductComponent implements OnInit{
-  
+export class ProductDetailsComponent implements OnInit{
+
   // @ViewChild('updateProduct') updateForm!:NgForm
   updateProduct!:FormGroup
    formData = new FormData();
@@ -66,7 +67,7 @@ export class UpdateProductComponent implements OnInit{
           traderDiscount: this.product.traderDiscount,
           quantity: this.product.quantity,
           images: this.product.images,
-          categoryId: this.product.category.id
+          categoryId: this.product.category.nameEn
         })
 
        this. getCateories()
@@ -84,7 +85,6 @@ export class UpdateProductComponent implements OnInit{
   }
 
   getCategoryValue(ev:any){
-    this.selectedCategory = ev.target.value;
   }
 
   saveItem(editForm:FormGroup)
@@ -217,4 +217,42 @@ export class UpdateProductComponent implements OnInit{
     {
       this.viewImageDialog = false
     }
+
+
+
+
+
+
+
+
+//carousel
+customOptions: OwlOptions = {
+  loop: true,
+  mouseDrag: true,
+  touchDrag: true,
+  pullDrag: true,
+  dots: true,
+  navSpeed: 100,
+  navText: ['', ''],
+  responsive: {
+    0: {
+      items: 1
+    },
+    400: {
+      items: 2
+    },
+    740: {
+      items: 3
+    },
+    940: {
+      items: 4
+    }
+  },
+  nav: false,
+  autoplay:true,
+  autoplaySpeed:500,
+  rtl:true
+}
+
+
 }

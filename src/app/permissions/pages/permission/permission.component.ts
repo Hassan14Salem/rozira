@@ -49,10 +49,8 @@ export class PermissionComponent implements OnInit{
     this._permissionService.getAllPermissions().subscribe({
       next: (response: any) => {
         this.permissionsByCategory = response;
-        console.log(response);
       },
       error: (error: any) => {
-        console.error('Error fetching permissions', error);
       },
     });
 
@@ -100,15 +98,12 @@ export class PermissionComponent implements OnInit{
   onSelectRole(role: any) {
     this.selectedRole = role;
     this.clearPermissions();
-    console.log(role);
     this.selectedIdToDelete = role.id;
     this._Role.getPermissionsByRole(role.id).subscribe({
       next: (Response: { [category: string]: string[] }) => {
-        console.log('The response of on select the role', Response);
         this.setPermissionsForSelectedRole(Response);
       },
       error: (myError) => {
-        console.log('The Error is in role selection', myError);
       }
     });
 
@@ -136,31 +131,25 @@ export class PermissionComponent implements OnInit{
         }
       });
     }
-    console.log(updatedPermissionsIDs);
 
     this._Role.updatePermissions(this.selectedRole.id, updatedPermissionsIDs).subscribe({
       next: (response) => {
         this.showUpdatedMessage();
-        console.log('Permissions updated successfully:', response);
       },
       error: (myError) => {
 
-        console.error('Error updating permissions:', myError);
       }
     });
   }
   createNewRole(data: FormGroup) {
     const roleName = data.value.role; // Extract role name
-    console.log(roleName);
 
     this._Role.createRoles(roleName).subscribe({
       next: (response) => {
-        console.log('Role created successfully:', response);
         this.showSucssesMessage();
         this.loadRoles();
       },
       error: (myError) => {
-        console.error('Error creating role:', myError.message);
       },
     });
   }
@@ -178,13 +167,11 @@ export class PermissionComponent implements OnInit{
 
     this._Role.deletePermission(this.selectedIdToDelete).subscribe({
       next: (response) => {
-        console.log('deleted', response);
         this.showDeletedMessage();
         this.loadRoles();
         this.clearPermissions();
       },
       error: (myError) => {
-        console.log('Not deleted', myError)
       },
 
     });

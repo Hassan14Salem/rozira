@@ -22,7 +22,6 @@ export class OffcanvasNavbarComponent implements OnInit {
     let language :any;
     if('lang' in localStorage){
       language = localStorage.getItem('lang')
-    console.log('language from nav',language)
 
      }
     if(language==='en'){
@@ -40,7 +39,6 @@ export class OffcanvasNavbarComponent implements OnInit {
       let language :any;
       if('lang' in localStorage){
         language = localStorage.getItem('lang')
-      console.log('language from nav',language)
       this.changeLanguage(language)
      
        }
@@ -51,6 +49,5 @@ export class OffcanvasNavbarComponent implements OnInit {
           this.userName = localStorage.getItem('RoziraUsernameAcount')
         }
   
-          console.log(this.userName,'username') 
     }
 }
