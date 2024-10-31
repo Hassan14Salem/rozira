@@ -129,7 +129,6 @@ loadItems(event:any)
       
     },
     error: (err) => {
-      console.error('Error uploading:', err);
       this.alertService.error('faild to add slider')
     }
   });

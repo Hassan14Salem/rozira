@@ -147,7 +147,6 @@ export class UserprofileComponent implements OnInit {
             const validationErrors = error.error.errors;
             for (const key in validationErrors) {
               if (validationErrors.hasOwnProperty(key)) {
-                console.error(`${key}: ${validationErrors[key].join(', ')}`);
                 // Optionally, display these errors in your UI
               }
             }
@@ -155,7 +154,6 @@ export class UserprofileComponent implements OnInit {
         }
       });
     } else {
-      console.error('Form is invalid');
       this.editUserForm.markAllAsTouched(); // Trigger form validation messages
     }
   }
@@ -192,7 +190,6 @@ export class UserprofileComponent implements OnInit {
             const validationErrors = error.error.errors;
             for (const key in validationErrors) {
               if (validationErrors.hasOwnProperty(key)) {
-                console.error(`${key}: ${validationErrors[key].join(', ')}`);
                 // Optionally, display these errors in your UI
               }
             }
@@ -200,7 +197,6 @@ export class UserprofileComponent implements OnInit {
         }
       });
     } else {
-      console.error('Form is invalid');
       this.editUserForm.markAllAsTouched(); // Trigger form validation messages
     }
   }
@@ -240,7 +236,6 @@ export class UserprofileComponent implements OnInit {
             const validationErrors = error.error.errors;
             for (const key in validationErrors) {
               if (validationErrors.hasOwnProperty(key)) {
-                console.error(`${key}: ${validationErrors[key].join(', ')}`);
                 // Optionally, display these errors in your UI
               }
             }
@@ -248,7 +243,6 @@ export class UserprofileComponent implements OnInit {
         }
       });
     } else {
-      console.error('Form is invalid');
       this.editUserForm.markAllAsTouched(); // Trigger form validation messages
     }
   }
@@ -288,7 +282,6 @@ export class UserprofileComponent implements OnInit {
             const validationErrors = error.error.errors;
             for (const key in validationErrors) {
               if (validationErrors.hasOwnProperty(key)) {
-                console.error(`${key}: ${validationErrors[key].join(', ')}`);
                 // Optionally, display these errors in your UI
               }
             }
@@ -296,7 +289,6 @@ export class UserprofileComponent implements OnInit {
         }
       });
     } else {
-      console.error('Form is invalid');
       this.editRoleForm.markAllAsTouched(); // Trigger form validation messages
     }
   }

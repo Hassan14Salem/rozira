@@ -76,7 +76,6 @@ export class AuthService {
           localStorage.setItem('userPermissions', JSON.stringify(permissions));
           this.permissionsSubject.next(permissions); // Update BehaviorSubject with permissions
         },
-        error: (error) => console.error('Error fetching permissions:', error)
       });
     }
   }
