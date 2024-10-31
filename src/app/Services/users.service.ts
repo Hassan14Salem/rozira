@@ -12,8 +12,16 @@ export class UsersService {
 
   private apiUrl = 'https://roseirae.runasp.net/api/Users/all';
   private apiIdUrl = 'https://roseirae.runasp.net/api/Users';
-
   private deleteapiUrl = 'https://roseirae.runasp.net/api/Users/delete/';
+  private apiUsers = 'https://roseirae.runasp.net/api/Users/GetUserByUserName'
+
+  private getHeaders(): HttpHeaders {
+    const token = localStorage.getItem('RoziraToken');
+    return new HttpHeaders({
+      'Authorization': token ? `Bearer ${token}` : '',
+      'Content-Type': 'application/json'
+    });
+  }
 
   constructor(private _HttpClient: HttpClient, private _AuthService: AuthService) { }
 
@@ -40,29 +48,34 @@ export class UsersService {
     const token = localStorage.getItem('RoziraToken');
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`,
-      
+
     });
 
     return this._HttpClient.get<User>(`${this.apiIdUrl}/${userId}`, { headers });
   }
 
- editUser(userData: any): Observable<any> {
+  getUserByUsername(username: string): Observable<any> {
+
+    return this._HttpClient.get(`${this.apiUsers}?userName=${username}`, { headers: this.getHeaders() });
+
+  }
+  editUser(userData: any): Observable<any> {
     const url = 'https://roseirae.runasp.net/api/Users/edit'; // Ensure this URL is correct
     const token = localStorage.getItem('RoziraToken');
 
     // Check if token exists
     if (!token) {
-        throw new Error('No token found in local storage');
+      throw new Error('No token found in local storage');
     }
 
     const headers = new HttpHeaders({
-        'Authorization': `Bearer ${token}`,
-        'Content-Type': 'application/json' // Specify JSON content type
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json' // Specify JSON content type
     });
 
-   
+
 
     return this._HttpClient.put(url, userData, { headers });
-}
+  }
 
 }

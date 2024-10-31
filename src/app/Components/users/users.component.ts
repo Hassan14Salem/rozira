@@ -76,8 +76,6 @@ export class UsersComponent implements OnInit {
     { field: 'email', header: 'tableHeader.email' },
     { field: 'phoneNumber', header: 'tableHeader.phoneNum' },
     { field: 'role', header: 'tableHeader.role' },
-
-
   ];
 
   searchValue: string = ''
