@@ -303,7 +303,6 @@ export class AdminsComponent implements OnInit{
   loadItems(event:any)
   {
     const _pageNumber = event.first! / event.rows! + 1;
-    console.log(this.PageNumber,'page number from event')
 
     const _pageSize = event.rows;
     this.PageNumber = _pageNumber;
@@ -316,7 +315,6 @@ export class AdminsComponent implements OnInit{
   getNameValue(value: any) {
     this.userNamePagination = value.target.value;
     
-    console.log('username',this.userNamePagination,'phoneNum',this.phoneNum,' this.email', this.email)
     if(this.userNamePagination != '') {
       this.getAdmins();
 

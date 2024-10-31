@@ -39,11 +39,9 @@ export class LoginComponent {
           localStorage.setItem('RoziraToken', response.token);
             const username = this._AuthService.decodeUserToken();
           if (username) {
-            console.log('From Front ' , username)
             this._AuthService.getUserPermissionsByUsername(username).subscribe({
               next: (permissions) => {
                 localStorage.setItem('userPermissions' , JSON.stringify(permissions));
-                console.log('permission', permissions)
                 this._PermissionService.setPermissions(permissions);
                 this._Router.navigate(['/dashboard']);
               },
