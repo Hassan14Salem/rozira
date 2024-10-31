@@ -89,19 +89,15 @@ export class ContactUsDetailsComponent {
   }
   onSubmit(): void {
     const formData = this.contactForm.value;
-
-    console.log('from on submit')
     if (this.contactForm.valid) {
       this._contactService.addNewMethos(formData).subscribe({
         next: (response) => {
-          console.log(response);
           this.CreateNew = false;
           this.loadContactUs();
           this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Aded succssesfully' });
           this.contactForm.reset();
         },
         error: (myError) => {
-          console.log(myError);
           this.messageService.add({ severity: 'error', summary: 'Error', detail: 'ُEnter a valid data' });
 
         },
@@ -114,11 +110,9 @@ export class ContactUsDetailsComponent {
     this._contactService.getAllContactMethods().subscribe({
       next: (response) => {
         this.contactValus = response;
-        console.log(this.contactValus);
 
       },
       error: (myError) => {
-        console.log(myError);
       }
 
     });
@@ -152,7 +146,6 @@ export class ContactUsDetailsComponent {
   theSelectedId: any;
   editContact(contact: any) {
     this.editExist = true;
-    console.log(contact);
     this.theSelectedId = contact.id;
 
     this.editForm.patchValue({
@@ -163,12 +156,9 @@ export class ContactUsDetailsComponent {
   }
   onEdiitSubmit() {
     const formData = this.editForm.value;
-    console.log('from on edit')
-    console.log(this.theSelectedId);
     if (this.editForm.valid) {
       this._contactService.editMethod(this.theSelectedId, formData).subscribe({
         next: (response) => {
-          console.log(response);
           this.editExist = false;
           this.loadContactUs();
           this.messageService.add({ severity: 'success', summary: 'Error', detail: 'ُUser Updated' });
@@ -176,7 +166,6 @@ export class ContactUsDetailsComponent {
           this.contactForm.reset();
         },
         error: (myError) => {
-          console.log(myError);
           this.messageService.add({ severity: 'error', summary: 'Error', detail: 'ُEnter a valid data' });
 
         },
@@ -186,7 +175,6 @@ export class ContactUsDetailsComponent {
   }
 
   deleteContact(contact: any) {
-    console.log('Delete contact:', contact);
     this.confirmationService.confirm({
       message: 'Are you sure you want to delete the selected products?',
       header: 'Confirm',
@@ -194,16 +182,13 @@ export class ContactUsDetailsComponent {
       accept: () => {
         this._contactService.deleteMethod(contact).subscribe({
           next: (response) => {
-            console.log(response);
             this.loadContactUs();
             this.messageService.add({ severity: 'error', summary: 'Success', detail: 'Deleted succssesfully' });
           },
           error: (myError) => {
-            console.log(myError)
           },
 
         });
-        console.log('In the accept delation');
       }
     });
   }

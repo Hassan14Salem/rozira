@@ -17,28 +17,24 @@ export class AllProductComponent implements OnInit {
   permissionsLoaded = false;
   permissions: string[] = [];
   //reusable
-
+  imageTitle:string='Product Image'
   pageColumns = [
-    { field: 'categoryId', header: 'category',filterable: true },
-    { field: 'productName', header: 'product Name',filterable: true  },
-    { field: 'customerPrice', header: 'cust. Price' ,filterable: true },
-    { field: 'customerDiscount', header: 'cust. Discount',filterable: true },
-    { field: 'priceAfterCustomerDiscount', header: 'After Discount',filterable: true  },
-    { field: 'traderPrice', header: 'trader Price',filterable: true  },
-    { field: 'traderDiscount', header: 'trader Discount',filterable: true  },
-    { field: 'priceAfterTraderDiscount', header: 'After Discount',filterable: true  },
-    { field: 'quantity', header: 'quantity',filterable: true  },
-    { field: 'description', header: 'description',filterable: true  },
-    { field: 'images', header: 'images',filterable: true  },
-
-    
-
-    
-
+    { field: 'categoryId', header: 'product.labels.category',filterable: true },
+    { field: 'productName', header: 'product.labels.name',filterable: true  },
+    { field: 'customerPrice', header: 'product.labels.customerPrice' ,filterable: true },
+    { field: 'customerDiscount', header: 'product.labels.customerDiscount',filterable: true },
+    { field: 'priceAfterCustomerDiscount', header: 'product.labels.priceAfterCustomerDiscount',filterable: true  },
+    { field: 'traderPrice', header: 'product.labels.traderPrice',filterable: true  },
+    { field: 'traderDiscount', header: 'product.labels.traderDiscount',filterable: true  },
+    { field: 'priceAfterTraderDiscount', header: 'product.labels.priceAfterTraderDiscount',filterable: true  },
+    { field: 'quantity', header: 'product.labels.quantity',filterable: true  },
+    { field: 'description', header: 'product.labels.description',filterable: true  },
+    { field: 'images', header: 'product.labels.product-Image',filterable: true  },
   ];
+
   globalFilterFields:string[]= ['nameAr']
   confirmDeleteDialog!:boolean
-  totalRecords!:number;
+  totalLength:number=0;
   title :string = 'product.all'
   name:any='';
   constructor(private _productService:ProductService,
@@ -51,16 +47,15 @@ export class AllProductComponent implements OnInit {
   product ={} as Product 
   categories:any[]=[]
     pageNumber:number = 1;
-    pageSize!:number;
+    pageSize:number = 10;
 
 
   getProducts()
   {
-    console.log('name from the get products',this.name)
-    this.base.getAllTest('Product',this.name,this.pageNumber,10).subscribe({
+    this.base.getAllTest('Product',this.name,this.pageNumber,this.pageSize).subscribe({
       next:(Response) => {
         this.products = Response.items
-        this.totalRecords = Response.totalCount
+        this.totalLength = Response.totalCount
         this.getCategories();
       }
     })
@@ -90,13 +85,20 @@ export class AllProductComponent implements OnInit {
  }
 ngOnInit(): void {
   this.getProducts();
-  this.loadPermissions()
+  this.loadPermissions();
+   
+
+
 }
 
 
 editItem(ev:any)
 {
   this.NavigateRoute.navigate(['/product/update',ev.id])
+}
+viewItemDetails(ev:any)
+{
+  this.NavigateRoute.navigate(['/product/details',ev.id])
 }
 
 deleteDialogMessage(_item:Product)
@@ -109,14 +111,12 @@ deleteItem(ev:any)
 {
   this._productService.delete(ev.id).subscribe({
     next : (Response) =>{
-      console.log(Response)
       if(Response === 'Product deleted successfully')
       {
         this.alertService.success('Product Deleted Successfully');
         this.getProducts();
       }
      }, error :(err) =>{
-      console.log(err)
       this.alertService.error(err.error.error.message)
      }
   } )
@@ -144,11 +144,11 @@ openNew()
 
 loadItems(event:any)
   {
-    console.log('product table event',event)
     const _pageNumber = event.first! / event.rows! + 1;
     const _pageSize = event.rows;
     this.pageNumber = _pageNumber;
     this.pageSize   =   _pageSize
+
     this.getProducts()
   }
 

@@ -69,7 +69,6 @@ export class UpdateProductComponent implements OnInit{
           categoryId: this.product.category.id
         })
 
-        console.log('this.product',this.product)
        this. getCateories()
       }
     })
@@ -119,7 +118,6 @@ export class UpdateProductComponent implements OnInit{
 
    
   this.formData.forEach((key,value)=>{
-    console.log(`value:${value} =>  key:${key}`)
   })
       
    
@@ -132,7 +130,6 @@ export class UpdateProductComponent implements OnInit{
           this.navigateRoute.navigate(['/product/products'])
         },
         error : (err)=>{
-          console.log(err)
           this.alertService.error('Faild to add product')
         }
       })
@@ -145,13 +142,11 @@ export class UpdateProductComponent implements OnInit{
      this.loadProduct()
 
 
-     console.log(this.ProductId)
   }
 
   onImageSelect(event: any) {
     if (event.files && event.files.length > 0) {
       this.selectedFile = event.files[0];
-      console.log(this.selectedFile);
       this.updateProduct.markAsDirty();  
     }
   }
@@ -168,7 +163,6 @@ export class UpdateProductComponent implements OnInit{
         // this.uploadedFiles.push(file);
         this.formData.append('NewImages',file)
     }
-    console.log('NewImages', NewImages.value)
     this.updateProduct.markAsDirty();  
 
     }
@@ -188,8 +182,6 @@ export class UpdateProductComponent implements OnInit{
       
         this.formData.append('ImagesToDelete',image)
         this.imageToDelete.push(image)
-        console.log('imageToDelete',this.imageToDelete.length)
-        console.log('product.images',this.product.images.length)
 
         this.checkImageValidation()
     }

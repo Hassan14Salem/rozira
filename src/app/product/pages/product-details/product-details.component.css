@@ -1,0 +1,18 @@
+.flex
+{
+display: flex !important;
+justify-content: space-around !important;
+}
+
+label
+{
+    margin: 10px 0px;
+}
+
+.carousel-img
+{
+    width: 100%;    /* Adjust width as needed */
+    height: 300px;   /* Adjust height as needed */
+    object-fit: cover;  /* Ensures the image covers the dimensions without distortion */
+    border-radius: 8px;
+}

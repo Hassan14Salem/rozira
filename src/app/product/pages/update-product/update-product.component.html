@@ -5,7 +5,7 @@
     </div>
   </div>
  
-    <div class="container ">
+    <div class="container px-5">
         <form  [formGroup]="updateProduct" (ngSubmit)="saveItem(updateProduct)">
         
         <div class="row my-3 ">
@@ -152,7 +152,7 @@
                   max-size="10000"
                   accept="image/*" 
                   [multiple]="true" 
-                   [customUpload]="true" 
+                   [customUpload]="false" 
                    (onSelect)="onUpload($event)"
                    chooseLabel="{{'ChooseImage'|translate}}">
 

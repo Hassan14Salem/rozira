@@ -3,7 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { AllAboutComponent } from './pages/all-about/all-about.component';
 
 const routes: Routes = [
-  {path:'all',component:AllAboutComponent}
+  {path:'all',component:AllAboutComponent,title:'About'}
 ];
 
 @NgModule({

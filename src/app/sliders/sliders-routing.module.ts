@@ -5,7 +5,7 @@ import { UpdateSliderComponent } from './Pages/update-slider/update-slider.compo
 import { AddSliderComponent } from './Pages/add-slider/add-slider.component';
 
 const routes: Routes = [
-  {path:'all',component:AllSlidersComponent},
+  {path:'all',component:AllSlidersComponent,title:'All Sliders'},
   {path:'update',component:UpdateSliderComponent},
   {path:'add',component:AddSliderComponent},
 

@@ -1,0 +1,188 @@
+<section >
+    <div class="container">
+      <div class=" my-3">
+        <h2 class="text-center py-3">{{'product.details' | translate}}</h2>
+      </div>
+    </div>
+   
+      <div class="container  px-5">
+          <form  [formGroup]="updateProduct" (ngSubmit)="saveItem(updateProduct)">
+          
+          <div class="row my-3 ">
+              <div class="col-md-6">
+                  <div class="form-group">
+                      <label for="txtproductName">{{'product.labels.name' | translate}}</label>
+                      <input type="text"  id="txtproductName"  class="form-control"
+                        placeholder="{{'product.labels.name' | translate}}" formControlName="ProductName" readonly
+                  />
+                  
+                    </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                    <label for="txtcategoryId">Category</label>
+                    <input name="categoryId" class="form-control"  (change)="getCategoryValue($event)" id="" formControlName="categoryId" readonly>
+                  </div>
+            </div>
+  
+           
+           
+          </div>
+  
+  
+          <div class="row my-3 ">
+            <div class="col-lg-4">
+                   <div class="form-group">
+                    <label for="txttraderPrice">{{ 'product.labels.traderPrice' | translate }}</label>
+                    <input type="text"  id="txtraderPrice" class="form-control"
+                      placeholder="{{ 'product.labels.traderPrice' | translate }}" formControlName="traderPrice" readonly
+                       />
+                     <div *ngIf="updateProduct.get('traderPrice')?.errors && updateProduct.get('traderPrice')?.touched" class="text-danger">
+                      <p *ngIf="updateProduct.get('traderPrice')?.getError('required')" class="alert alert-danger">{{'errors.required'|translate}}</p>
+                    
+                    
+                    </div>
+                  </div>
+                  
+            </div>
+            <div class="col-lg-4">
+                <div class="form-group">
+                    <label for="txttraderDiscount">{{ 'product.labels.traderDiscount' | translate }}</label>
+                    <input type="text"  id="txttraderDiscount" class="form-control"
+                      placeholder="{{ 'product.labels.traderDiscount' | translate }}" formControlName="traderDiscount" readonly
+                       />
+                     
+                       <div *ngIf="updateProduct.get('traderDiscount')?.errors && updateProduct.get('traderDiscount')?.touched" class="text-danger">
+                        <p class="alert alert-danger">Invalid percentage value. Enter a number between 0% and 100%.</p>
+                      </div>
+                  </div>
+                 
+            </div>
+            <div class="col-lg-4">
+              <div class="form-group">
+                  <label for="txtquantity">{{ 'product.labels.quantity' | translate }}</label>
+                  <input type="text" id="txtquantity" class="form-control"
+                    placeholder="{{ 'product.labels.quantity' | translate }}" formControlName="quantity" readonly
+                   />
+                   <div *ngIf="updateProduct.get('quantity')?.errors && updateProduct.get('quantity')?.touched" class="text-danger">
+                    <p *ngIf="updateProduct.get('quantity')?.getError('required')" class="alert alert-danger">{{'errors.required'|translate}}</p>
+                  
+                  
+                  </div>
+                </div>
+          </div>
+        </div>
+  
+        <div class="row my-3">
+            
+          <div class="col-md-6">
+              <div class="form-group">
+                  <label for="txtcustomerPrice">{{ 'product.labels.customerPrice' | translate }}</label>
+                  <input type="text" id="txtcustomerPrice"  class="form-control"
+                    placeholder="{{ 'product.labels.customerPrice' | translate }}" formControlName="customerPrice" 
+                    readonly
+                    />
+                 <div *ngIf="updateProduct.get('customerPrice')?.errors && updateProduct.get('customerPrice')?.touched" class="text-danger">
+                  <p *ngIf="updateProduct.get('customerPrice')?.getError('required')" class="alert alert-danger">{{'errors.required'|translate}}</p>
+                
+                
+                </div>
+         
+                </div>
+  
+                
+          </div>
+  
+          <div class="col-md-6">
+            <div class="form-group">
+                <label for="txtcustomerDiscount">{{ 'product.labels.customerDiscount' | translate }}</label>
+                <input type="text" id="txtcustomerDiscount"class="form-control"
+                  placeholder="{{ 'product.labels.customerDiscount' | translate }}" formControlName="customerDiscount" 
+                  readonly />
+                  <div *ngIf="updateProduct.get('customerDiscount')?.errors && updateProduct.get('customerDiscount')?.touched" class="text-danger">
+                    <p class="alert alert-danger">{{'errors.discount'}}</p>
+                  </div>
+              </div>
+        </div>
+      </div>
+            <div class="row my-3">
+              <div class="col-md-12">
+                <div class="form-group">
+                    <label for="txtdescription">{{ 'product.labels.description' | translate }}</label>
+                    <textarea type="text" id="txtdescription"  class="form-control" 
+                    placeholder="{{ 'product.labels.description' | translate }}" formControlName="Description" 
+                    cols="100" rows="5" readonly
+                    >
+  
+                    </textarea>
+                    <div *ngIf="updateProduct.get('Description')?.errors && updateProduct.get('Description')?.touched" class="text-danger">
+                      <p *ngIf="updateProduct.get('Description')?.getError('required')" class="alert alert-danger">{{'errors.required'|translate}}</p>
+                      <p *ngIf="updateProduct.get('Description')?.getError('maxlength')" class="alert alert-danger">{{'errors.maxlength'|translate}} 2000</p>
+                      <p *ngIf="updateProduct.get('Description')?.getError('minlength')" class="alert alert-danger">{{'errors.minlength'|translate}} 2 </p>
+                    
+                    
+                    </div>
+              
+                  </div>
+            </div>
+            </div>
+  
+       
+  
+  
+      
+  
+  
+  
+  
+  
+          <div class="row mb-1">
+              <div class="col-md-12">
+                <div>
+                    <!-- Display the retrieved image when editing -->
+                     <ng-container *ngIf="product.images.length > 0; else noImage">
+                       <ng-container >
+                         <owl-carousel-o [options]="customOptions">
+
+                             <ng-container *ngFor="let slide of product.images">
+                               <ng-template carouselSlide >
+                                   <img  [src]="'https://roseirae.runasp.net/'+slide" class="carousel-img" alt="product-Image" title="product-Image">
+                               
+                               </ng-template>
+                             </ng-container>
+                         
+                           </owl-carousel-o>
+                      
+                       </ng-container>
+                     </ng-container>
+                     <ng-template #noImage>
+                       <div class="w-100 border rounded p-2">
+                        <p>No Image to show!</p>
+                       </div>
+                      </ng-template>
+                
+                  
+                  </div>
+                  
+              </div>
+  
+             
+          </div>
+          
+  
+          <div class="row my-3">
+              <div class="form-actions">
+                <button type="button" class="btn btn-raised btn-warning mr-2" [routerLink]="['/product/products']">
+                  <i class="ft-x"></i> {{'cancel' | translate}}
+                </button>
+             
+                 
+              </div>
+          </div>
+  
+        </form>
+      </div>
+  </section>
+  
+  
+  

@@ -84,7 +84,7 @@
                             pInputText 
                             class="form-control"
                             id="englishName" 
-                            [(ngModel)]="Item.displayOrder" 
+                            [(ngModel)]="Item.displayOrder === -1 ? 'No order yet' : Item.displayOrder" 
                             required 
                             autofocus 
                             #txtNameEn="ngModel"

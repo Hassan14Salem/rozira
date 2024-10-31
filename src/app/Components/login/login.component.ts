@@ -31,12 +31,10 @@ export class LoginComponent {
 
 
 
-
   loginUser(data: FormGroup) {
     this.isloading = true;
     this._AuthService.login(data.value).subscribe({
       next: (response) => {
-        console.log('response', response)
         if (response.token) {
           localStorage.setItem('RoziraToken', response.token);
             const username = this._AuthService.decodeUserToken();
@@ -63,8 +61,7 @@ export class LoginComponent {
         }
       },
       error: (myError) => {
-        console.log(myError);
-        this.errormessage = myError.message;
+        this.errormessage = 'invalid username or password';
         this.isloading = false;
       },
       complete: () => {
@@ -103,7 +100,6 @@ export class LoginComponent {
         // here the status is 200
         next: (res) => {
           this.showAlertMessage('OTP sent to your email', 'success');
-          console.log(res);
           this.passwordStatusMessage = res.message;
           this.VerificationForm.get('email')?.setValue(this.recoveryForm.get('email')?.value);
           this.openVerifyingModal = true;
@@ -132,13 +128,10 @@ export class LoginComponent {
 
 
   sendVerification() {
-    console.log(this.recoveryForm.value)
-    console.log(this.VerificationForm.value);
     if (this.VerificationForm.valid) {
       this._PasswordService.verifyOtp(this.VerificationForm).subscribe({
         // here the status is 200
         next: (res) => {
-          console.log(res);
           this.verificationStatusMessage = res.message;
           this.showAlertMessage('Valid OTP change the password,', 'success');
 
@@ -148,7 +141,6 @@ export class LoginComponent {
 
         },
         error: (error) => {
-          console.error(error);
           this.showAlertMessage('Please enter a correct OTP, try', 'error');
           this.verificationStatusMessage = error.error.message;
           this.otpStatusMessage = this.verificationStatusMessage;
@@ -179,7 +171,6 @@ export class LoginComponent {
       this._PasswordService.resetPassword(this.ResettPaswordFrom).subscribe({
 
         next: (res) => {
-          console.log(res);
           this.showAlertMessage('Password changed Successfully,', 'success');
           this.verificationStatusMessage = res.message;
           this.openResettPassword = false;

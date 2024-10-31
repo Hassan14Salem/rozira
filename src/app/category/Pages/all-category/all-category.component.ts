@@ -52,9 +52,7 @@ export class AllCategoryComponent implements OnInit{
         this.Items = Response.items
         this.totalRecords = Response.totalCount
 
-        console.log('all response ', Response)
 
-        console.log('response of category', this.Items)
       }
     })
   }
@@ -78,6 +76,7 @@ export class AllCategoryComponent implements OnInit{
 ngOnInit(): void {
   this.getItems()
   this.loadPermissions();
+  this.loadItems({ first: this.pageNumber, rows: 10 })
 }
 
 
@@ -102,7 +101,6 @@ deleteItem(ev:any)
         this.getItems();
       }
      }, error :(err) =>{
-      console.log(err)
       this.alertService.error('faild to delete Category')
      }
   } )
@@ -127,7 +125,6 @@ openNew()
 
 save(ev:Category)
 {
-  console.log('item to update',ev)
   this.submitted = true;
   if(ev.id)
   {
@@ -157,7 +154,6 @@ save(ev:Category)
       next:(res) => {
         if(res === 'Category added successfully')
             {
-              console.log('add',Response)
               this.alertService.success('Category Addedd Succefully');
               this.getItems();
             } else
@@ -175,7 +171,6 @@ save(ev:Category)
 
 loadItems(event:any)
   {
-    console.log('category table event',event)
     const _pageNumber = event.first! / event.rows! + 1;
     const _pageSize = event.rows;
 

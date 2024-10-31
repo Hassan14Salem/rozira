@@ -18,7 +18,7 @@ import { ForgettPasswordComponent } from './Components/forgett-password/forgett-
 const routes: Routes = [
   {path:'', redirectTo:'dashboard',pathMatch:'full' , title:'Dashboard'},
   {path:'login',canActivate:[preventURLBackGuard],component:LoginComponent,title:'Login'},
-  {path:'dashboard',canActivate:[authGuard],component:DashboardComponent, title:'Home'},
+  {path:'dashboard',canActivate:[authGuard],component:DashboardComponent, title:'dashboard'},
   {path:'newMerchent',canActivate:[authGuard],component:CreatenewComponent,title:'Create new user'},
   {path:'users',canActivate:[authGuard],component:UsersComponent,title:'All Users'},
   {path:'profile',canActivate:[authGuard],component:UserprofileComponent,title:'Profile'},
@@ -36,13 +36,15 @@ const routes: Routes = [
   {path:'category',loadChildren:() => import('./category/category.module').then(c => c.CategoryModule)},
   {path:'about',loadChildren:() => import('./about/about.module').then(a => a.AboutModule)},
   {path:'sliders',loadChildren:() => import('./sliders/sliders.module').then(s => s.SlidersModule)},
+  {path:'management',loadChildren:() => import('./management/management.module').then(m => m.ManagementModule)},
+
   // {path:'permissions',loadChildren:() => import('./permissions/permissions.module').then(s => s.PermissionsModule)},
-  {path:'permissions/all',component:PermissionComponent},
+  {path:'permissions/all',component:PermissionComponent,title:'Permissions'},
   {path:'**',component:NotfoundComponent},
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes,{useHash:true})],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

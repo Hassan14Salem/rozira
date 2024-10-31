@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
 import { SliderService } from '../../Services/slider.service';
 import { Slider } from '../../Models/slider';
 import { ToastrService } from 'ngx-toastr';
@@ -11,7 +11,7 @@ import { AuthService } from 'src/app/Services/auth.service';
   templateUrl: './all-sliders.component.html',
   styleUrls: ['./all-sliders.component.css']
 })
-export class AllSlidersComponent implements OnInit {
+export class AllSlidersComponent implements OnInit  {
   Items:any[]=[];
   Item = {} as Slider;
   permissionsLoaded = false;
@@ -55,17 +55,11 @@ getItems()
 
 loadItems(event:any)
   {
-    console.log('category table event',event)
     const _pageNumber = event.first! / event.rows! + 1;
     const _pageSize = event.rows;
     this.pageNumber = _pageNumber;
     this.pageSize   =   _pageSize
-    console.log('ev from sliders',event)
-    console.log('pageNumber',this.pageNumber ,'size', this.pageSize)
     this.getItems()
-
-
-    console.log(this.Items)
   }
 
 
@@ -77,11 +71,12 @@ loadItems(event:any)
 
  
   ngOnInit(): void {
+    this.pageNumber = 1
     this.getItems();
     this.loadPermissions();
+
   }
   save(ev:any){
-    console.log('ev',ev)
     this.itemDialog=true
     const formData = new FormData();
     if(ev.id)
@@ -90,7 +85,6 @@ loadItems(event:any)
 
       if (this.selectedFile) {
         formData.append('Image',  this.selectedFile);
-        console.log('Appending image:',  this.selectedFile);
       } else
       {
         formData.append('Image',  ev.imageUrl);
@@ -99,20 +93,18 @@ loadItems(event:any)
       formData.append('DisplayOrder',ev.displayOrder)
 
         formData.forEach((value,key)=>{
-          console.log('item to update',`${key}:${value}`)
         })
       this.sliderService.update(formData).subscribe({
         next:(res) =>{
           if(res === 'Slider updated successfully')
           {
-            console.log(res)
             this.getItems();
             this.alertService.success(res);
+            this.getItems();
           }
         
         },
         error:(err)=>{
-          console.log(err)
           this.alertService.error('faild to update slider')
         }
       })
@@ -122,21 +114,16 @@ loadItems(event:any)
   // Append the selected image if available
   if (this.selectedFile) {
     formData.append('Image',  this.selectedFile);
-    console.log('Appending image:',  this.selectedFile);
   }
   formData.append('DisplayOrder',ev.displayOrder)
 
-  // Log the FormData contents for debugging
-  formData.forEach((value, key) => {
-    console.log(`${key}: ${value}`);
-  });
+
 
   // Send the FormData to the server
   this.sliderService.add(formData).subscribe({
     next: (Res) => {
       if(Res === 'Slider created successfully'){
         this.alertService.success(Res)
-        console.log(Res);
         this.getItems();
       }
       
@@ -187,7 +174,6 @@ loadItems(event:any)
   {
     this.sliderService.deleteSlider(id).subscribe({
       next :(Res) =>{
-        console.log(Res)
         if(Res === 'Slider removed successfully')
         {
           this.alertService.success(Res) 
@@ -224,5 +210,5 @@ loadItems(event:any)
     }
   }
 
-  
+ 
 }

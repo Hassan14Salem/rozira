@@ -17,6 +17,8 @@ export class ReusableTableComponent {
   @Input() filters: any[] = []; // table columns NAMES
   @Input() canAdd: boolean = false; // permisions
   @Input() canEdit: boolean = false; // permisions
+  @Input() canViewDetails: boolean = false; // permisions
+
   @Input() canDelete: boolean = false; // permisions
   @Input() view: any // table columns NAMES
   @Input() title: string = ''; //table title
@@ -27,11 +29,14 @@ export class ReusableTableComponent {
   @Input() submitted: boolean = false; // check on submitted
   @Input() totalRecords!: number;
   @Input() lazy!: boolean;
+  @Input() imageTitleInDialog: string = '';
 
 
   // Output
   @Output() openNew = new EventEmitter<void>(); // handle Api for add New item Dialog || go to the new page for add
   @Output() editItem = new EventEmitter<any>(); // handle Api for Edit item Dialog || go to the new page for update
+  @Output() viewItem = new EventEmitter<any>(); // handle Api for Edit item Dialog || go to the new page for update
+
   @Output() deleteItem = new EventEmitter<any>(); // handle Api for delete item
   @Output() changeActivationOfItem = new EventEmitter<any>(); // handle Api for Change Activation of item
   @Output() openDeleteDialog = new EventEmitter<any>(); // open Delete Dialog
@@ -51,7 +56,6 @@ export class ReusableTableComponent {
   getSearchVal(ev:any)
   {
     this.getName.emit(ev)
-console.log(ev.target.value)
   }
   
   // get filteredData() {
@@ -70,16 +74,23 @@ console.log(ev.target.value)
   imageUrl:string=''
   viewImageDialog:boolean=false;
 
-  // getImage(event:any){
-  //   this.viewImageDialog=true;
-  //   console.log(event.images[0])
-  // }
+
+  viewSliderImage(item:any)
+  {
+    this.viewImageDialog = true
+    this.imageUrl = item.imageUrl;
+
+  }
   viewImage(item:any)
     {
       this.viewImageDialog = true
       this.imageUrl = item.images[0];
     }
 
+    hideImageDialog()
+{
+  this.viewImageDialog = false;
+}
     
   
 }

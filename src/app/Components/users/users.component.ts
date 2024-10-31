@@ -46,6 +46,7 @@ export function matchPasswords(passwordControlName: string, rePasswordControlNam
 
 
 export class UsersComponent implements OnInit {
+  
   @ViewChild('dt') dataTable!: Table; // Reference to the DataTable
   permissionsLoaded = false;
   permissions: string[] = [];
@@ -136,7 +137,6 @@ export class UsersComponent implements OnInit {
   getAllRoles() {
     this._roles.getRoles().subscribe({
       next: (Respose) => {
-        console.log(Respose)
         this.roles = Respose;
       }
     })
@@ -148,7 +148,6 @@ export class UsersComponent implements OnInit {
       next: (response) => {
         this.users = response;
         this.Items = response;
-        console.log(this.users);
       },
       error: (error) => {
         console.error('Error fetching users:', error);
@@ -167,7 +166,6 @@ export class UsersComponent implements OnInit {
     this.userId = userIdfromFront;
     this.userName = userUsername;
     this.OpenDelModal = true;
-    console.log(this.userName);
   }
 
   Confirm() {
@@ -180,6 +178,7 @@ export class UsersComponent implements OnInit {
       next: () => {
         this.removeUserFromList(userId);
         this._alert.success('user Deleted Successfully')
+        this.fetchUsers();
       },
       error: (error) => {
         this._alert.success('Error deleting user')
@@ -196,41 +195,14 @@ export class UsersComponent implements OnInit {
     this.users = this.users.filter(user => user.userId !== userId);
   }
 
-  // Open modal and populate form with user data
-  openModal(userId: string): void {
-    this.isLoading = true;
-    this._UserService.getUserById(userId).subscribe({
-      next: (data: User) => {
-        this.selectedUser = data;
-        this.editUserForm.patchValue(data);  // Populate form with user data
-        this.modalVisible = true;  // Show modal
-        this.selectedUserName = data.userName;
-      },
-      error: (error) => {
-        console.error('Error fetching user:', error);
-      },
-      complete: () => this.isLoading = false
-    });
-  }
 
-  // Close the modal
-  closeModal(): void {
-    this.modalVisible = false;
-    this.selectedUser = { userId: '', userName: '', email: '', phoneNumber: '', password: '', role: '' };  // Reset selected user
-    this.editUserForm.reset();  // Reset the form
-  }
 
   // Submit form for editing user
   onSubmit(user: User): void {
-    console.log('user to update', user);
     if (user) {
       const formValues = this.editUserForm.value;
-
-      console.log('Submitting form with values:', formValues);
-
       this._UserService.editUser(user).subscribe({
         next: (Response) => {
-          console.log(Response);
           this._alert.success('User updated successfully!')
           this.hideDialog();
           this.fetchUsers();
@@ -258,18 +230,14 @@ export class UsersComponent implements OnInit {
   createNewUser(data: FormGroup) {
     this.isloading = true;
     this.serverError = false;
-
     this._auth.register(data.value).subscribe({
       next: (response) => {
-        console.log(response);
         this._alert.success('User Created Successfully');
         this.fetchUsers();
         this.AddDialog = false;
       },
       error: (myError) => {
-        console.log(myError.error.message);
         this.serverError = true;
-        console.log(this.serverError);
         this.errormessage = myError.error.message;
         this.isloading = false;
         this._alert.error('failed to Create User Successfully');
@@ -277,7 +245,6 @@ export class UsersComponent implements OnInit {
       }
 
     });
-    console.log(data.value);
   }
   alertMessage: string = '';
 
@@ -298,12 +265,11 @@ export class UsersComponent implements OnInit {
   editUser(ev: any) {
     this.itemDialog = true;
     this.user = { ...ev };
-    console.log('user before update', this.user)
   }
-  deleteDialog(ev: any) {
-    this.confirmDeleteDialog = true;
-    this.user = { ...ev };
-  }
+
+
+
+  
 
   openNew() {
     this.AddDialog = true;
@@ -320,6 +286,7 @@ export class UsersComponent implements OnInit {
   }
 
   deleteItem(user: User) {
+    this.confirmDeleteDialog = true
     this.deleteUser(user.userId)
     this.hideDialog();
   }
@@ -328,10 +295,13 @@ export class UsersComponent implements OnInit {
 
 
   loadItems(event: any) {
-    console.log('table event', event)
   }
 
-  deleteDialogMessage(ev: any) { }
+  deleteDialogMessage(ev: any) {
+    this.Item = {...ev}
+    this.confirmDeleteDialog = true;
+   }
+
   editItem(ev: any) {
     this.user = { ...ev }
     this.itemDialog = true
