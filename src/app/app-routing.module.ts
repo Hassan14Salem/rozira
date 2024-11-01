@@ -13,6 +13,7 @@ import { CreateSlidersComponent } from './Components/create-sliders/create-slide
 import { ContactUsDetailsComponent } from './Components/contact-us-details/contact-us-details.component';
 import { CategoriesComponent } from './Components/categories/categories.component';
 import { PermissionComponent } from './permissions/pages/permission/permission.component';
+import { ForgettPasswordComponent } from './Components/forgett-password/forgett-password.component';
 
 const routes: Routes = [
   {path:'', redirectTo:'dashboard',pathMatch:'full' , title:'Dashboard'},
@@ -25,6 +26,12 @@ const routes: Routes = [
   {path:'createSlider',canActivate:[authGuard],component:CreateSlidersComponent,title:'Create Slider'},
   {path:'contactUs',canActivate:[authGuard],component:ContactUsDetailsComponent,title:'Contact US'},
   {path:'categories',canActivate:[authGuard],component:CategoriesComponent,title:'Categories'},
+  {
+    path: 'forgetPassword',
+    component: ForgettPasswordComponent,
+    canActivate: [authGuard],
+    runGuardsAndResolvers: 'always' 
+  },
   {path:'product',loadChildren:() => import('./product/product.module').then(p => p.ProductModule)},
   {path:'category',loadChildren:() => import('./category/category.module').then(c => c.CategoryModule)},
   {path:'about',loadChildren:() => import('./about/about.module').then(a => a.AboutModule)},

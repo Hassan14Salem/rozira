@@ -40,6 +40,7 @@ import { PermissionsModule } from './permissions/permissions.module';
 import { AuthInterceptor } from './Intserceptors/auth.interceptor';
 import { LoadingBarRouterModule } from '@ngx-loading-bar/router';
 import { LoadingBarModule } from '@ngx-loading-bar/core';
+import { ForgettPasswordComponent } from './Components/forgett-password/forgett-password.component';
 
 
 export function HttpLoaderFactory(http: HttpClient) {
@@ -59,6 +60,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     ProductsComponent,
     CreateSlidersComponent,
     CategoriesComponent,
+    ForgettPasswordComponent,
   ],
   imports: [
     BrowserModule,
