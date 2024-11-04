@@ -23,6 +23,8 @@
               <th>Email Value</th>
               <th>Phone number</th>
               <th>Role</th>
+              <th>Operation</th>
+
             </tr>
           </thead>
           <tbody>
@@ -31,28 +33,15 @@
               <td>{{userinfo.email}}</td>
               <td>{{userinfo.phoneNumber}}</td>
               <td>{{userinfo.role}}</td>
-            </tr>
-            <tr>
-              <td><button type="submit" class="btn btn-primary text-white" (click)=" openUserForm()">
+              <th>
+                <button type="submit" class="btn btn-primary text-white" (click)=" openeditModal()">
                   <span>Edit</span>
                 </button>
-              </td>
-              <td><button type="submit" class="btn btn-primary text-white" (click)=" openEmailForm()">
-                  <span>Edit</span>
-                </button>
-              </td>
-              <td><button type="submit" class="btn btn-primary text-white" (click)=" openPhoneForm()">
-                  <span>Edit</span>
-                </button>
-              </td>
-              <td><button type="submit" class="btn btn-primary text-white" (click)=" openRoleForm()">
-                  <span>Edit</span>
-                </button>
-              </td>
+              </th>
 
             </tr>
             <tr>
-              <td colspan="4" class="text-danger">
+              <td colspan="5" class="text-danger">
                 Be carefull once you change any of your data you will need to login again
 
               </td>
@@ -62,6 +51,9 @@
 
       </p-toolbar>
 
+
+
+
     </div>
   </div>
 
@@ -70,116 +62,6 @@
 
 
 
-
-<p-dialog [(visible)]="editUserNameV" [style]="{width: '50%'}" header="Edit {{userinfo.userName}}" [modal]="true"
-  styleClass="p-fluid">
-  <form [formGroup]="editUserForm" (ngSubmit)="editUserName(editUserForm)">
-    <div class="row flex justify-content-between align-items-center">
-      <div class="form-group my-2 col-lg-8">
-        <input formControlName="userName" type="text" class="form-control" id="usernameFormControll"
-          placeholder="Username" aria-label="Username" [attr.aria-invalid]="editUserForm.get('userName')?.invalid">
-        <div class="alert alert-danger"
-          *ngIf="editUserForm.get('userName')?.errors && editUserForm.get('userName')?.touched">
-          <p *ngIf="editUserForm.get('userName')?.getError('required')">Username
-            is required</p>
-          <p *ngIf="editUserForm.get('userName')?.getError('minlength')">Username
-            must be atleast 2 characters</p>
-          <p *ngIf="editUserForm.get('userName')?.getError('maxlength')">Username
-            cannot exceed
-            25 characters</p>
-        </div>
-      </div>
-      <div class="text-end p-2 col-lg-4">
-        <button type="submit" class="btn btn-primary text-white" [disabled]="editUserForm.invalid">
-          <span>Update username</span>
-        </button>
-      </div>
-    </div>
-  </form>
-</p-dialog>
-
-<p-dialog [(visible)]="editPhonenumberV" [style]="{width: '50%'}" header="Edit {{userinfo.phoneNumber}}" [modal]="true"
-  styleClass="p-fluid">
-  <form [formGroup]="editPhneNumForm" (ngSubmit)="editPhone(editPhneNumForm)">
-    <div class="row flex justify-content-between align-items-center">
-      <div class="form-group my-2 col-lg-6">
-
-
-        <input formControlName="phoneNumber" type="phone" class="form-control" id="phoneNumber"
-          placeholder="Phone Number">
-
-        <div class="alert alert-danger"
-          *ngIf="editPhneNumForm.get('phoneNumber')?.errors && editPhneNumForm.get('phoneNumber')?.touched">
-          <p *ngIf="editPhneNumForm.get('phoneNumber')?.getError('required')">Phone
-            number is required.</p>
-          <p *ngIf="editPhneNumForm.get('phoneNumber')?.getError('pattern')">Invalid
-            phone number format.</p>
-
-        </div>
-
-      </div>
-      <div class="text-end p-2 col-lg-4">
-        <button type="submit" class="btn btn-primary text-white" [disabled]="editPhneNumForm.invalid">
-          <span>Update Phone number</span>
-        </button>
-      </div>
-    </div>
-  </form>
-</p-dialog>
-
-<p-dialog [(visible)]="editEmailV" [style]="{width: '50%'}" header="Edit {{userinfo.email}}" [modal]="true"
-  styleClass="p-fluid">
-  <form [formGroup]="editEmailForm" (ngSubmit)="editEmail(editEmailForm)">
-    <div class="row flex justify-content-between align-items-center">
-      <div class="form-group my-2 col-lg-8">
-        <input formControlName="email" type="email" class="form-control" id="emailFormControll" placeholder="Email">
-
-        <div>
-          <div class="alert alert-danger"
-            *ngIf="editEmailForm.get('email')?.errors && editEmailForm.get('email')?.touched">
-            <p *ngIf="editEmailForm.get('email')?.getError('required')">Email is
-              required.</p>
-            <p *ngIf="editEmailForm.get('email')?.getError('email')">Invalid email
-              format.</p>
-          </div>
-        </div>
-      </div>
-      <div class="text-end p-2 col-lg-4">
-        <button type="submit" class="btn btn-primary text-white" [disabled]="editEmailForm.invalid">
-          <span>Update Email</span>
-        </button>
-      </div>
-    </div>
-  </form>
-</p-dialog>
-
-
-<p-dialog [(visible)]="editRoleV" [style]="{width: '50%'}" header="Edit {{userinfo.role}}" [modal]="true"
-  styleClass="p-fluid">
-  <form [formGroup]="editRoleForm" (ngSubmit)="editRole(editRoleForm)">
-    <div class="row flex justify-content-between align-items-center">
-      <div class="form-group my-2 col-lg-8">
-        <select formControlName="role" class="form-control" id="roleFormControll">
-          <option *ngFor="let role of roles" value="{{role.name}}">{{role.name}}</option>
-        </select>
-        <div>
-          <div class="alert alert-danger" *ngIf="editRoleForm.get('role')?.errors && editRoleForm.get('role')?.touched">
-            <p *ngIf="editRoleForm.get('role')?.getError('required')">Role is
-              required.</p>
-            <p *ngIf="editRoleForm.get('role')?.getError('pattern')">Role must be
-              either Admin or User.</p>
-
-          </div>
-        </div>
-      </div>
-      <div class="text-end p-2 col-lg-4">
-        <button type="submit" class="btn btn-primary text-white" [disabled]="editRoleForm.invalid">
-          <span>Update Role</span>
-        </button>
-      </div>
-    </div>
-  </form>
-</p-dialog>
 
 <p-dialog [(visible)]="changePasswordV" [style]="{width: '50%'}" header="Change password" [modal]="true"
   styleClass="p-fluid">
@@ -199,9 +81,6 @@
           </div>
 
         </div>
-
-
-
         <div class="form-group my-2">
           <input formControlName="oldPassword" type="password" class="form-control" id="oldpasswordFormControll"
             placeholder="Old Password">
@@ -249,5 +128,76 @@
         </button>
       </div>
     </div>
+  </form>
+</p-dialog>
+
+
+
+<p-dialog [(visible)]="OpenModalV" [style]="{width: '50%'}" header="Edit {{userinfo.userName}}" [modal]="true"
+  styleClass="p-fluid">
+  <form [formGroup]="editProfileDataForm" (ngSubmit)="EditProfile(editProfileDataForm)">
+
+    <div class="form-group my-2 col-lg-8">
+      <input formControlName="userName" type="text" class="form-control" id="usernameFormControll"
+        placeholder="Username" aria-label="Username" [attr.aria-invalid]="editProfileDataForm.get('userName')?.invalid">
+      <div class="alert alert-danger"
+        *ngIf="editProfileDataForm.get('userName')?.errors && editProfileDataForm.get('userName')?.touched">
+        <p *ngIf="editProfileDataForm.get('userName')?.getError('required')">Username
+          is required</p>
+        <p *ngIf="editProfileDataForm.get('userName')?.getError('minlength')">Username
+          must be atleast 2 characters</p>
+        <p *ngIf="editProfileDataForm.get('userName')?.getError('maxlength')">Username
+          cannot exceed
+          25 characters</p>
+      </div>
+    </div>
+
+    <div class="form-group my-2 col-lg-8">
+      <input formControlName="phoneNumber" type="phone" class="form-control" id="phoneNumber"
+        placeholder="Phone Number">
+      <div class="alert alert-danger"
+        *ngIf="editProfileDataForm.get('phoneNumber')?.errors && editProfileDataForm.get('phoneNumber')?.touched">
+        <p *ngIf="editProfileDataForm.get('phoneNumber')?.getError('required')">Phone
+          number is required.</p>
+        <p *ngIf="editProfileDataForm.get('phoneNumber')?.getError('pattern')">Invalid
+          phone number format.</p>
+
+      </div>
+    </div>
+
+
+    <div class="form-group my-2 col-lg-8">
+      <input formControlName="email" type="email" class="form-control" id="emailFormControll" placeholder="Email">
+      <div class="alert alert-danger"
+        *ngIf="editProfileDataForm.get('email')?.errors && editProfileDataForm.get('email')?.touched">
+        <p *ngIf="editProfileDataForm.get('email')?.getError('required')">Email is
+          required.</p>
+        <p *ngIf="editProfileDataForm.get('email')?.getError('email')">Invalid email
+          format.</p>
+      </div>
+    </div>
+
+
+    <div class="form-group my-2 col-lg-8">
+      <select formControlName="role" class="form-control" id="roleFormControll">
+        <option *ngFor="let role of roles" value="{{role.name}}">{{role.name}}</option>
+      </select>
+      <div>
+        <div class="alert alert-danger"
+          *ngIf="editProfileDataForm.get('role')?.errors && editProfileDataForm.get('role')?.touched">
+          <p *ngIf="editProfileDataForm.get('role')?.getError('required')">Role is
+            required.</p>
+          <p *ngIf="editProfileDataForm.get('role')?.getError('pattern')">Role must be
+            either Admin or User.</p>
+
+        </div>
+      </div>
+    </div>
+    <div class="  col-lg-4">
+      <button type="submit" class="btn btn-primary text-white" [disabled]="editProfileDataForm.invalid">
+        <span>Edit</span>
+      </button>
+    </div>
+
   </form>
 </p-dialog>

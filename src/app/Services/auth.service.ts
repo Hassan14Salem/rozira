@@ -79,7 +79,7 @@ export class AuthService {
       });
     }
   }
-  
+ 
   logout() {
     localStorage.removeItem('RoziraToken');
     localStorage.removeItem('userPermissions');
