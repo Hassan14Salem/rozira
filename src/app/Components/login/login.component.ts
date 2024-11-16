@@ -44,6 +44,7 @@ export class LoginComponent {
                 localStorage.setItem('userPermissions' , JSON.stringify(permissions));
                 this._PermissionService.setPermissions(permissions);
                 this._Router.navigate(['/dashboard']);
+                
               },
               error: (err) => {
               }
